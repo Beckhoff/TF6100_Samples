@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4023.6">
+  <POU Name="PRG_HA_MultipleNodes" Id="{1c251f81-fb97-45a3-93bf-c22653fc773c}" SpecialFunc="None">
+    <Declaration><![CDATA[//| use case:
+//| Three variables are specified for historical access. 
+//| Every three seconds their values should be updated to data storage for one second long.
+PROGRAM PRG_HA_MultipleNodes
+VAR CONSTANT
+	// These connection and namespace settings need to be adapted to the runtime environment
+	cOpcUaServerUrl			: STRING(MAX_STRING_LENGTH) := 'opc.tcp://localhost:4840';
+	cNamespaceUri			: STRING(MAX_STRING_LENGTH) := 'urn:BeckhoffAutomation:Ua:PLC1';
+END_VAR
+VAR
+	// Variables for HistorcalAccess
+	{attribute 'OPC.UA.DA' := '1'}
+	nMyValue1 : INT;	
+	{attribute 'OPC.UA.DA' := '1'}
+	nMyValue2 : INT;
+	{attribute 'OPC.UA.DA' := '1'}
+	fMyValue3 : LREAL;
+	
+	// state machine declarations 
+	nState					: INT;
+	bStart					: BOOL;  		//Set True to start this sample.
+	bSample					: BOOL;			//Set True to stop the sampling.
+	bStop					: BOOL;			//Set True to close the connection afterwards.
+	bError					: BOOL;
+	nErrorID				: DWORD;
+	fbTimer					: TON:=(PT:=T#3S);
+	
+	// Declarations for UA_Connect
+	fbUAConnect				: UA_Connect;
+	stSessionConnectInfo 	: ST_UASessionConnectInfo;
+	nConnectionHdl			: DWORD;
+	
+	// Declarations for UA_GetNamespaceIndex
+	fbUAGetNamespaceIndex	: UA_GetNamespaceIndex;
+	nNamespaceIndex			: UINT;
+	
+	// Declarations for UA_HistoryUpdate
+	fbHistoryUpdateNode1	: FB_HistoryUpdate_INT := (sNodeIdentifier := 'PRG_HA_MultipleNodes.nMyValue1');
+	fbHistoryUpdateNode2	: FB_HistoryUpdate_INT := (sNodeIdentifier := 'PRG_HA_MultipleNodes.nMyValue2');
+	fbHistoryUpdateNode3	: FB_HistoryUpdate_LREAL := (sNodeIdentifier := 'PRG_HA_MultipleNodes.fMyValue3');
+	
+	// Declarations for UA_Disconnect
+	fbUADisconnect			: UA_Disconnect;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[nMyValue1 := nMyValue1 + 1;
+nMyValue2 := nMyValue2 + 2;
+fMyValue3 := fMyValue3 + 1.5;
+
+CASE nState OF
+0:	//Idle
+	IF bStart THEN
+		bStart				:= FALSE;
+		bError				:= FALSE;
+		nErrorID			:= 0;
+
+		stSessionConnectInfo.tConnectTimeout 		:= T#1M;
+		stSessionConnectInfo.tSessionTimeout 		:= T#1M;
+		stSessionConnectInfo.sApplicationName		:= '';
+		stSessionConnectInfo.eSecurityMode 			:= eUASecurityMsgMode_None;
+		stSessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
+		stSessionConnectInfo.eTransportProfileUri	:= eUATransportProfileUri_UATcp;
+		
+		nState := 1;
+	END_IF
+
+1: //Open UA Session
+	fbUAConnect(	Execute 			:= TRUE,
+					ServerUrl			:= cOpcUaServerUrl,
+					SessionConnectInfo	:= stSessionConnectInfo,
+					Timeout				:= T#5S,
+					ConnectionHdl 		=> nConnectionHdl );
+		
+	IF NOT fbUAConnect.Busy THEN
+		IF NOT fbUAConnect.Error THEN
+			nState 			:= 2;
+		ELSE
+			bError 			:= TRUE;
+			nErrorID		:= fbUAConnect.ErrorID;
+			nConnectionHdl 	:= 0;
+			nState 			:= 0; //Idle
+		END_IF
+		fbUAConnect(Execute := FALSE);
+	END_IF
+
+2: //Get NS Index
+	fbUAGetNamespaceIndex(	Execute 			:= TRUE,
+							ConnectionHdl		:= nConnectionHdl,
+							NamespaceUri		:= cNamespaceUri,
+							NamespaceIndex		=> nNamespaceIndex );
+		
+	IF NOT fbUAGetNamespaceIndex.Busy THEN
+		IF NOT fbUAGetNamespaceIndex.Error THEN
+			nState 			:= 3;
+		ELSE
+			bError 			:= TRUE;
+			nErrorID		:= fbUAGetNamespaceIndex.ErrorID;
+			nState			:= 6; //Close Connection
+		END_IF
+		fbUAGetNamespaceIndex(Execute := FALSE);
+	END_IF
+
+3: //Get Node Handle & HistoryUpdate & ReleaseHandle
+	//every three seconds the values should be updated for one second long.
+	fbTimer(IN:=TRUE);
+	IF fbTimer.ET > T#2S THEN
+		bSample := TRUE;
+	END_IF
+	IF fbTimer.Q THEN
+		bSample :=FALSE;
+		fbTimer(IN:=FALSE);
+	END_IF
+
+	fbHistoryUpdateNode1(	bSample:=bSample, bStop:=bStop,	
+							nConnectionHdl:=nConnectionHdl, 
+							nNamespaceIndex:=nNamespaceIndex, 
+							pValue:=ADR(nMyValue1) );
+	IF fbHistoryUpdateNode1.bError THEN
+		bError 		:= TRUE;
+		nErrorID 	:= fbHistoryUpdateNode1.nErrorID;		
+	END_IF
+
+	fbHistoryUpdateNode2(	bSample:=bSample, bStop:=bStop,
+							nConnectionHdl:=nConnectionHdl, 
+							nNamespaceIndex:=nNamespaceIndex, 
+							pValue:=ADR(nMyValue2) );
+	IF fbHistoryUpdateNode2.bError THEN
+		bError 		:= TRUE;
+		nErrorID 	:= fbHistoryUpdateNode2.nErrorID;		
+	END_IF
+	
+	fbHistoryUpdateNode3(	bSample:=bSample, bStop:=bStop,
+							nConnectionHdl:=nConnectionHdl, 
+							nNamespaceIndex:=nNamespaceIndex, 
+							pValue:=ADR(fMyValue3) );
+	IF fbHistoryUpdateNode2.bError THEN
+		bError 		:= TRUE;
+		nErrorID 	:= fbHistoryUpdateNode3.nErrorID;		
+	END_IF	
+	
+	IF bStop 	AND NOT fbHistoryUpdateNode1.bBusy AND fbHistoryUpdateNode1.nNodeHdl = 0
+				AND NOT fbHistoryUpdateNode2.bBusy AND fbHistoryUpdateNode2.nNodeHdl = 0
+				AND NOT fbHistoryUpdateNode3.bBusy AND fbHistoryUpdateNode3.nNodeHdl = 0 THEN
+		bStop := FALSE;
+		nState := 6; //Close Connection
+	END_IF 
+	
+6: //Close Session
+	fbUADisconnect( Execute := TRUE, ConnectionHdl := nConnectionHdl );
+		
+	IF NOT fbUADisconnect.Busy THEN
+		IF fbUAConnect.Error THEN
+			bError 			:= TRUE;
+			nErrorID 		:= fbUAConnect.ErrorID;
+			nConnectionHdl 	:= 0;
+		END_IF
+		fbUAConnect(Execute := FALSE);
+		nState := 0; //Idle
+	END_IF
+	
+END_CASE
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_HA_MultipleNodes">
+      <LineId Id="264" Count="0" />
+      <LineId Id="625" Count="0" />
+      <LineId Id="818" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="44" Count="15" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="63" Count="5" />
+      <LineId Id="71" Count="7" />
+      <LineId Id="664" Count="0" />
+      <LineId Id="79" Count="2" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="85" Count="5" />
+      <LineId Id="93" Count="5" />
+      <LineId Id="665" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="531" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="820" Count="0" />
+      <LineId Id="822" Count="4" />
+      <LineId Id="829" Count="0" />
+      <LineId Id="827" Count="1" />
+      <LineId Id="819" Count="0" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="714" Count="0" />
+      <LineId Id="538" Count="1" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="536" Count="0" />
+      <LineId Id="534" Count="1" />
+      <LineId Id="614" Count="0" />
+      <LineId Id="616" Count="0" />
+      <LineId Id="712" Count="0" />
+      <LineId Id="617" Count="4" />
+      <LineId Id="180" Count="0" />
+      <LineId Id="807" Count="0" />
+      <LineId Id="810" Count="6" />
+      <LineId Id="808" Count="1" />
+      <LineId Id="716" Count="1" />
+      <LineId Id="817" Count="0" />
+      <LineId Id="762" Count="0" />
+      <LineId Id="719" Count="0" />
+      <LineId Id="718" Count="0" />
+      <LineId Id="615" Count="0" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="183" Count="0" />
+      <LineId Id="186" Count="1" />
+      <LineId Id="192" Count="2" />
+      <LineId Id="196" Count="1" />
+      <LineId Id="402" Count="0" />
+      <LineId Id="401" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="613" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="463" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

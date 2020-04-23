@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="MAIN" Id="{72e160d9-c77d-41c7-8c15-eb204c16cce3}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	bInit : BOOL := TRUE; // Initializes variables in GVL 	
+
+	{attribute 'OPC.UA.DA' := '1'}
+    nCounter1 : INT;
+	{attribute 'OPC.UA.DA' := '1'}
+    nCounter2 : LREAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[nCounter1 := nCounter1 + 1;
+nCounter2 := nCounter2 + 0.1;
+
+IF bInit THEN
+	bInit := FALSE;
+	GVL_Audi_OpcUa.CurrentTimeModel.SwitchingObjectIdentification := 1;
+	GVL_Audi_OpcUa.CurrentTimeModel.SwitchingObjectNumber := 2;
+	GVL_Audi_OpcUa.CurrentTimeModel.Date1 := DT#2020-12-31-23:59:59;
+	GVL_Audi_OpcUa.CurrentTimeModel.SwitchingTimes[0] := 0;
+	GVL_Audi_OpcUa.CurrentTimeModel.SwitchingTimes[1] := 1;
+	GVL_Audi_OpcUa.CurrentTimeModel.SwitchingTimes[2] := 2;
+	GVL_Audi_OpcUa.DeviceManual := 'www.beckhoff.com/documentation';
+	GVL_Audi_OpcUa.DeviceRevision := 'Revision 42';
+	GVL_Audi_OpcUa.HardwareRevision := 'V1.12';
+	GVL_Audi_OpcUa.IMVersion.Major := 3;
+	GVL_Audi_OpcUa.IMVersion.Minor := 1;
+	GVL_Audi_OpcUa.IMVersion.Revision := 4024;
+	GVL_Audi_OpcUa.ItemDesignation := 'SomeDesignation';
+	GVL_Audi_OpcUa.Manufacturer.sLocaleID := 'en-us';
+	GVL_Audi_OpcUa.Manufacturer.sText := 'Beckhoff Automation GmbH & Co. KG';
+	GVL_Audi_OpcUa.Model.sLocaleID := 'en-us';
+	GVL_Audi_OpcUa.Model.sText := 'CX5140 Embedded Controller';
+	GVL_Audi_OpcUa.NextDayTimeModel.SwitchingObjectIdentification := 1;
+	GVL_Audi_OpcUa.NextDayTimeModel.SwitchingObjectNumber := 2;
+	GVL_Audi_OpcUa.NextDayTimeModel.Date1 := DT#2020-12-31-23:59:59;
+	GVL_Audi_OpcUa.NextDayTimeModel.SwitchingTimes[0] := 0;
+	GVL_Audi_OpcUa.NextDayTimeModel.SwitchingTimes[1] := 1;
+	GVL_Audi_OpcUa.NextDayTimeModel.SwitchingTimes[2] := 2;
+	GVL_Audi_OpcUa.PlcBlockVersion.Major := 3;
+	GVL_Audi_OpcUa.PlcBlockVersion.Minor := 1;
+	GVL_Audi_OpcUa.PlcBlockVersion.Revision := 4024;
+	GVL_Audi_OpcUa.RevisionCounter := 42;
+	GVL_Audi_OpcUa.SerialNumber := 'V42-42';
+	GVL_Audi_OpcUa.SerialNumberController := 'V42-43';
+	GVL_Audi_OpcUa.SerialNumberHW := 'V1.1';
+	GVL_Audi_OpcUa.SoftwareRevision := 'TwinCAT 3.1 Build 4024.7';
+	
+	GVL_Audi_OpcUa.DeviceHealth := 2;
+	GVL_Audi_OpcUa.AuthorizationLevel := 1;
+	GVL_Audi_OpcUa.CostCenter := 'SomeCostCenter';
+	GVL_Audi_OpcUa.ExpiryDate := DT#2020-12-31-23:59:59;
+	GVL_Audi_OpcUa.KeyCrc := 42;
+	GVL_Audi_OpcUa.KeyId := 42;
+	GVL_Audi_OpcUa.OperatorId := 'Luke Skywalker';
+	GVL_Audi_OpcUa.SafeOperationMode := 2;
+	
+	GVL_Audi_OpcUa.ActiveEnergy := 42;
+	GVL_Audi_OpcUa.ActiveEnergy_EURange.fLow := 0;
+	GVL_Audi_OpcUa.ActiveEnergy_EURange.fHigh := 100;
+	GVL_Audi_OpcUa.ActiveEnergy_StartTimestamp := DT#2020-01-01-00:00:00;
+	
+	GVL_Audi_OpcUa.ActivePower := 43;
+	GVL_Audi_OpcUa.ActivePower_EURange.fLow := 0;
+	GVL_Audi_OpcUa.ActivePower_EURange.fHigh := 100;
+	
+	GVL_Audi_OpcUa.ProductionStatus := 4; 
+	
+	GVL_Audi_OpcUa.TargetValues[0].TargetValue := 1;
+	GVL_Audi_OpcUa.TargetValues[0].TargetValueType := 1;
+	GVL_Audi_OpcUa.TargetValues[1].TargetValue := 1;
+	GVL_Audi_OpcUa.TargetValues[1].TargetValueType := 1;
+	GVL_Audi_OpcUa.TargetValues[2].TargetValue := 1;
+	GVL_Audi_OpcUa.TargetValues[2].TargetValueType := 1;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="9" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="55" Count="4" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="49" Count="2" />
+      <LineId Id="15" Count="2" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="70" Count="4" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="46" Count="2" />
+      <LineId Id="21" Count="4" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="28" Count="6" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="37" Count="2" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="91" Count="6" />
+      <LineId Id="77" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <POU Name="PRG_Static" Id="{b0e82972-5ed0-43dd-ad1d-5023445ae7be}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_Static
+VAR
+	k: INT;
+	l: INT;
+	m: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[	stat_scalar_BOOL	:= TRUE;
+	stat_scalar_I1		:= 1;	
+	stat_scalar_UI1		:= 1;	
+	stat_scalar_I2 		:= 1;		
+	stat_scalar_UI2		:= 1;	
+	stat_scalar_I4		:= 1;	
+	stat_scalar_UI4		:= 1;	
+	stat_scalar_I8		:= 1;	
+	stat_scalar_UI8		:= 1;	
+	stat_scalar_BYTE	:= 1;	
+	stat_scalar_WORD	:= 1;	
+	stat_scalar_DWORD	:= 1;	
+	stat_scalar_LWORD	:= 1;				
+	stat_scalar_R4		:= 1.0;				
+	stat_scalar_R8		:= 1.0;				
+	stat_scalar_BSTR	:= 'Hello World';
+	stat_scalar_WSTRING	:= "Hello World";
+	stat_scalar_DT		:= DT#1972-03-29-00:00:00;
+	stat_scalar_DATE 	:= DATE#1972-03-29;
+	stat_scalar_TOD		:= TOD#12:00:00;	
+	stat_scalar_TIME	:= T#1S;	
+
+	GVL_structures.StructuredType1.a 			:= 42;
+	GVL_structures.StructuredType1.b			:= 42;
+	GVL_structures.StructuredType1.x			:= E_Enum_1.THREE;
+	GVL_structures.StructuredType1.str			:= 'Hello World';
+
+	GVL_structures.StructuredType2.c1.a			:= 42;
+	GVL_structures.StructuredType2.c1.b			:= 42;
+	GVL_structures.StructuredType2.c1.x			:= E_Enum_1.THREE;
+	GVL_structures.StructuredType2.c1.str		:= 'Hello World';
+	GVL_structures.StructuredType2.s_5			:= 'Hello';
+	GVL_structures.StructuredType2.s_3			:= 'Hel';
+	FOR k:= 0 TO 5 DO
+		GVL_structures.StructuredType2.cArr[k].a:= 42;
+		GVL_structures.StructuredType2.cArr[k].b:= 42;
+		GVL_structures.StructuredType2.cArr[k].x:= E_Enum_1.THREE;
+		GVL_structures.StructuredType2.cArr[k].str:= 'Hello World'; 
+	END_FOR	
+	GVL_structures.StructuredType2.e			:= E_Enum_1.THREE;
+	FOR k:= 0 TO 100 DO
+		GVL_structures.StructuredType2.iArr[k] := 42;
+	END_FOR
+	
+	GVL_structures.StructuredType8.stComplex.a			:= 42;
+	GVL_structures.StructuredType8.stComplex.b			:= 42;
+	GVL_structures.StructuredType8.stComplex.x			:= E_Enum_1.THREE;
+	GVL_structures.StructuredType8.stComplex.str		:= 'Hello World';
+	GVL_structures.StructuredType8.strString5			:= 'Hello';
+	GVL_structures.StructuredType8.strString3			:= 'Hel';
+	FOR k:= 0 TO 1 DO
+		GVL_structures.StructuredType8.arrComplex[k].a:= 42;
+		GVL_structures.StructuredType8.arrComplex[k].b:= 42;
+		GVL_structures.StructuredType8.arrComplex[k].x:= E_Enum_1.THREE;
+		GVL_structures.StructuredType8.arrComplex[k].str:= 'Hello World'; 
+	END_FOR	
+	GVL_structures.StructuredType8.eEnum			:= E_Enum_1.THREE;
+	FOR k:= 0 TO 100 DO
+		GVL_structures.StructuredType8.arrDint[k] := 42;
+	END_FOR	
+	
+	FOR k:= 0 TO ARRSIZEX DO
+		stat_1dim_BOOL[k] := TRUE;
+		stat_1dim_I1[k] := 1;
+		stat_1dim_UI1[k] := 1;
+		stat_1dim_I2[k] := 1;
+		stat_1dim_UI2[k] := 1;
+		stat_1dim_I4[k] := 1;
+		stat_1dim_UI4[k] := 1;
+		stat_1dim_I8[k] := 1;
+		stat_1dim_UI8[k] := 1;
+		stat_1dim_BYTE[k] := 1;
+		stat_1dim_WORD[k] := 1;
+		stat_1dim_DWORD[k] := 1;
+		stat_1dim_LWORD[k] := 1;
+		stat_1dim_R4[k] := 1.0;
+		stat_1dim_R8[k] := 1.0;
+		stat_1dim_BSTR[k] := 'Hello World';
+		stat_1dim_WSTRING[k] := "Hello World";
+		stat_1dim_DT[k] := DT#1972-03-29-00:00:00;
+		stat_1dim_DATE[k] := DATE#1972-03-29;
+		stat_1dim_TOD[k] := TOD#12:00:00;
+		stat_1dim_TIME[k] := T#1S;
+	END_FOR	
+
+FOR l:= 0 TO ARRSIZEY DO
+	FOR k:= 0 TO ARRSIZEX DO
+		stat_2dim_BOOL[k,l] := TRUE;
+		stat_2dim_I1[k,l] := 1;
+		stat_2dim_UI1[k,l] := 1;
+		stat_2dim_I2[k,l] := 1;
+		stat_2dim_UI2[k,l] := 1;
+		stat_2dim_I4[k,l] := 1;
+		stat_2dim_UI4[k,l] := 1;
+		stat_2dim_I8[k,l] := 1;
+		stat_2dim_UI8[k,l] := 1;
+		stat_2dim_BYTE[k,l] := 1;
+		stat_2dim_WORD[k,l] := 1;
+		stat_2dim_DWORD[k,l] := 1;
+		stat_2dim_LWORD[k,l] := 1;
+		stat_2dim_R4[k,l] := 1.0;
+		stat_2dim_R8[k,l] := 1.0;
+		stat_2dim_BSTR[k,l] := 'Hello World';
+		stat_2dim_WSTRING[k,l] := "Hello World";
+		stat_2dim_DT[k,l] := DT#1972-03-29-00:00:00;
+		stat_2dim_DATE[k,l] := DATE#1972-03-29;
+		stat_2dim_TOD[k,l] := TOD#12:00:00;
+		stat_2dim_TIME[k,l] := T#1S;
+	END_FOR
+END_FOR	
+
+FOR m:= 0 TO ARRSIZEY DO
+	FOR l:= 0 TO ARRSIZEY DO
+		FOR k:= 0 TO ARRSIZEX DO
+			stat_3dim_BOOL[k,l,m] := TRUE;
+			stat_3dim_I1[k,l,m] := 1;
+			stat_3dim_UI1[k,l,m] := 1;
+			stat_3dim_I2[k,l,m] := 1;
+			stat_3dim_UI2[k,l,m] := 1;
+			stat_3dim_I4[k,l,m] := 1;
+			stat_3dim_UI4[k,l,m] := 1;
+			stat_3dim_I8[k,l,m] := 1;
+			stat_3dim_UI8[k,l,m] := 1;
+			stat_3dim_BYTE[k,l,m] := 1;
+			stat_3dim_WORD[k,l,m] := 1;
+			stat_3dim_DWORD[k,l,m] := 1;
+			stat_3dim_LWORD[k,l,m] := 1;
+			stat_3dim_R4[k,l,m] := 1.0;
+			stat_3dim_R8[k,l,m] := 1.0;
+			stat_3dim_BSTR[k,l,m] := 'Hello World';
+			stat_3dim_WSTRING[k,l,m] := "Hello World";
+			stat_3dim_DT[k,l,m] := DT#1972-03-29-00:00:00;
+			stat_3dim_DATE[k,l,m] := DATE#1972-03-29;
+			stat_3dim_TOD[k,l,m] := TOD#12:00:00;
+			stat_3dim_TIME[k,l,m] := T#1S;			
+		END_FOR
+	END_FOR
+END_FOR]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_Static">
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="348" Count="0" />
+      <LineId Id="347" Count="0" />
+      <LineId Id="349" Count="2" />
+      <LineId Id="359" Count="0" />
+      <LineId Id="358" Count="0" />
+      <LineId Id="360" Count="2" />
+      <LineId Id="371" Count="6" />
+      <LineId Id="366" Count="0" />
+      <LineId Id="363" Count="0" />
+      <LineId Id="370" Count="0" />
+      <LineId Id="378" Count="1" />
+      <LineId Id="369" Count="0" />
+      <LineId Id="389" Count="14" />
+      <LineId Id="388" Count="0" />
+      <LineId Id="387" Count="0" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="270" Count="0" />
+      <LineId Id="272" Count="2" />
+      <LineId Id="276" Count="16" />
+      <LineId Id="271" Count="0" />
+      <LineId Id="293" Count="0" />
+      <LineId Id="317" Count="0" />
+      <LineId Id="295" Count="21" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="318" Count="0" />
+      <LineId Id="320" Count="2" />
+      <LineId Id="319" Count="0" />
+      <LineId Id="327" Count="19" />
+      <LineId Id="323" Count="3" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

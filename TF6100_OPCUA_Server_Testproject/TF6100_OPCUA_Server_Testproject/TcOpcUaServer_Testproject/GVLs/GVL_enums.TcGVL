@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_enums" Id="{8aebe714-0cf1-43b0-9004-0929722a2c32}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Enumeration type (DINT)'} 
+	Enum1 : E_Enum_1;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Enumeration type (INT)'} 
+	Enum2 : E_Enum_2;	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

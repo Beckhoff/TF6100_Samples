@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <POU Name="FB_Derived" Id="{e7e8f6c0-acab-4a3c-b1ac-ce56e5ed4d49}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Derived EXTENDS FB_Base
+VAR_INPUT
+	DerivedInput1 : INT;
+	DerivedInput2 : REAL;
+END_VAR
+VAR_OUTPUT
+	DerivedOutput1 : DINT;
+	DerivedOutput2 : LREAL;
+END_VAR
+VAR
+	DerivedInternal1 : SINT;
+	DerivedInternal2 : WORD;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Derived">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

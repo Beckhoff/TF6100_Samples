@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <GVL Name="Settings" Id="{5687d2ed-a61e-4531-a7e9-fc7f942e1ee0}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Sets PLC update interval of variables in GVL_nodes_dynamic'} 	
+	UpdateTimer : TON := (PT:=T#10MS);
+END_VAR
+VAR_GLOBAL CONSTANT
+	ARRSIZEX : INT := 10; 
+	ARRSIZEY : INT := 10; 
+	ARRSIZEZ : INT := 10;
+	ARRSIZEHUGE : INT := 10000;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

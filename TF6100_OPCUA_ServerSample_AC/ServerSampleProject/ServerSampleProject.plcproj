@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FileVersion>1.0.0.0</FileVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{b622b154-2fb1-4f90-8181-6d4ae5ca2c64}</ProjectGuid>
+    <SubObjectsSortedByName>True</SubObjectsSortedByName>
+    <Name>ServerSampleProject</Name>
+    <ProgramVersion>3.1.0.9</ProgramVersion>
+    <Application>{3e321e8d-d232-4dbb-9b31-7869b31f0361}</Application>
+    <TypeSystem>{4859ede9-51ca-4098-9df1-d76902951ae6}</TypeSystem>
+    <Implicit_Task_Info>{bba708a4-2784-4677-abe5-1a59ba487c0d}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{03d7dd10-229d-4b3c-8b04-1512aa736941}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{c41c984a-446b-4210-b3ab-5b97ad3fa756}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{98678e38-f59d-4bf4-b434-9135cab0e242}</LibraryReferences>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="DUTs\ST_Communication.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="DUTs\ST_RecipeData.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DUTs" />
+    <Folder Include="GVLs" />
+    <Folder Include="VISUs" />
+    <Folder Include="POUs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderReference Include="Tc2_Standard">
+      <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Standard</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_System">
+      <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_Interfaces">
+      <DefaultResolution>Tc3_Interfaces, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_Interfaces</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_Module">
+      <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_Module</Namespace>
+    </PlaceholderReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ServerSampleProject.tmc">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ProjectExtensions>
+    <PlcProjectOptions>
+      <XmlArchive>
+  <Data>
+    <o xml:space="preserve" t="OptionKey">
+      <v n="Name">"&lt;ProjectRoot&gt;"</v>
+      <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
+        <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
+        <o>
+          <v n="Name">"{192FAD59-8248-4824-A8DE-9177C94C195A}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" />
+        </o>
+        <v>{29BD8D0C-3586-4548-BB48-497B9A01693F}</v>
+        <o>
+          <v n="Name">"{29BD8D0C-3586-4548-BB48-497B9A01693F}"</v>
+          <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
+            <v>Rules</v>
+            <o>
+              <v n="Name">"Rules"</v>
+              <d n="SubKeys" t="Hashtable" />
+              <d n="Values" t="Hashtable" />
+            </o>
+          </d>
+          <d n="Values" t="Hashtable" />
+        </o>
+        <v>{A3BBA713-63D7-4de6-BEC2-E3BAAD8789F8}</v>
+        <o>
+          <v n="Name">"{A3BBA713-63D7-4de6-BEC2-E3BAAD8789F8}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" />
+        </o>
+        <v>{C70B7845-2722-4a9b-A0EA-88C877A4B36F}</v>
+        <o>
+          <v n="Name">"{C70B7845-2722-4a9b-A0EA-88C877A4B36F}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" ckt="String">
+            <v>EnableMaxAuthenticationTrials</v>
+            <v>true</v>
+            <v>MaxAuthenticationTrials</v>
+            <v>3</v>
+            <v>UserList</v>
+            <o t="UserList">
+              <a n="Users" cet="User">
+                <o>
+                  <v n="Id">{e83f1a0d-342d-4c8c-bca6-8124d64dc0ab}</v>
+                  <v n="Name">"Owner"</v>
+                  <v n="FullName">""</v>
+                  <v n="Description">""</v>
+                  <v n="Active">true</v>
+                </o>
+              </a>
+            </o>
+            <v>MaxTimeOfInactivity</v>
+            <v>10</v>
+            <v>EnableMaxTimeOfInactivity</v>
+            <v>true</v>
+            <v>GroupList</v>
+            <o t="GroupList">
+              <a n="Groups" cet="Group">
+                <o>
+                  <v n="Id">{6048116b-c3b1-44eb-b1a2-ec4e4eb97961}</v>
+                  <v n="Name">"Owner"</v>
+                  <v n="Description">""</v>
+                  <v n="IsEveryoneGroup">false</v>
+                  <v n="IsOwnerGroup">true</v>
+                  <l n="UserMembers" t="ArrayList" cet="Guid">
+                    <v>e83f1a0d-342d-4c8c-bca6-8124d64dc0ab</v>
+                  </l>
+                  <l n="GroupMembers" t="ArrayList" />
+                </o>
+                <o>
+                  <v n="Id">{e4d71f81-d529-4c31-95db-583e0416d10a}</v>
+                  <v n="Name">"Everyone"</v>
+                  <v n="Description">""</v>
+                  <v n="IsEveryoneGroup">true</v>
+                  <v n="IsOwnerGroup">false</v>
+                  <l n="UserMembers" t="ArrayList" cet="Guid">
+                    <v>e83f1a0d-342d-4c8c-bca6-8124d64dc0ab</v>
+                  </l>
+                  <l n="GroupMembers" t="ArrayList" />
+                </o>
+              </a>
+            </o>
+            <v>UserAuthentication</v>
+            <o t="UserAuthentication">
+              <d n="UserToPasswordHash" t="Hashtable" ckt="Guid" cvt="String">
+                <v>e83f1a0d-342d-4c8c-bca6-8124d64dc0ab</v>
+                <v>d41d8cd98f00b204e9800998ecf8427e</v>
+              </d>
+            </o>
+          </d>
+        </o>
+        <v>{40450F57-0AA3-4216-96F3-5444ECB29763}</v>
+        <o>
+          <v n="Name">"{40450F57-0AA3-4216-96F3-5444ECB29763}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" ckt="String" cvt="String">
+            <v>ActiveVisuProfile</v>
+            <v>IR0whWr8bwf8BwAA6S073gAAAACmAgAA3S1CUAAAAAABAAAAAAAAAAEaUwB5AHMAdABlAG0ALgBTAHQAcgBpAG4AZwACTHsAZgA5ADUAYgBiADQAMgA2AC0ANQA1ADIANAAtADQAYgA0ADUALQA5ADQAMAAwAC0AZgBiADAAZgAyAGUANwA3AGUANQAxAGIAfQADCE4AYQBtAGUABCxUAHcAaQBuAEMAQQBUACAAMwAuADEAIABCAHUAaQBsAGQAIAA0ADAAMQA4AAUWUAByAG8AZgBpAGwAZQBEAGEAdABhAAZMewAxADYAZQA1ADUAYgA2ADAALQA3ADAANAAzAC0ANABhADYAMwAtAGIANgA1AGIALQA2ADEANAA3ADEAMwA4ADcAOABkADQAMgB9AAcSTABpAGIAcgBhAHIAaQBlAHMACEx7ADMAYgBmAGQANQA0ADUAOQAtAGIAMAA3AGYALQA0AGQANgBlAC0AYQBlADEAYQAtAGEAOAAzADMANQA2AGEANQA1ADEANAAyAH0ACUx7ADkAYwA5ADUAOAA5ADYAOAAtADIAYwA4ADUALQA0ADEAYgBiAC0AOAA4ADcAMQAtADgAOQA1AGYAZgAxAGYAZQBkAGUAMQBhAH0ACg5WAGUAcgBzAGkAbwBuAAsGaQBuAHQADApVAHMAYQBnAGUADQpUAGkAdABsAGUADhxWAGkAcwB1AEUAbABlAG0AMwBEAFAAYQB0AGgADw5DAG8AbQBwAGEAbgB5ABAMUwB5AHMAdABlAG0AERpWAGkAcwB1AEUAbABlAG0ATQBlAHQAZQByABISVgBpAHMAdQBFAGwAZQBtAHMAEyJWAGkAcwB1AEUAbABlAG0AcwBEAGEAdABlAFQAaQBtAGUAFDBWAGkAcwB1AEUAbABlAG0AcwBTAHAAZQBjAGkAYQBsAEMAbwBuAHQAcgBvAGwAcwAVKFYAaQBzAHUARQBsAGUAbQBzAFcAaQBuAEMAbwBuAHQAcgBvAGwAcwAWJFYAaQBzAHUARQBsAGUAbQBUAGUAeAB0AEUAZABpAHQAbwByABciVgBpAHMAdQBOAGEAdABpAHYAZQBDAG8AbgB0AHIAbwBsABgUdgBpAHMAdQBpAG4AcAB1AHQAcwAZDHMAeQBzAHQAZQBtABoYVgBpAHMAdQBFAGwAZQBtAEIAYQBzAGUAGyZEAGUAdgBQAGwAYQBjAGUAaABvAGwAZABlAHIAcwBVAHMAZQBkABwIYgBvAG8AbAAdIlAAbAB1AGcAaQBuAEMAbwBuAHMAdAByAGEAaQBuAHQAcwAeTHsANAAzAGQANQAyAGIAYwBlAC0AOQA0ADIAYwAtADQANABkADcALQA5AGUAOQA0AC0AMQBiAGYAZABmADMAMQAwAGUANgAzAGMAfQAfHEEAdABMAGUAYQBzAHQAVgBlAHIAcwBpAG8AbgAgFFAAbAB1AGcAaQBuAEcAdQBpAGQAIRZTAHkAcwB0AGUAbQAuAEcAdQBpAGQAIkhhAGYAYwBkADUANAA0ADYALQA0ADkAMQA0AC0ANABmAGUANwAtAGIAYgA3ADgALQA5AGIAZgBmAGUAYgA3ADAAZgBkADEANwAjFFUAcABkAGEAdABlAEkAbgBmAG8AJEx7AGIAMAAzADMANgA2AGEAOAAtAGIANQBjADAALQA0AGIAOQBhAC0AYQAwADAAZQAtAGUAYgA4ADYAMAAxADEAMQAwADQAYwAzAH0AJQ5VAHAAZABhAHQAZQBzACZMewAxADgANgA4AGYAZgBjADkALQBlADQAZgBjAC0ANAA1ADMAMgAtAGEAYwAwADYALQAxAGUAMwA5AGIAYgA1ADUANwBiADYAOQB9ACdMewBhADUAYgBkADQAOABjADMALQAwAGQAMQA3AC0ANAAxAGIANQAtAGIAMQA2ADQALQA1AGYAYwA2AGEAZAAyAGIAOQA2AGIANwB9ACgWTwBiAGoAZQBjAHQAcwBUAHkAcABlAClUVQBwAGQAYQB0AGUATABhAG4AZwB1AGEAZwBlAE0AbwBkAGUAbABGAG8AcgBDAG8AbgB2AGUAcgB0AGkAYgBsAGUATABpAGIAcgBhAHIAaQBlAHMAKhBMAGkAYgBUAGkAdABsAGUAKxRMAGkAYgBDAG8AbQBwAGEAbgB5ACweVQBwAGQAYQB0AGUAUAByAG8AdgBpAGQAZQByAHMALThTAHkAcwB0AGUAbQAuAEMAbwBsAGwAZQBjAHQAaQBvAG4AcwAuAEgAYQBzAGgAdABhAGIAbABlAC4SdgBpAHMAdQBlAGwAZQBtAHMAL0g2AGMAYgAxAGMAZABlADEALQBkADUAZABjAC0ANABhADMAYgAtADkAMAA1ADQALQAyADEAZgBhADcANQA2AGEAMwBmAGEANAAwKEkAbgB0AGUAcgBmAGEAYwBlAFYAZQByAHMAaQBvAG4ASQBuAGYAbwAxTHsAYwA2ADEAMQBlADQAMAAwAC0ANwBmAGIAOQAtADQAYwAzADUALQBiADkAYQBjAC0ANABlADMAMQA0AGIANQA5ADkANgA0ADMAfQAyGE0AYQBqAG8AcgBWAGUAcgBzAGkAbwBuADMYTQBpAG4AbwByAFYAZQByAHMAaQBvAG4ANAxMAGUAZwBhAGMAeQA1MEwAYQBuAGcAdQBhAGcAZQBNAG8AZABlAGwAVgBlAHIAcwBpAG8AbgBJAG4AZgBvADYaQwBvAG0AcABhAHQAaQBiAGkAbABpAHQAeQDQAAIaA9ADAS0E0AUGGgbQBwgaAUUHCQrQAAkaBEUKCwQDAAAABQAAAAYAAAAAAAAA0AwLrQIAAADQDQEtDtAPAS0Q0AAJGgRFCgsEAwAAAAUAAAAGAAAAAAAAANAMC60CAAAA0A0BLRHQDwEtENAACRoERQoLBAMAAAAFAAAABgAAAAoAAADQDAutAQAAANANAS0S0A8BLRDQAAkaBEUKCwQDAAAABQAAAAYAAAAAAAAA0AwLrQIAAADQDQEtE9APAS0Q0AAJGgRFCgsEAwAAAAUAAAAGAAAAAAAAANAMC60CAAAA0A0BLRTQDwEtENAACRoERQoLBAMAAAAFAAAABgAAAAAAAADQDAutAgAAANANAS0V0A8BLRDQAAkaBEUKCwQDAAAABQAAAAYAAAAAAAAA0AwLrQIAAADQDQEtFtAPAS0Q0AAJGgRFCgsEAwAAAAUAAAAGAAAAAAAAANAMC60CAAAA0A0BLRfQDwEtENAACRoERQoLBAMAAAAFAAAABgAAAAAAAADQDAutAgAAANANAS0Y0A8BLRnQAAkaBEUKCwQDAAAABQAAAAYAAAAAAAAA0AwLrQQAAADQDQEtGtAPAS0Q0BscrQFFHR4B0AAeGgJFHwsEAwAAAAUAAAAGAAAAAAAAANAgIS0i0CMkGgJFJSYC0AAnGgVFCgsEAwAAAAMAAAAAAAAACgAAANAoC60AAAAA0AMBLSnQKgEtEtArAS0Q0AAnGgVFCgsEAwAAAAMAAAAAAAAACgAAANAoC60BAAAA0AMBLSnQKgEtEtArAS0QmiwtAUUAAQLQAAEtLtAAAS0Z0AAhLS/QMDEaA9AyC60BAAAA0DMLrRAAAADQNBytANA1MRoD0DILrQIAAADQMwutAgAAANA0HK0A0DYcrQA=</v>
+          </d>
+        </o>
+      </d>
+      <d n="Values" t="Hashtable" />
+    </o>
+  </Data>
+  <TypeList>
+    <Type n="ArrayList">System.Collections.ArrayList</Type>
+    <Type n="Boolean">System.Boolean</Type>
+    <Type n="Group">{daecd4be-1e2b-4335-a125-4a1ac83ea49f}</Type>
+    <Type n="GroupList">{bf4dffda-f055-446d-9d7a-5f126720896b}</Type>
+    <Type n="Guid">System.Guid</Type>
+    <Type n="Hashtable">System.Collections.Hashtable</Type>
+    <Type n="Int32">System.Int32</Type>
+    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+    <Type n="String">System.String</Type>
+    <Type n="User">{cd83029e-13b0-491e-9e4b-921adda0d86b}</Type>
+    <Type n="UserAuthentication">{3635a671-97f5-41bb-9e29-0ebb9795975c}</Type>
+    <Type n="UserList">{9fe6b547-6bc8-4f11-b589-b517860c5891}</Type>
+  </TypeList>
+</XmlArchive>
+    </PlcProjectOptions>
+  </ProjectExtensions>
+</Project>

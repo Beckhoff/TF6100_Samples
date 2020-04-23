@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <POU Name="FB_Mathematics" Id="{6d305862-45d0-46a7-98b9-14adcc43cf2f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Mathematics
+VAR
+	count : LREAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Add2" Id="{0e173a10-f245-40db-8d6e-0fd6f9d17088}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Returns a + b'}
+METHOD Add2 : LREAL
+VAR_INPUT
+	a : LREAL;(*Value 'a'*)
+	b : LREAL; (*Value 'b'*)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+Add2 := a+b;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Calculate" Id="{600da974-cd37-4509-9401-d53871905fef}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Perform calculation on a and b, as defined by value operation'}
+METHOD Calculate : LREAL
+VAR_INPUT	
+	operation : E_OPERATION; (*define the kind of operation to be done*)
+	a : LREAL; (*Value for a*)
+	b: LREAL; (*Value for b*)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+Calculate := 0;
+CASE operation OF
+	Addition:
+		Calculate := a+b;
+	Substract:
+		Calculate := a-b;
+	Multiply:
+		Calculate := a*b;
+	Divide:
+		Calculate := a/b;	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Calculate2" Id="{040915ab-f2e5-4017-9d78-b94249abe1b3}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Perform calculation as described in Parameter o'}
+METHOD Calculate2 : LREAL
+VAR_INPUT
+	in : ST_MathOperation; (*structure, defining the calculation to be done*)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+CASE in.operator OF
+	Addition:
+		Calculate2 := in.a+in.b;
+	Substract:
+		Calculate2 := in.a-in.b;
+	Multiply:
+		Calculate2 := in.a*in.b;
+	Divide:
+		Calculate2 := in.a/in.b;
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Calculate3" Id="{3bf1d761-55fb-477a-a335-ebc1556b860b}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Perform calculation and return results as STRING'}
+METHOD Calculate3 : STRING
+VAR_INPUT
+	operation : E_OPERATION; (*define the kind of operation to be done*)
+	a:INT;
+	b:INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+CASE operation OF
+	Addition:
+		Calculate3 := DINT_TO_STRING(a+b);
+	Substract:
+		Calculate3 := DINT_TO_STRING(a-b);
+	Multiply:
+		Calculate3 := DINT_TO_STRING(a*b);
+	Divide:
+		Calculate3 := DINT_TO_STRING(a/b);	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Calculate4" Id="{4d8d773b-9fef-47c6-8023-7ab475a65496}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Perform calculation and return results as STRING'}
+METHOD Calculate4 : STRING
+VAR_INPUT
+	a:INT;
+	b:INT;
+END_VAR
+VAR_OUTPUT
+	sMul: STRING;
+	sSub: STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+Calculate4 := DINT_TO_STRING(a + b);
+sMul := DINT_TO_STRING(a * b);
+sSub := INT_TO_STRING(a - b);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Calculate5" Id="{a2bfc3ea-baf0-43ff-8d62-2d8927c6d45e}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Perform calculation and return results as STRING'}
+METHOD Calculate5 : ST_MathematicResults
+VAR_INPUT
+	a:INT;
+	b:INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+Calculate5.Diff := a - b;
+Calculate5.Prod := a * b;
+Calculate5.Quo := a / b;
+Calculate5.Sum := a + b;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Div2" Id="{deb8df91-e42d-443e-82d0-42ce313ddfdd}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'} 
+METHOD Div2 : LREAL
+VAR_INPUT
+	a:LREAL;
+	b:LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+Div2 := a/b;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Mul2" Id="{aa9aef09-1ec9-421d-80a8-310c5b4801a3}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'} 
+METHOD Mul2 : LREAL
+VAR_INPUT
+	a:LREAL;
+	b:LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+Mul2:= a*b;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Sub2" Id="{f07b0e68-7940-4701-b822-3f3dd3a370dc}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'} 
+METHOD Sub2 : LREAL
+VAR_INPUT
+	a:LREAL;
+	b:LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+Sub2:=a-b;
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Mathematics">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Add2">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Calculate">
+      <LineId Id="21" Count="0" />
+      <LineId Id="3" Count="9" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Calculate2">
+      <LineId Id="24" Count="0" />
+      <LineId Id="4" Count="8" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Calculate3">
+      <LineId Id="51" Count="0" />
+      <LineId Id="53" Count="8" />
+      <LineId Id="49" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Calculate4">
+      <LineId Id="47" Count="0" />
+      <LineId Id="32" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Calculate5">
+      <LineId Id="47" Count="4" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Div2">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Mul2">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.Sub2">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

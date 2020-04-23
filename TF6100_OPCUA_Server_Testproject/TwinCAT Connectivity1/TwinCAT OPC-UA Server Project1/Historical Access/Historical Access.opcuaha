@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HistoryConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HistoryController>
+    <HistoryAdapter Type="Volatile" Id="0" File="" Server="" Database="" User="" Password="" />
+    <HistoryAdapter Type="File" Id="1" File="C:\Temp" Server="" Database="" User="" Password="" />
+    <HistoryAdapter Type="SQL" Id="2" File="" Server="172.17.38.76\SQLEXPRESS" Database="TcOpcUaServer" User="sa" Password="1" />
+  </HistoryController>
+  <HistoryNodes>
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="0" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.fastSampling_sin1" />
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="0" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.fastSampling_sin2" />
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="0" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.fastSampling_cosh" />
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="1" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.persistent_sin1" />
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="1" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.persistent_sin2" />
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="1" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.persistent_cosh" />
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="2" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.persistent_SQL_sin1" />
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="2" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.persistent_SQL_sin2" />
+    <HistoryNode SamplingRate="250" MaxSamples="1000" HistoryWriteable="false" AdapterId="2" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_historizing.persistent_SQL_cosh" />
+  </HistoryNodes>
+</HistoryConfig>

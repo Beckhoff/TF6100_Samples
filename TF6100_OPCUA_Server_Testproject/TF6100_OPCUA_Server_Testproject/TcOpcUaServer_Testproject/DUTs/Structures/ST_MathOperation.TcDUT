@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <DUT Name="ST_MathOperation" Id="{dd7ff979-5c27-4480-adc0-ce20dc33f558}">
+    <Declaration><![CDATA[{attribute 'OPC.UA.DA.Description' := 'Structure to describe a math operation having one operator and two oparands'}
+TYPE ST_MathOperation :
+STRUCT
+	operator : E_OPERATION; (*define the operator for calculation*)
+	a : LREAL; (*First operand*)
+	b : LREAL; (*Second operand*)
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

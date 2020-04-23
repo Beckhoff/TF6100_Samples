@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_alarm_condition" Id="{9b3816fd-8668-4c5f-906d-fb4d9b43c8d0}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Triggers a limit alarm when value is < 30 or > 60. Increments every second'}
+	limitAlmTrigger: DINT;
+	limitAlmRangeLo :DINT := 0;
+	limitAlmRangeHi :DINT := 100;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Triggers a off normal alarm when set to true. Changes state every 30 secs'}
+	offNormAlmTrigger : BOOL;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Triggers a limit alarm when value is < 30 or > 60. Can be incremented by the client to trigger an alarm'}
+	manualLimitAlmTrigger: DINT := 45;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Triggers a off normal alarm when set to true. Can be toggeled by the client to trigger an alarm'}
+	manualOffNormAlmTrigger : BOOL;	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

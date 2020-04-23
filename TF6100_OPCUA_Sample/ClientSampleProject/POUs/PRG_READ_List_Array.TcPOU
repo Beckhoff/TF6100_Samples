@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="PRG_READ_List_Array" Id="{bcedfff1-8b58-4052-980f-e7e55557ede0}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_READ_List_Array
+VAR
+	fbUA_Connect			: UA_Connect;
+	SessionConnectInfo		: ST_UASessionConnectInfo;
+	sOpcUA_URL				: STRING(MAX_STRING_LENGTH);
+	nConnectionHdl			: DWORD;
+
+	fbUA_GetNamespaceIndex 	: UA_GetNamespaceIndex;
+	nNamespaceIndex			: UINT;
+	fbUA_NodeGetHandleList	: UA_NodeGetHandleList;
+	NodeIDs					: ARRAY [1..nMaxNodeIDsInList] OF ST_UANodeID;
+	nNodeHdls				: ARRAY [1..nMaxNodeIDsInList] OF DWORD;
+
+	fbUA_ReadList			: UA_ReadList; 
+	stIndexRange			: ARRAY [1..nMaxIndexRange] OF ST_UAIndexRange;
+	nIndexRangeCount		: UINT;
+	stNodeAddInfo			: ARRAY [1..nMaxNodeIDsInList] OF ST_UANodeAdditionalInfo;
+	stReadListDataArrayInt	: ST_ReadListData_Array; // memory block must contain the Data[], NodeErrorIDs[], TimeStamps[] and cbData_R[]
+	cbData					: ARRAY [1..nMaxNodeIDsInList] OF UDINT; (* Bytes to be actually Read *)
+	cbData_R				: UDINT;
+	cbDataTotal				: UDINT; 
+	
+	fbUA_NodeReleaseHandleList	: UA_NodeReleaseHandleList;
+
+	fbUA_Disconnect		: UA_Disconnect;
+
+	iState		: INT;
+	bTest		: BOOL:= TRUE;
+	bDone		: BOOL;
+	bBusy		: BOOL;
+	bError		: BOOL;
+	nErrorID	: DWORD;
+	
+	nNodeIdx	: INT; 
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+CASE iState OF
+0:	(* idle *)
+	IF bTest THEN
+		bTest		:= FALSE;
+		bError		:= FALSE;
+		nErrorID	:= 0;
+
+		SessionConnectInfo.tConnectTimeout 		:= T#1M;
+		SessionConnectInfo.tSessionTimeout 		:= T#1M;
+		SessionConnectInfo.sApplicationName		:= '';
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_None;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
+		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
+
+		iState	:= iState + 1;
+	END_IF
+
+1:	(* open UA session *)
+	fbUA_Connect(
+		Execute				:= TRUE,
+		ServerURL			:= sOpcUaServerUrl,
+		SessionConnectInfo  := SessionConnectInfo,
+		Timeout				:= T#2M,
+		ConnectionHdl		=> nConnectionHdl
+	);
+
+	IF NOT fbUA_Connect.Busy THEN
+		fbUA_Connect(Execute := FALSE);
+
+		IF NOT fbUA_Connect.Error THEN
+			(* session open *)
+			iState := iState + 1;
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Connect.ErrorID;
+			nConnectionHdl	:= 0;
+			iState 			:= 0; (* idle *)
+		END_IF
+	END_IF
+
+
+2:	(* GetNS Index *)
+	fbUA_GetNamespaceIndex(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		NamespaceUri	:= sNamespaceUri,
+		NamespaceIndex	=> nNamespaceIndex
+	);
+
+	IF NOT fbUA_GetNamespaceIndex.Busy THEN
+		fbUA_GetNamespaceIndex(Execute := FALSE);
+		IF NOT fbUA_GetNamespaceIndex.Error THEN
+			(* session closed *)
+			iState 		:= iState + 1; (* idle *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_GetNamespaceIndex.ErrorID;
+			iState 		:= 6; (* idle *)
+		END_IF
+	END_IF
+
+
+3:	(* Get Node Handle *)
+
+	nNodeIdx := 1;
+	NodeIDs[nNodeIdx].eIdentifierType := eUAIdentifierType_String;
+	NodeIDs[nNodeIdx].nNamespaceIndex := nNamespaceIndex;
+	NodeIDs[nNodeIdx].sIdentifier	:= 'MAIN.iArrayIntVar1';
+	
+	nNodeIdx := nNodeIdx + 1;
+	NodeIDs[nNodeIdx].eIdentifierType := eUAIdentifierType_String;
+	NodeIDs[nNodeIdx].nNamespaceIndex := nNamespaceIndex;
+	NodeIDs[nNodeIdx].sIdentifier	:= 'MAIN.iArrayIntVar2';
+
+	fbUA_NodeGetHandleList(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		NodeIDCount 	:= nNodeIdx,
+		NodeIDs			:= NodeIDs,
+		NodeHdls		=> nNodeHdls
+	);
+
+	IF NOT fbUA_NodeGetHandleList.Busy THEN
+		fbUA_NodeGetHandleList(Execute := FALSE);
+
+		IF NOT fbUA_NodeGetHandleList.Error THEN
+			(* session closed *)
+			iState 		:= iState + 1; (* idle *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_NodeGetHandleList.ErrorID;
+			iState 		:= 6; (* idle *)
+		END_IF
+	END_IF
+
+	
+4: 	(* UA_Read *)
+	cbData[1] := SIZEOF(stReadListDataArrayInt.iArrayIntVar1);
+	cbData[2] := SIZEOF(stReadListDataArrayInt.iArrayIntVar2);
+
+	cbDataTotal := SIZEOF(stReadListDataArrayInt);
+	fbUA_ReadList(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		NodeHdlCount	:= nNodeIdx, // 2
+		NodeHdls		:= nNodeHdls,
+		stNodeAddInfo 	:= stNodeAddInfo,
+		pVariable		:= ADR(stReadListDataArrayInt),
+		cbData			:= cbData ,
+		cbDataTotal		:= cbDataTotal		
+		);
+
+	IF NOT fbUA_ReadList.Busy THEN
+		fbUA_ReadList( Execute := FALSE, cbData_R => cbData_R);
+
+		IF NOT fbUA_ReadList.Error THEN
+			(* session closed *)
+			iState 		:= iState + 1; (* idle *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_ReadList.ErrorID;
+			iState 		:= 6; (* idle *)
+		END_IF
+	END_IF
+
+
+5:	(* Release Node Handle *)
+	fbUA_NodeReleaseHandleList(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		NodeHdlCount	:= nNodeIdx,
+		NodeHdls		:= nNodeHdls
+	);
+
+	IF NOT fbUA_NodeReleaseHandleList.Busy THEN
+		fbUA_NodeReleaseHandleList(Execute := FALSE);
+
+		IF NOT fbUA_NodeReleaseHandleList.Error THEN
+			(* session closed *)
+			iState 		:= iState + 1; (* idle *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_NodeReleaseHandleList.ErrorID;
+			iState 		:= 6; (* idle *)
+		END_IF
+	END_IF
+
+
+6:	(* close session *)
+	fbUA_Disconnect(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl
+	);
+
+	IF NOT fbUA_Disconnect.Busy THEN
+		fbUA_Disconnect(Execute := FALSE);
+		bBusy := FALSE;
+		IF NOT fbUA_Disconnect.Error THEN
+			(* session closed *)
+			iState 		:= 0; (* idle *)
+			IF NOT bError THEN 
+				bDone 	:= TRUE;
+			END_IF
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Disconnect.ErrorID;
+			iState 			:= 0; (* idle *)
+			nConnectionHdl	:= 0;
+		END_IF
+	END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_READ_List_Array">
+      <LineId Id="3" Count="171" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

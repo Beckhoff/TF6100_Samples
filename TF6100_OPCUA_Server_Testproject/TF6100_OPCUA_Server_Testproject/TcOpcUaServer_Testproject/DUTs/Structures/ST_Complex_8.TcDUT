@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <DUT Name="ST_Complex_8" Id="{bc101f5a-7b54-46ec-a90c-0554f2f44d7b}">
+    <Declaration><![CDATA[{attribute 'OPC.UA.DA' := '1'}
+{attribute 'OPC.UA.DA.StructuredType' := '1'}
+TYPE ST_Complex_8 :
+STRUCT
+	stComplex		: ST_Complex_1;
+	strString5		: STRING[5]; (*String, max 5 chars*)
+	eEnum	 		: E_Enum_1;
+	strString3	 	: STRING[3]; (*String, max 3 chars*)
+	arrComplex 		: ARRAY[0..1] OF ST_Complex_1;
+	arrDint		 	: ARRAY[0..100] OF DINT;	
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

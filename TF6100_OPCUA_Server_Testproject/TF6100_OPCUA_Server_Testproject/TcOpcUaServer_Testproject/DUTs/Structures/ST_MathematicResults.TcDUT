@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <DUT Name="ST_MathematicResults" Id="{c9e23878-63f2-4aa8-8d12-ce099427d7f8}">
+    <Declaration><![CDATA[TYPE ST_MathematicResults :
+STRUCT
+	Sum : LREAL;
+	Diff : LREAL;
+	Prod : LREAL;
+	Quo : LREAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

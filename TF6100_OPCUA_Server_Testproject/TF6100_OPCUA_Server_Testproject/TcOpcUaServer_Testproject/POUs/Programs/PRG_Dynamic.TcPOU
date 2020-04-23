@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="PRG_Dynamic" Id="{f47a6e91-8ae4-4c58-8719-5ee04fd610ef}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_Dynamic
+VAR
+	k: INT;
+	l: INT;
+	m: INT;
+	t: INT;
+	
+	timer_1s : TON := (PT:=T#1S);
+	timer_30s : TON := (PT:=T#30S);
+	timer_100ms : TON := (PT:=T#100MS);
+	
+	idxEndChar :INT := 0;
+	idxStartChar :INT := 1;
+	
+	nTextMode :INT := 0;	
+	
+	sWordsU : WSTRING :=  "Hello OpcUA. Greetings from BECKHOFF AUTOMATION GmbH";
+	sWordsA : STRING :=  'Hello OpcUA. Greetings from BECKHOFF AUTOMATION GmbH';	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Settings.UpdateTimer(IN:=TRUE);
+timer_100ms(IN:=TRUE);
+timer_1s(IN:=TRUE);
+timer_30s(IN:=TRUE);
+
+IF( timer_100ms.Q ) THEN 
+	CASE nTextMode OF
+		0:		
+			idxStartChar := 1;
+			idxEndChar :=idxEndChar+1;
+			IF( idxEndChar > LEN( sWordsA ))THEN
+				idxEndChar := LEN( sWordsA );
+				idxStartChar :=1;	
+				nTextMode := 1;
+			END_IF
+		1:
+			idxEndChar := LEN( sWordsA );
+			idxStartChar := idxStartChar+1;
+			IF( idxStartChar >= LEN( sWordsA ))THEN
+				idxStartChar := 1;	
+				idxEndChar := 0	;		
+				nTextMode := 0;
+			END_IF
+	END_CASE	 
+END_IF
+
+IF Settings.UpdateTimer.Q THEN
+	Settings.UpdateTimer(IN:=FALSE);
+	
+	(* Update variables with new values *)
+	GVL_nodes_dynamic.dyn_scalar_BOOL 	:= NOT GVL_nodes_dynamic.dyn_scalar_BOOL;
+	GVL_nodes_dynamic.dyn_scalar_I1 		:= GVL_nodes_dynamic.dyn_scalar_I1  +1;
+	GVL_nodes_dynamic.dyn_scalar_UI1 		:= GVL_nodes_dynamic.dyn_scalar_UI1 +1;
+	GVL_nodes_dynamic.dyn_scalar_I2		:= GVL_nodes_dynamic.dyn_scalar_I2  +1;
+	GVL_nodes_dynamic.dyn_scalar_UI2		:= GVL_nodes_dynamic.dyn_scalar_UI2 +1;
+	GVL_nodes_dynamic.dyn_scalar_I4		:= GVL_nodes_dynamic.dyn_scalar_I4  +1;
+	GVL_nodes_dynamic.dyn_scalar_UI4		:= GVL_nodes_dynamic.dyn_scalar_UI4 +1;
+	GVL_nodes_dynamic.dyn_scalar_I8		:= GVL_nodes_dynamic.dyn_scalar_I8  +1;
+	GVL_nodes_dynamic.dyn_scalar_UI8		:= GVL_nodes_dynamic.dyn_scalar_UI8 +1;
+	GVL_nodes_dynamic.dyn_scalar_BYTE 	:= GVL_nodes_dynamic.dyn_scalar_BYTE +1;
+	GVL_nodes_dynamic.dyn_scalar_WORD		:= GVL_nodes_dynamic.dyn_scalar_WORD +1;
+	GVL_nodes_dynamic.dyn_scalar_DWORD	:= GVL_nodes_dynamic.dyn_scalar_DWORD+1;
+	GVL_nodes_dynamic.dyn_scalar_LWORD    := GVL_nodes_dynamic.dyn_scalar_LWORD+1;
+	GVL_nodes_dynamic.dyn_scalar_R4       := GVL_nodes_dynamic.dyn_scalar_R4+0.1;
+	GVL_nodes_dynamic.dyn_scalar_R8		:= GVL_nodes_dynamic.dyn_scalar_R8+0.1;
+	IF( timer_100ms.Q ) THEN 	
+		GVL_nodes_dynamic.dyn_scalar_BSTR	:=  MID(STR:=sWordsA, POS:=idxStartChar, LEN:=idxEndChar); //CONCAT(GVL_dynamic_.dyn_scalar_BSTR, MID(sWordsA, 1,idxWords) );
+		GVL_nodes_dynamic.dyn_scalar_WSTRING  :=  WMID(STR:=sWordsU, POS:=idxStartChar, LEN:=idxEndChar);// WCONCAT(GVL_dynamic_.dyn_scalar_WSTRING,WMID(sWordsU,1,idxWords));
+	END_IF
+	GVL_nodes_dynamic.dyn_scalar_DT		:= GVL_nodes_dynamic.dyn_scalar_DT 	+ T#1S;
+	GVL_nodes_dynamic.dyn_scalar_DATE 	:= GVL_nodes_dynamic.dyn_scalar_DATE  + T#1S;
+	GVL_nodes_dynamic.dyn_scalar_TOD		:= GVL_nodes_dynamic.dyn_scalar_TOD   + T#1S;
+	GVL_nodes_dynamic.dyn_scalar_TIME		:= GVL_nodes_dynamic.dyn_scalar_TIME  + T#1S;
+	
+	FOR k:= 0 TO ARRSIZEHUGE DO
+		GVL_nodes_dynamic.dyn_1dim_I1_Huge[k] 	:= GVL_nodes_dynamic.dyn_1dim_I1_Huge[k]  +1;
+		GVL_nodes_dynamic.dyn_1dim_I4_Huge[k] 	:= GVL_nodes_dynamic.dyn_1dim_I4_Huge[k]  +1;
+	END_FOR
+	
+	FOR k:= 0 TO ARRSIZEX DO
+		GVL_nodes_dynamic.dyn_1dim_BOOL[k] 	:= NOT GVL_nodes_dynamic.dyn_1dim_BOOL[k];
+		GVL_nodes_dynamic.dyn_1dim_I1[k] 		:= GVL_nodes_dynamic.dyn_1dim_I1[k]  +1;
+		GVL_nodes_dynamic.dyn_1dim_UI1[k]		:= GVL_nodes_dynamic.dyn_1dim_UI1[k] +1;
+		GVL_nodes_dynamic.dyn_1dim_I2[k]		:= GVL_nodes_dynamic.dyn_1dim_I2[k]  +1;
+		GVL_nodes_dynamic.dyn_1dim_UI2[k]		:= GVL_nodes_dynamic.dyn_1dim_UI2[k] +1;
+		GVL_nodes_dynamic.dyn_1dim_I4[k]		:= GVL_nodes_dynamic.dyn_1dim_I4[k]  +1;
+		GVL_nodes_dynamic.dyn_1dim_UI4[k]		:= GVL_nodes_dynamic.dyn_1dim_UI4[k] +1;
+		GVL_nodes_dynamic.dyn_1dim_I8[k]		:= GVL_nodes_dynamic.dyn_1dim_I8[k]  +1;
+		GVL_nodes_dynamic.dyn_1dim_UI8[k]		:= GVL_nodes_dynamic.dyn_1dim_UI8[k] +1;
+		GVL_nodes_dynamic.dyn_1dim_BYTE[k] 	:= GVL_nodes_dynamic.dyn_1dim_BYTE[k] +1;
+		GVL_nodes_dynamic.dyn_1dim_WORD[k]	:= GVL_nodes_dynamic.dyn_1dim_WORD[k] +1;
+		GVL_nodes_dynamic.dyn_1dim_DWORD[k]	:= GVL_nodes_dynamic.dyn_1dim_DWORD[k]+1;
+		GVL_nodes_dynamic.dyn_1dim_LWORD[k]   := GVL_nodes_dynamic.dyn_1dim_LWORD[k]+1;
+		GVL_nodes_dynamic.dyn_1dim_R4[k]      := GVL_nodes_dynamic.dyn_1dim_R4[k]+0.1;
+		GVL_nodes_dynamic.dyn_1dim_R8[k]		:= GVL_nodes_dynamic.dyn_1dim_R8[k]+0.1;
+		IF( timer_100ms.Q ) THEN 	
+			GVL_nodes_dynamic.dyn_1dim_BSTR[k]	:=  MID(STR:=sWordsA, POS:=idxStartChar, LEN:=idxEndChar); //CONCAT(GVL_dynamic_.dyn_scalar_BSTR, MID(sWordsA, 1,idxWords) );
+			GVL_nodes_dynamic.dyn_1dim_WSTRING[k]  :=  WMID(STR:=sWordsU, POS:=idxStartChar, LEN:=idxEndChar);// WCONCAT(GVL_dynamic_.dyn_scalar_WSTRING,WMID(sWordsU,1,idxWords));
+		END_IF
+		GVL_nodes_dynamic.dyn_1dim_DT[k]		:= GVL_nodes_dynamic.dyn_1dim_DT[k] 	+ T#1S;
+		GVL_nodes_dynamic.dyn_1dim_DATE[k] 	:= GVL_nodes_dynamic.dyn_1dim_DATE[k]  + T#1S;
+		GVL_nodes_dynamic.dyn_1dim_TOD[k]		:= GVL_nodes_dynamic.dyn_1dim_TOD[k]   + T#1S;
+		GVL_nodes_dynamic.dyn_1dim_TIME[k]	:= GVL_nodes_dynamic.dyn_1dim_TIME[k]  + T#1S;
+	END_FOR;
+	
+	FOR l:= 0 TO ARRSIZEY DO
+		FOR k:= 0 TO ARRSIZEX DO
+			GVL_nodes_dynamic.dyn_2dim_BOOL[k,l] 		:= NOT GVL_nodes_dynamic.dyn_2dim_BOOL[k,l];
+			GVL_nodes_dynamic.dyn_2dim_I1[k,l] 		:= GVL_nodes_dynamic.dyn_2dim_I1[k,l]  +1;
+			GVL_nodes_dynamic.dyn_2dim_UI1[k,l]		:= GVL_nodes_dynamic.dyn_2dim_UI1[k,l] +1;
+			GVL_nodes_dynamic.dyn_2dim_I2[k,l]		:= GVL_nodes_dynamic.dyn_2dim_I2[k,l]  +1;
+			GVL_nodes_dynamic.dyn_2dim_UI2[k,l]		:= GVL_nodes_dynamic.dyn_2dim_UI2[k,l] +1;
+			GVL_nodes_dynamic.dyn_2dim_I4[k,l]		:= GVL_nodes_dynamic.dyn_2dim_I4[k,l]  +1;
+			GVL_nodes_dynamic.dyn_2dim_UI4[k,l]		:= GVL_nodes_dynamic.dyn_2dim_UI4[k,l] +1;
+			GVL_nodes_dynamic.dyn_2dim_I8[k,l]		:= GVL_nodes_dynamic.dyn_2dim_I8[k,l]  +1;
+			GVL_nodes_dynamic.dyn_2dim_UI8[k,l]		:= GVL_nodes_dynamic.dyn_2dim_UI8[k,l] +1;
+			GVL_nodes_dynamic.dyn_2dim_BYTE[k,l] 		:= GVL_nodes_dynamic.dyn_2dim_BYTE[k,l] +1;
+			GVL_nodes_dynamic.dyn_2dim_WORD[k,l]		:= GVL_nodes_dynamic.dyn_2dim_WORD[k,l] +1;
+			GVL_nodes_dynamic.dyn_2dim_DWORD[k,l]		:= GVL_nodes_dynamic.dyn_2dim_DWORD[k,l]+1;
+			GVL_nodes_dynamic.dyn_2dim_LWORD[k,l]    	:= GVL_nodes_dynamic.dyn_2dim_LWORD[k,l]+1;
+			GVL_nodes_dynamic.dyn_2dim_R4[k,l]       	:= GVL_nodes_dynamic.dyn_2dim_R4[k,l]+0.1;
+			GVL_nodes_dynamic.dyn_2dim_R8[k,l]		:= GVL_nodes_dynamic.dyn_2dim_R8[k,l]+0.1;
+			IF( timer_100ms.Q ) THEN 	
+				GVL_nodes_dynamic.dyn_2dim_BSTR[k,l]	:=  MID(STR:=sWordsA, POS:=idxStartChar, LEN:=idxEndChar); //CONCAT(GVL_dynamic_.dyn_scalar_BSTR, MID(sWordsA, 1,idxWords) );
+				GVL_nodes_dynamic.dyn_2dim_WSTRING[k,l]  :=  WMID(STR:=sWordsU, POS:=idxStartChar, LEN:=idxEndChar);// WCONCAT(GVL_dynamic_.dyn_scalar_WSTRING,WMID(sWordsU,1,idxWords));
+			END_IF
+			GVL_nodes_dynamic.dyn_2dim_DT[k,l]		:= GVL_nodes_dynamic.dyn_2dim_DT[k,l] 	+ T#1S;
+			GVL_nodes_dynamic.dyn_2dim_DATE[k,l] 	:= GVL_nodes_dynamic.dyn_2dim_DATE[k,l]  + T#1S;
+			GVL_nodes_dynamic.dyn_2dim_TOD[k,l]	:= GVL_nodes_dynamic.dyn_2dim_TOD[k,l]   + T#1S;
+			GVL_nodes_dynamic.dyn_2dim_TIME[k,l]		:= GVL_nodes_dynamic.dyn_2dim_TIME[k,l] + T#1S;
+		END_FOR;
+	END_FOR;
+	
+	FOR m:= 0 TO ARRSIZEY DO
+		FOR l:= 0 TO ARRSIZEY DO
+			FOR k:= 0 TO ARRSIZEX DO
+				GVL_nodes_dynamic.dyn_3dim_BOOL[k,l,m] 		:= NOT GVL_nodes_dynamic.dyn_3dim_BOOL[k,l,m];
+				GVL_nodes_dynamic.dyn_3dim_I1[k,l,m] 		:= GVL_nodes_dynamic.dyn_3dim_I1[k,l,m]  +1;
+				GVL_nodes_dynamic.dyn_3dim_UI1[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_UI1[k,l,m] +1;
+				GVL_nodes_dynamic.dyn_3dim_I2[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_I2[k,l,m]  +1;
+				GVL_nodes_dynamic.dyn_3dim_UI2[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_UI2[k,l,m] +1;
+				GVL_nodes_dynamic.dyn_3dim_I4[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_I4[k,l,m]  +1;
+				GVL_nodes_dynamic.dyn_3dim_UI4[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_UI4[k,l,m] +1;
+				GVL_nodes_dynamic.dyn_3dim_I8[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_I8[k,l,m]  +1;
+				GVL_nodes_dynamic.dyn_3dim_UI8[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_UI8[k,l,m] +1;
+				GVL_nodes_dynamic.dyn_3dim_BYTE[k,l,m] 		:= GVL_nodes_dynamic.dyn_3dim_BYTE[k,l,m] +1;
+				GVL_nodes_dynamic.dyn_3dim_WORD[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_WORD[k,l,m] +1;
+				GVL_nodes_dynamic.dyn_3dim_DWORD[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_DWORD[k,l,m]+1;
+				GVL_nodes_dynamic.dyn_3dim_LWORD[k,l,m]    	:= GVL_nodes_dynamic.dyn_3dim_LWORD[k,l,m]+1;
+				GVL_nodes_dynamic.dyn_3dim_R4[k,l,m]       	:= GVL_nodes_dynamic.dyn_3dim_R4[k,l,m]+0.1;
+				GVL_nodes_dynamic.dyn_3dim_R8[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_R8[k,l,m]+0.1;
+				IF( timer_100ms.Q ) THEN 	
+					GVL_nodes_dynamic.dyn_3dim_BSTR[k,l,m]	:=  MID(STR:=sWordsA, POS:=idxStartChar, LEN:=idxEndChar); //CONCAT(GVL_dynamic_.dyn_scalar_BSTR, MID(sWordsA, 1,idxWords) );
+					GVL_nodes_dynamic.dyn_3dim_WSTRING[k,l,m]  :=  WMID(STR:=sWordsU, POS:=idxStartChar, LEN:=idxEndChar);// WCONCAT(GVL_dynamic_.dyn_scalar_WSTRING,WMID(sWordsU,1,idxWords));
+				END_IF	
+				GVL_nodes_dynamic.dyn_3dim_DT[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_DT[k,l,m] 	+ T#1S;
+				GVL_nodes_dynamic.dyn_3dim_DATE[k,l,m] 	:= GVL_nodes_dynamic.dyn_3dim_DATE[k,l,m]  + T#1S;
+				GVL_nodes_dynamic.dyn_3dim_TOD[k,l,m]	:= GVL_nodes_dynamic.dyn_3dim_TOD[k,l,m]   + T#1S;
+				GVL_nodes_dynamic.dyn_3dim_TIME[k,l,m]		:= GVL_nodes_dynamic.dyn_3dim_TIME[k,l,m] + T#1S;
+			END_FOR;
+		END_FOR;
+	END_FOR;
+END_IF
+
+(*
+-----------------------------------------------------------------------------------------------------
+Historical Access
+-----------------------------------------------------------------------------------------------------					
+*)
+t := t + 1;
+o := o + 0.001;
+
+sinu := SIN(o);
+cosinu := COS(o);
+
+i:=i+1;
+Ts:=128*10;
+
+phi:=t/Ts;
+Cosinus_Half:=COS(PI*t/(2*Ts));
+
+Sinus_VerySlow:=COS(1*PI*(t)/Ts);
+Sinus_Slow1:=COS(4*PI* (t+Ts/4+phi)/Ts);
+Sinus_Slow2:= 0.000001*COS(4*PI* (t+Ts/3+phi)/Ts);
+Sinus_Fast:=COS(12*PI*t/Ts);
+Sinus_SqFast:=Sinus_Fast* Sinus_Slow1;
+Sinus_SqSlow:=Sinus_VerySlow*Sinus_Slow1;
+
+fastSampling_sin1 := Sinus_SqSlow;  
+fastSampling_sin2 := Sinus_VerySlow;
+fastSampling_cosh := Cosinus_Half;  
+
+persistent_sin1 := Sinus_SqSlow;
+persistent_sin2 := Sinus_VerySlow;
+persistent_cosh := Cosinus_Half;
+
+persistent_SQL_sin1 := Sinus_SqSlow;  
+persistent_SQL_sin2 := Sinus_VerySlow;
+persistent_SQL_cosh := Cosinus_Half;  
+
+(*
+-----------------------------------------------------------------------------------------------------
+Alarm & Conditions
+-----------------------------------------------------------------------------------------------------
+*)
+IF( timer_1s.Q ) THEN
+	limitAlmTrigger := limitAlmTrigger+1;
+	IF( limitAlmTrigger > limitAlmRangeHi ) THEN
+		limitAlmTrigger := limitAlmRangeLo;
+	END_IF
+END_IF
+
+IF( timer_30s.Q ) THEN
+	offNormAlmTrigger := NOT offNormAlmTrigger;
+END_IF
+
+IF( timer_100ms.Q ) THEN
+	timer_100ms( in:=FALSE );
+END_IF;
+
+IF( timer_1s.Q ) THEN
+	timer_1s( in:=FALSE );
+END_IF;
+
+IF( timer_30s.Q ) THEN
+	timer_30s( in:=FALSE );
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_Dynamic">
+      <LineId Id="125" Count="0" />
+      <LineId Id="162" Count="1" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="164" Count="0" />
+      <LineId Id="166" Count="19" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="142" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="9" Count="14" />
+      <LineId Id="186" Count="2" />
+      <LineId Id="27" Count="5" />
+      <LineId Id="286" Count="0" />
+      <LineId Id="288" Count="0" />
+      <LineId Id="290" Count="0" />
+      <LineId Id="289" Count="0" />
+      <LineId Id="287" Count="0" />
+      <LineId Id="33" Count="15" />
+      <LineId Id="189" Count="2" />
+      <LineId Id="52" Count="23" />
+      <LineId Id="192" Count="2" />
+      <LineId Id="79" Count="25" />
+      <LineId Id="195" Count="2" />
+      <LineId Id="108" Count="7" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="199" Count="3" />
+      <LineId Id="266" Count="0" />
+      <LineId Id="203" Count="9" />
+      <LineId Id="214" Count="8" />
+      <LineId Id="224" Count="3" />
+      <LineId Id="229" Count="11" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="241" Count="6" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="248" Count="2" />
+      <LineId Id="252" Count="3" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="256" Count="2" />
+      <LineId Id="263" Count="0" />
+      <LineId Id="259" Count="1" />
+      <LineId Id="198" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

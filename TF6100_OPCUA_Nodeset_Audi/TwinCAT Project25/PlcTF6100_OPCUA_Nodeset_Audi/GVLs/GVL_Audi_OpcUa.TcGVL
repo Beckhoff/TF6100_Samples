@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <GVL Name="GVL_Audi_OpcUa" Id="{d424dcf7-f732-451f-a932-330d861bce0e}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	// ProductionEquipment
+	CurrentTimeModel				: ST_TimeModelDataType;
+	DeviceManual					: STRING;
+	DeviceRevision					: STRING;
+	HardwareRevision				: STRING;
+	IMVersion						: ST_VersionDataType;
+	ItemDesignation					: STRING;
+	Manufacturer					: Tc3_OpcUa.UA_LocalizedText;
+	Model							: Tc3_OpcUa.UA_LocalizedText;
+	NextDayTimeModel				: ST_TimeModelDataType;
+	PlcBlockVersion					: ST_VersionDataType;
+	RevisionCounter					: DINT;
+	SerialNumber					: STRING;
+	SerialNumberController			: STRING;
+	SerialNumberHW					: STRING;
+	SetTargetValues					: FB_SetTargetValues;
+	SetTimeModel					: FB_SetTimeModel;
+	SoftwareRevision				: STRING;
+	TargetValues					: ARRAY[0..2] OF ST_TargetValueDataType;
+	//TargetValues					: ARRAY[0..2] OF UINT;
+	
+	// Diagnostics
+	DeviceHealth 					: UINT;
+	
+	// Eks
+	AuthorizationLevel 				: BYTE;
+	CostCenter 						: STRING;
+	ExpiryDate 						: DT;
+	KeyCrc 							: UINT;
+	KeyId 							: ULINT;
+	OperatorId 						: STRING;
+	SafeOperationMode 				: BYTE;
+	
+	// EnergyData
+	ActiveEnergy 					: UDINT;
+	ActiveEnergy_EURange			: Tc3_OpcUa.UA_Range;
+	ActiveEnergy_StartTimestamp 	: DT;
+	ActivePower 					: UDINT;
+	ActivePower_EURange				: Tc3_OpcUa.UA_Range;
+	
+	// ProductionData
+	ProductionStatus				: UINT;
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

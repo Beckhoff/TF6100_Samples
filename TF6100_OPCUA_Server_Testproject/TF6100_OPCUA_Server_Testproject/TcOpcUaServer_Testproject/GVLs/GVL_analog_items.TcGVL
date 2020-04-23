@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_analog_items" Id="{35e9189d-d896-427a-a6c3-b707401bc712}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '1'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item type. Write mode is clamped to instrument range'}
+	analog_percent : REAL := 50;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '12851'  }(*EngeneeringUnit = gram_per_cubic_centimetre*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '0:75'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item type. Write is rejected when out of instrument range'}
+	analog_gram_per_cubic_centimetre : REAL := 50;	
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '5257525'  }(*EngeneeringUnit = megabyte_per_second*)
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '0:10'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '0'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item type. Write mode allows writing out of Instrument range'}
+	analog_mbps : REAL;	
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type Double. '}
+	analog_dbl : LREAL := 50;	
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type Float. '}
+	analog_flt : REAL := 50;		
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type Int16. '}
+	analog_i16 : INT := 50;		
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type UInt16. '}
+	analog_ui16 : UINT := 50;		
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type Int32. '}
+	analog_i32 : DINT := 50;		
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type UInt32. '}
+	analog_ui32 : UDINT := 50;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type Int64. '}
+	analog_i64 : LINT := 50;		
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type UInt64. '}
+	analog_ui64 : ULINT := 50;		
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type SByte. '}
+	analog_i8 : SINT := 50;		
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType' := '1'}
+	{attribute 'OPC.UA.DA.AnalogItemType.EngineeringUnits' := '20529'  }(*EngeneeringUnit = percent*)
+	{attribute 'OPC.UA.DA.AnalogItemType.InstrumentRange' := '0:100'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.EURange' := '10:90'  }
+	{attribute 'OPC.UA.DA.AnalogItemType.WriteBehavior' := '2'  } (*AnalogWrMode_AllowAny = 0,
+																	AnalogWrMode_Clamp = 1,
+																	AnalogWrMode_Reject = 2,*)
+	{attribute 'OPC.UA.DA.Description' := 'Analog item of type Byte. '}
+	analog_ui8 : USINT := 50;	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

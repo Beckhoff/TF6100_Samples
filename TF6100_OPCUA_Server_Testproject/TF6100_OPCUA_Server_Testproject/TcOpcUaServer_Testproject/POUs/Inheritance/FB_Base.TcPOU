@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <POU Name="FB_Base" Id="{653ed6c8-6e1e-486f-ad95-85cd0ad84f7e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Base
+VAR_INPUT
+	Input1 : INT;
+	Input2 : REAL;
+END_VAR
+VAR_OUTPUT
+	Output1 : DINT;
+	Output2 : LREAL;
+END_VAR
+VAR
+	Internal1 : SINT;
+	Internal2 : WORD;
+	Internal3 : ST_Complex_1;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Base">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

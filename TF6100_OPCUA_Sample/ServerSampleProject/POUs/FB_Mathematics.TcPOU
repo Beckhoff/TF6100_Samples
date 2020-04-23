@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+  <POU Name="FB_Mathematics" Id="{d21c0b8e-6469-45a1-ba1e-9bee226b3d60}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Mathematics
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	{attribute 'OPC.UA.DA':='1'}
+	nNumberOfCallsMMul : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Mul" Id="{ce515e7e-be6c-41f1-9c46-1955d83b401d}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
+METHOD M_Mul : DINT
+VAR_INPUT
+	a : INT;
+	b : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Mul := a * b;
+nNumberOfCallsMMul := nNumberOfCallsMMul + 1;]]></ST>
+      </Implementation>
+    </Method>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

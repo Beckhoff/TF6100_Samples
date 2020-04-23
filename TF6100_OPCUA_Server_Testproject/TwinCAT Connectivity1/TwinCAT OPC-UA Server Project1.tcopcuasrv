@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GlobalServerConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ActiveServerUrl>opc.tcp://localhost:4840</ActiveServerUrl>
+  <ActiveServerName>TcOpcUaServer@SVENG-NB05</ActiveServerName>
+  <ActiveEndpoint>opc.tcp://SVENG-NB05:4840 [None:None:Binary]</ActiveEndpoint>
+  <UaPort>4840</UaPort>
+  <IsAnonymous>true</IsAnonymous>
+  <IsUserPassword>true</IsUserPassword>
+</GlobalServerConfig>

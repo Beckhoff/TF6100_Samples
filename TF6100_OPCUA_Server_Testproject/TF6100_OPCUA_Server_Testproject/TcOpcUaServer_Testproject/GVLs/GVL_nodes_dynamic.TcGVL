@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <GVL Name="GVL_nodes_dynamic" Id="{f36e4b25-e98d-42da-856b-f20f15698aa6}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	//scalars
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar BOOL'} 
+	dyn_scalar_BOOL	: BOOL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar SINT'}
+	dyn_scalar_I1	: SINT;		(* ~ 	(OPC : 1 : available for OPC-clients) *)					
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar USINT'}	
+	dyn_scalar_UI1	: USINT;	(* ~ 	(OPC : 1 : available for OPC-clients) *)					
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar INT'}	
+	dyn_scalar_I2 	: INT;			(* ~ 	(OPC : 1 : available for OPC-clients) *)				
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar UINT'}	
+	dyn_scalar_UI2	: UINT;			(* ~ 	(OPC : 1 : available for OPC-clients) *)				
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DINT'}	
+	dyn_scalar_I4	: DINT;		(* ~ 	(OPC : 1 : available for OPC-clients) *)					
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar UDINT'}	
+	dyn_scalar_UI4	: UDINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LINT'}
+	dyn_scalar_I8	: LINT;	(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar ULINT'}
+	dyn_scalar_UI8	: ULINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar BYTE'}
+	dyn_scalar_BYTE	: BYTE;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar WORD'}	
+	dyn_scalar_WORD	: WORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DWORD'}	
+	dyn_scalar_DWORD: DWORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LWORD'}	
+	dyn_scalar_LWORD: LWORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar REAL'}	
+	dyn_scalar_R4	: REAL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LREAL'}
+	dyn_scalar_R8	: LREAL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar STRING'}	
+	dyn_scalar_BSTR	: STRING;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar CHAR'}	
+	//dyn_scalar_CHAR	: CHAR;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar WSTRING'}	
+	dyn_scalar_WSTRING : WSTRING;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar WCHAR'}	
+	//dyn_scalar_WCHAR: WCHAR;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DT'}	
+	dyn_scalar_DT	: DT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DATE'}	
+	dyn_scalar_DATE : DATE;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar TOD'}	
+	dyn_scalar_TOD	: TOD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar TIME'}	
+	dyn_scalar_TIME	: TIME;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	
+	//1dim
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}	
+	dyn_1dim_BOOL	: ARRAY[0..ARRSIZEX] OF BOOL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}	
+	dyn_1dim_I1		: ARRAY[0..ARRSIZEX] OF SINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}	
+	dyn_1dim_I1_Huge: ARRAY[0..ARRSIZEHUGE] OF SINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_UI1	: ARRAY[0..ARRSIZEX] OF USINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_I2 	: ARRAY[0..ARRSIZEX] OF INT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}	
+	dyn_1dim_UI2	: ARRAY[0..ARRSIZEX] OF UINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}	
+	dyn_1dim_I4		: ARRAY[0..ARRSIZEX] OF DINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}	
+	dyn_1dim_I4_Huge: ARRAY[0..ARRSIZEHUGE] OF DINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_UI4	: ARRAY[0..ARRSIZEX] OF UDINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_I8		: ARRAY[0..ARRSIZEX] OF LINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_UI8	: ARRAY[0..ARRSIZEX] OF ULINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_BYTE	: ARRAY[0..ARRSIZEX] OF BYTE;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_WORD	: ARRAY[0..ARRSIZEX] OF WORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_DWORD	: ARRAY[0..ARRSIZEX] OF DWORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_LWORD	: ARRAY[0..ARRSIZEX] OF LWORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_R4		: ARRAY[0..ARRSIZEX] OF REAL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_R8		: ARRAY[0..ARRSIZEX] OF LREAL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_BSTR	: ARRAY[0..ARRSIZEX] OF STRING;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	//dyn_1dim_CHAR	: ARRAY[0..ARRSIZEX] OF CHAR;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_WSTRING : ARRAY[0..ARRSIZEX] OF WSTRING;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	//dyn_1dim_WCHAR: ARRAY[0..ARRSIZEX] OF WCHAR;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_DT		: ARRAY[0..ARRSIZEX] OF DT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_DATE 	: ARRAY[0..ARRSIZEX] OF DATE;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_TOD	: ARRAY[0..ARRSIZEX] OF TOD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	dyn_1dim_TIME	: ARRAY[0..ARRSIZEX] OF TIME;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	
+	//2dim
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_BOOL	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF BOOL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_I1		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF SINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_UI1	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF USINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_I2 	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF INT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_UI2	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF UINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_I4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF DINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_UI4	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF UDINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_I8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF LINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_UI8	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF ULINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_BYTE	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF BYTE;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_WORD	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF WORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_DWORD	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF DWORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_LWORD	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF LWORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_R4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF REAL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_R8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF LREAL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_BSTR	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF STRING;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	//dyn_2dim_CHAR	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF CHAR;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_WSTRING : ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF WSTRING;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	//dyn_2dim_WCHAR: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF WCHAR;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_DT		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF DT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_DATE 	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF DATE;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_TOD	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF TOD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	dyn_2dim_TIME	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF TIME;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+
+	//3dim
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_BOOL	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF BOOL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_I1		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF SINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_UI1	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF USINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_I2 	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF INT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_UI2	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF UINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_I4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_UI4	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF UDINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_I8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_UI8	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF ULINT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_BYTE	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF BYTE;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_WORD	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF WORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_DWORD	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DWORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_LWORD	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LWORD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_R4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF REAL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_R8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LREAL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_BSTR	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF STRING;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	//dyn_3dim_CHAR	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF CHAR;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_WSTRING : ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF WSTRING;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	//dyn_3dim_WCHAR: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF WCHAR;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_DT		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DT;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_DATE 	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DATE;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_TOD	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF TOD;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	dyn_3dim_TIME	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF TIME;(* ~ 	(OPC : 1 : available for OPC-clients) *)
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

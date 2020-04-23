@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <POU Name="MAIN" Id="{95eb49a5-1119-4202-a665-eb5eaccb2021}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	bInit : BOOL := TRUE;	
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Static values and namespace test are initialized only once upon startup *)
+IF bInit THEN
+	bInit := FALSE;
+	PRG_Static();
+END_IF
+PRG_Dynamic();]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="300" Count="0" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="266" Count="0" />
+      <LineId Id="268" Count="0" />
+      <LineId Id="267" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

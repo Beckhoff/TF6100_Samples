@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <POU Name="FB_Methods" Id="{daffb5d3-941c-4f0b-84c9-30e8405c541a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Methods
+VAR
+	count : LREAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Array_1" Id="{15221446-3a21-4239-b8a3-00f4dce8483f}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Returns array of INT'}
+METHOD M_Array_1 : ARRAY[0..2] OF INT
+VAR_INPUT
+END_VAR
+VAR
+	aTest : ARRAY[0..2] OF INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[aTest[0] := 1;
+aTest[1] := 2;
+aTest[2] := 3;
+M_Array_1 := aTest;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Complex_1" Id="{5806ee66-5b5d-4b39-9af1-417eb561995c}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Returns simple complex type'}
+METHOD M_Complex_1 : ST_Complex_1
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+M_Complex_1.a := 1;
+M_Complex_1.b := 2;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Complex_2" Id="{4bc1313e-5501-4cb5-9aba-f48f187748a6}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'InOut argument is a simple complex type'}
+METHOD M_Complex_2 : ST_Complex_1
+VAR_INPUT
+	in : ST_Complex_1;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;
+M_Complex_2.a := in.a + 1;
+M_Complex_2.b := in.b + 1;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Methods">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Methods.M_Array_1">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_Methods.M_Complex_1">
+      <LineId Id="10" Count="0" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Methods.M_Complex_2">
+      <LineId Id="12" Count="0" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

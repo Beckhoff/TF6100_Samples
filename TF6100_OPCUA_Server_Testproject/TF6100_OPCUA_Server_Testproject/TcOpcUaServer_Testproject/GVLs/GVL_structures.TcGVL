@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_structures" Id="{55b4d72c-7100-4385-be79-aa7caa1663d1}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 	
+	StructuredType1 : ST_Complex_1;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 		
+	StructuredType2 : ST_Complex_2;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 		
+	StructuredType3 : ST_Complex_3;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 		
+	StructuredType4 : ST_Complex_4;	
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 		
+	StructuredType5 : ST_Complex_5;	
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 		
+	StructuredType6 : ST_Complex_6;	
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 		
+	StructuredType7 : ST_Complex_7;		
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 		
+	StructuredType8 : ST_Complex_8;	
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

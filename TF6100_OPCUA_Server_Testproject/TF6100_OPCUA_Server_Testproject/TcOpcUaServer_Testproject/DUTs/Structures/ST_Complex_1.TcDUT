@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <DUT Name="ST_Complex_1" Id="{5dea6dde-4835-40f6-9d31-7d8e2cbd1acb}">
+    <Declaration><![CDATA[{attribute 'OPC.UA.DA' := '1'}
+{attribute 'OPC.UA.DA.StructuredType' := '1'}
+TYPE ST_Complex_1 :
+STRUCT
+	x 	: E_Enum_1;
+	a 	: DINT;
+	str : STRING;
+	b 	: DINT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

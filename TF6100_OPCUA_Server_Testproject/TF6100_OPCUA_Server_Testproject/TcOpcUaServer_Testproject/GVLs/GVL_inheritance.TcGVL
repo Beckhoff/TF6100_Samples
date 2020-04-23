@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_inheritance" Id="{4975d35a-db23-4a9a-b95d-73c3ef0475d8}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Base class'}
+	BaseType : FB_Base;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Derived class'}
+	DerivedType : FB_Derived;	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

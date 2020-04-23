@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_historizing" Id="{9dfea3c9-5390-4b35-92a5-198a388c6e05}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '1'}
+	{attribute 'OPC.UA.HA.Sampling' := '50'}
+	{attribute 'OPC.UA.HA.Buffer' := '10000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in RAM (~8Minutes)'}
+	fastSampling_sin1	: REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '1'}
+	{attribute 'OPC.UA.HA.Sampling' := '50'}
+	{attribute 'OPC.UA.HA.Buffer' := '10000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in RAM (~8Minutes)'}	
+	fastSampling_sin2	: REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '1'}
+	{attribute 'OPC.UA.HA.Sampling' := '50'}
+	{attribute 'OPC.UA.HA.Buffer' := '10000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in RAM (~8Minutes)'}	
+	fastSampling_cosh	: REAL;
+
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '2'}
+	{attribute 'OPC.UA.HA.Sampling' := '1000'}
+	{attribute 'OPC.UA.HA.Buffer' := '100000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in proprietary file format'}
+	persistent_sin1	: REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '2'}
+	{attribute 'OPC.UA.HA.Sampling' := '1000'}
+	{attribute 'OPC.UA.HA.Buffer' := '100000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in proprietary file format'}	
+	persistent_sin2	: REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '2'}
+	{attribute 'OPC.UA.HA.Sampling' := '1000'}
+	{attribute 'OPC.UA.HA.Buffer' := '100000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in proprietary file format'}	
+	persistent_cosh	: REAL;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '3'}
+	{attribute 'OPC.UA.HA.Sampling' := '1000'}
+	{attribute 'OPC.UA.HA.Buffer' := '1000000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in SQL compact database'}	
+	persistent_SQL_sin1	: REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '3'}
+	{attribute 'OPC.UA.HA.Sampling' := '1000'}
+	{attribute 'OPC.UA.HA.Buffer' := '1000000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in SQL compact database'}	
+	persistent_SQL_sin2	: REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.HA' := '1'}
+	{attribute 'OPC.UA.HA.Storage' := '3'}
+	{attribute 'OPC.UA.HA.Sampling' := '1000'}
+	{attribute 'OPC.UA.HA.Buffer' := '1000000'}
+	{attribute 'OPC.UA.DA.Description' := 'Historizing in SQL compact database'}	
+	persistent_SQL_cosh	: REAL;
+
+	sinu: LREAL;
+	cosinu: LREAL;	
+	o: LREAL;
+	t :UINT;
+	i : UINT;
+	
+	Cosinus_Half	: LREAL;
+	Sinus_Fast		: LREAL;
+	Sinus_Slow1		: LREAL;
+	Sinus_Slow2		: LREAL;
+	Sinus_VerySlow	: LREAL;
+	Sinus_SqFast	: LREAL;
+	Sinus_SqSlow	: REAL;
+	Sinus_Cos_Half	: LREAL;
+	phi				: REAL;
+	Ts				: INT;	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

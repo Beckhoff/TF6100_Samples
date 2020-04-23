@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_nodes_static" Id="{2d757ea9-5f4e-4ca0-8dad-0a37993fda23}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	//scalars
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}	
+	stat_scalar_BOOL	: BOOL := TRUE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar SINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_I1		: SINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar USINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_UI1		: USINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar INT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_I2 		: INT := 1;		
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar UINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_UI2		: UINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_I4		: DINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar UDINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_UI4		: UDINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_I8		: LINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar ULINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_UI8		: ULINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar BYTE'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_BYTE	: BYTE := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar WORD'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_WORD	: WORD := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DWORD'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_DWORD	: DWORD := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LWORD'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_LWORD	: LWORD := 1;				
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar REAL'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_R4		: REAL := 1.0;				
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LREAL'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_R8		: LREAL := 1.0;				
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar STRING'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_BSTR	: STRING := 'Hello World';
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar WSTRING'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_WSTRING	: WSTRING := "Hello World";
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_DT		: DT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DATE'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_DATE 	: DATE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar TOD'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_TOD		: TOD;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar TIME'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_scalar_TIME	: TIME;	
+
+	
+	//1dim
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}
+	{attribute 'OPC.UA.DA.Access' := '1'}	
+	stat_1dim_BOOL		: ARRAY[0..ARRSIZEX] OF BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array SINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_I1		: ARRAY[0..ARRSIZEX] OF SINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array USINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_UI1		: ARRAY[0..ARRSIZEX] OF USINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array INT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_I2 		: ARRAY[0..ARRSIZEX] OF INT;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array UINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_UI2		: ARRAY[0..ARRSIZEX] OF UINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array DINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_I4		: ARRAY[0..ARRSIZEX] OF DINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array UDINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_UI4		: ARRAY[0..ARRSIZEX] OF UDINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array LINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_I8		: ARRAY[0..ARRSIZEX] OF LINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array ULINT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_UI8		: ARRAY[0..ARRSIZEX] OF ULINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BYTE'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_BYTE		: ARRAY[0..ARRSIZEX] OF BYTE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array WORD'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_WORD		: ARRAY[0..ARRSIZEX] OF WORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array DWORD'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_DWORD		: ARRAY[0..ARRSIZEX] OF DWORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array LWORD'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_LWORD		: ARRAY[0..ARRSIZEX] OF LWORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array REAL'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_R4		: ARRAY[0..ARRSIZEX] OF REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array LREAL'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_R8		: ARRAY[0..ARRSIZEX] OF LREAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array STRING'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_BSTR		: ARRAY[0..ARRSIZEX] OF STRING;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array WSTRING'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_WSTRING	: ARRAY[0..ARRSIZEX] OF WSTRING;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array DT'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_DT		: ARRAY[0..ARRSIZEX] OF DT;		
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array DATE'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_DATE 		: ARRAY[0..ARRSIZEX] OF DATE;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array TOD'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_TOD		: ARRAY[0..ARRSIZEX] OF TOD;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array TIME'}
+	{attribute 'OPC.UA.DA.Access' := '1'}
+	stat_1dim_TIME		: ARRAY[0..ARRSIZEX] OF TIME;	
+
+	
+	//2dim
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BOOL'}
+	stat_2dim_BOOL		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array SINT'}
+	stat_2dim_I1		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF SINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array USINT'}
+	stat_2dim_UI1		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF USINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array INT'}
+	stat_2dim_I2 		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF INT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array UINT'}
+	stat_2dim_UI2		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF UINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array DINT'}
+	stat_2dim_I4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF DINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array UDINT'}
+	stat_2dim_UI4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF UDINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array LINT'}
+	stat_2dim_I8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF LINT;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array ULINT'}
+	stat_2dim_UI8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF ULINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BYTE'}
+	stat_2dim_BYTE		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF BYTE;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array WORD'}
+	stat_2dim_WORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF WORD;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array DWORD'}
+	stat_2dim_DWORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF DWORD;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array LWORD'}
+	stat_2dim_LWORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF LWORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array REAL'}
+	stat_2dim_R4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array LREAL'}
+	stat_2dim_R8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF LREAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array STRING'}
+	stat_2dim_BSTR		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF STRING;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array WSTRING'}
+	stat_2dim_WSTRING	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF WSTRING;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array DT'}
+	stat_2dim_DT		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF DT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array DATE'}
+	stat_2dim_DATE	 	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF DATE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array TOD'}
+	stat_2dim_TOD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF TOD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array TIME'}
+	stat_2dim_TIME		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY] OF TIME;
+
+	//3dim
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
+	stat_3dim_BOOL		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array SINT'}
+	stat_3dim_I1		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF SINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array USINT'}
+	stat_3dim_UI1		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF USINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array INT'}
+	stat_3dim_I2 		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF INT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array UINT'}
+	stat_3dim_UI2		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF UINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array DINT'}
+	stat_3dim_I4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array UDINT'}
+	stat_3dim_UI4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF UDINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array LINT'}
+	stat_3dim_I8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array ULINT'}
+	stat_3dim_UI8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF ULINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array BYTE'}
+	stat_3dim_BYTE		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF BYTE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array WORD'}
+	stat_3dim_WORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF WORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array DWORD'}
+	stat_3dim_DWORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DWORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array LWORD'}
+	stat_3dim_LWORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LWORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array REAL'}
+	stat_3dim_R4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF REAL;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array LREAL'}
+	stat_3dim_R8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LREAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array STRING'}
+	stat_3dim_BSTR		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF STRING;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array WSTRING'}
+	stat_3dim_WSTRING 	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF WSTRING;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array DT'}
+	stat_3dim_DT		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array DATE'}
+	stat_3dim_DATE 		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DATE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array TOD'}
+	stat_3dim_TOD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF TOD;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '2dim Array TIME'}
+	stat_3dim_TIME		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF TIME;
+
+	
+	// Scalars writeable
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LINT'}	
+	stat_scalar_BOOL_writeable	: BOOL := TRUE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar SINT'}
+	stat_scalar_I1_writeable		: SINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar USINT'}
+	stat_scalar_UI1_writeable		: USINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar INT'}
+	stat_scalar_I2_writeable 		: INT := 1;		
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar UINT'}
+	stat_scalar_UI2_writeable		: UINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DINT'}
+	stat_scalar_I4_writeable		: DINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar UDINT'}
+	stat_scalar_UI4_writeable		: UDINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LINT'}
+	stat_scalar_I8_writeable		: LINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar ULINT'}
+	stat_scalar_UI8_writeable		: ULINT := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar BYTE'}
+	stat_scalar_BYTE_writeable	: BYTE := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar WORD'}
+	stat_scalar_WORD_writeable	: WORD := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DWORD'}
+	stat_scalar_DWORD_writeable	: DWORD := 1;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LWORD'}
+	stat_scalar_LWORD_writeable	: LWORD := 1;				
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar REAL'}
+	stat_scalar_R4_writeable		: REAL := 1.0;				
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar LREAL'}
+	stat_scalar_R8_writeable		: LREAL := 1.0;				
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar STRING'}
+	stat_scalar_BSTR_writeable	: STRING := 'Hello World';
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar WSTRING'}
+	stat_scalar_WSTRING_writeable	: WSTRING := "Hello World";
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DT'}
+	stat_scalar_DT_writeable		: DT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar DATE'}
+	stat_scalar_DATE_writeable 	: DATE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar TOD'}
+	stat_scalar_TOD_writeable		: TOD;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar TIME'}
+	stat_scalar_TIME_writeable	: TIME;	
+
+	
+	//1dim
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BOOL'}	
+	stat_1dim_BOOL_writeable		: ARRAY[0..ARRSIZEX] OF BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array SINT'}
+	stat_1dim_I1_writeable		: ARRAY[0..ARRSIZEX] OF SINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array USINT'}
+	stat_1dim_UI1_writeable		: ARRAY[0..ARRSIZEX] OF USINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array INT'}
+	stat_1dim_I2_writeable 		: ARRAY[0..ARRSIZEX] OF INT;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array UINT'}
+	stat_1dim_UI2_writeable		: ARRAY[0..ARRSIZEX] OF UINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array DINT'}
+	stat_1dim_I4_writeable		: ARRAY[0..ARRSIZEX] OF DINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array UDINT'}
+	stat_1dim_UI4_writeable		: ARRAY[0..ARRSIZEX] OF UDINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array LINT'}
+	stat_1dim_I8_writeable		: ARRAY[0..ARRSIZEX] OF LINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array ULINT'}
+	stat_1dim_UI8_writeable		: ARRAY[0..ARRSIZEX] OF ULINT;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array BYTE'}
+	stat_1dim_BYTE_writeable		: ARRAY[0..ARRSIZEX] OF BYTE;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array WORD'}
+	stat_1dim_WORD_writeable		: ARRAY[0..ARRSIZEX] OF WORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array DWORD'}
+	stat_1dim_DWORD_writeable		: ARRAY[0..ARRSIZEX] OF DWORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array LWORD'}
+	stat_1dim_LWORD_writeable		: ARRAY[0..ARRSIZEX] OF LWORD;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array REAL'}
+	stat_1dim_R4_writeable		: ARRAY[0..ARRSIZEX] OF REAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array LREAL'}
+	stat_1dim_R8_writeable		: ARRAY[0..ARRSIZEX] OF LREAL;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array STRING'}
+	stat_1dim_BSTR_writeable		: ARRAY[0..ARRSIZEX] OF STRING;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array WSTRING'}
+	stat_1dim_WSTRING_writeable	: ARRAY[0..ARRSIZEX] OF WSTRING;
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array DT'}
+	stat_1dim_DT_writeable		: ARRAY[0..ARRSIZEX] OF DT;		
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array DATE'}
+	stat_1dim_DATE_writeable 		: ARRAY[0..ARRSIZEX] OF DATE;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array TOD'}
+	stat_1dim_TOD_writeable		: ARRAY[0..ARRSIZEX] OF TOD;	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := '1dim Array TIME'}
+	stat_1dim_TIME_writeable		: ARRAY[0..ARRSIZEX] OF TIME;		
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

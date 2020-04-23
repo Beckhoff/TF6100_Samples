@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.2">
+  <POU Name="MAIN" Id="{8e41f2f0-b8ac-438f-8dcd-8d85ff54c9e5}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	{attribute 'OPC.UA.DA' := '1'}
+	stCommunication : ST_Communication; // sample to demonstrate UA StructuredDataTypes
+	{attribute 'OPC.UA.DA' := '1'}
+	nCounter : INT; // sample to demonstrate UA A&C LimitAlarmType
+	{attribute 'OPC.UA.DA' := '1'}
+	bToogle : BOOL; // sample to demonstrate UA A&C OffNormalAlarmType 
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

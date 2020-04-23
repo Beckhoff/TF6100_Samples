@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="10.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{f8d9f3f5-fa60-4762-bdfc-fde1f6c97bdd}</ProjectGuid>
+    <AssemblyName>TwinCAT Connectivity1</AssemblyName>
+    <Name>TwinCAT Connectivity1</Name>
+    <RootNamespace>TwinCAT Connectivity1</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="TwinCAT OPC-UA Server Project1.tcopcuasrv">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <tcopcuasrvdaCompile Include="TwinCAT OPC-UA Server Project1\Data Access\Data Access.opcuada">
+      <DependentUpon>TwinCAT OPC-UA Server Project1.tcopcuasrv</DependentUpon>
+    </tcopcuasrvdaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <tcopcuasrvalarmcCompile Include="TwinCAT OPC-UA Server Project1\Alarms and Conditions\Alarms and Conditions.ac">
+      <DependentUpon>TwinCAT OPC-UA Server Project1.tcopcuasrv</DependentUpon>
+    </tcopcuasrvalarmcCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <tcopcuasrvresCompile Include="TwinCAT OPC-UA Server Project1\Resources\Resources.res">
+      <DependentUpon>TwinCAT OPC-UA Server Project1.tcopcuasrv</DependentUpon>
+    </tcopcuasrvresCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <tcopcuasrvhaCompile Include="TwinCAT OPC-UA Server Project1\Historical Access\Historical Access.opcuaha">
+      <DependentUpon>TwinCAT OPC-UA Server Project1.tcopcuasrv</DependentUpon>
+    </tcopcuasrvhaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <tcopcuasrvsecCompile Include="TwinCAT OPC-UA Server Project1\Security Access\Security Access.sec">
+      <DependentUpon>TwinCAT OPC-UA Server Project1.tcopcuasrv</DependentUpon>
+    </tcopcuasrvsecCompile>
+  </ItemGroup>
+  <!-- This next bit is required unless the macro used to Import your targets is defined in an MSBuild toolset. -->
+  <ProjectExtensions>
+    <ProjectCapabilities>
+      <ProjectConfigurationsDeclaredAsItems />
+      <TcConnectivity />
+    </ProjectCapabilities>
+  </ProjectExtensions>
+</Project>

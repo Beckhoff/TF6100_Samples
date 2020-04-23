@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <DUT Name="ST_Complex_7" Id="{e26304c6-5be6-4c30-be45-ff4719f2084a}">
+    <Declaration><![CDATA[TYPE ST_Complex_7 :
+STRUCT
+	a : LREAL := 42.42;
+	b : REAL := 42.42;
+	c : REAL := 42.42;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

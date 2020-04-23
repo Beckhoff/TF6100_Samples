@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="FB_Test" Id="{f96d368f-e17a-4b3d-b947-64c3790d4dca}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Test
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	nCallCount : UINT;
+	nB : ARRAY[0..2] OF INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Test" Id="{4842830d-928e-4d21-97ca-29dd587d9088}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable' := '1'}
+METHOD M_Test : BOOL
+VAR_INPUT
+	a : INT;
+	b : ARRAY[0..2] OF INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nCallCount := nCallCount + 1;
+nB[0] := b[0];
+nB[1] := b[1];
+nB[2] := b[2];
+M_Test := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Test">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Test.M_Test">
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="2" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

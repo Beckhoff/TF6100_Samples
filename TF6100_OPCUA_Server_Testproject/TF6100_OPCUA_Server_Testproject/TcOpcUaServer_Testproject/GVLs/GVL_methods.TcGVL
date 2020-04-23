@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+  <GVL Name="GVL_methods" Id="{ed212e00-68d5-48e7-8c2d-6f495f9062bb}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Methods with different InputOutput types'} 	
+	Methods : FB_Methods;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Methods with mathematical functions'}
+	Mathematics : FB_Mathematics;		
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

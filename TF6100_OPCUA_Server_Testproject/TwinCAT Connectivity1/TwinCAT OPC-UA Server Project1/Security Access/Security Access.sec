@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcUaSecurityConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--enum PermissionType
+{
+	UA_ATTRREADABLE     = 0x0001,       // read all non value attributes
+	UA_READABLE          = 0x0002,        // read value attribute
+	UA_WRITABLE         = 0x0004,       // write value attribute
+	UA_BROWSEABLE       = 0x0008,       // browse node
+	UA_HISTORYREADABLE  = 0x0010,       // read history
+	UA_HISTORYINSERT    = 0x0020,       // insert into history:
+	UA_HISTORYMODIFY    = 0x0040,       // modify existing history
+	UA_HISTORYDELETE    = 0x0080,       // delete from history
+	UA_EVENTREADABLE    = 0x0100,       // receive events
+	UA_EXECUTABLE       = UA_WRITABLE,  // execute method call
+	UA_ATTRWRITABLE     = 0x0200,       // write non value attributes dependent on write mask
+	UA_PERMISSION_ALL   = 0x03FF
+}-->
+  <Users>
+    <User Name="Anonymous" Auth="None" IsRoot="true" />
+  </Users>
+  <Groups />
+  <AccessInfos />
+</TcUaSecurityConfig>
