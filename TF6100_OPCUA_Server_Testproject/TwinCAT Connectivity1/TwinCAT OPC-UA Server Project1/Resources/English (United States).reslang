@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TcOpcUaSvrRes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Lang="en-US">
   <Text ID="0">defaultMessage in: English (United States) - requested id was not found</Text>
+  <Text ID="1">Hello World HighHigh</Text>
+  <Text ID="2">Hello World High</Text>
+  <Text ID="3">Hello World Normal</Text>
+  <Text ID="4">Hello World Low</Text>
+  <Text ID="5">Hello World LowLow</Text>
 </TcOpcUaSvrRes>

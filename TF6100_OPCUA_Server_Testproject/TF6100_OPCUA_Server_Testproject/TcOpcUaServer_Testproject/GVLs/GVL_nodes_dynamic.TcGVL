@@ -4,6 +4,9 @@
     <Declaration><![CDATA[VAR_GLOBAL
 	//scalars
 	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Scalar BOOL, modified by a TRIG'}	
+	dyn_scalar_BOOL_trigger : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'Scalar BOOL'} 
 	dyn_scalar_BOOL	: BOOL;(* ~ 	(OPC : 1 : available for OPC-clients) *)
 	{attribute 'OPC.UA.DA' := '1'}

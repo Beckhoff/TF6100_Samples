@@ -9,6 +9,7 @@ VAR
 	t: INT;
 	
 	timer_1s : TON := (PT:=T#1S);
+	timer_2s : TON := (PT:=T#2S);
 	timer_30s : TON := (PT:=T#30S);
 	timer_100ms : TON := (PT:=T#100MS);
 	
@@ -25,7 +26,13 @@ END_VAR
       <ST><![CDATA[Settings.UpdateTimer(IN:=TRUE);
 timer_100ms(IN:=TRUE);
 timer_1s(IN:=TRUE);
+timer_2s(IN:=TRUE);
 timer_30s(IN:=TRUE);
+
+IF( timer_2s.Q ) THEN
+	timer_2s(IN:=FALSE);
+	GVL_nodes_dynamic.dyn_scalar_BOOL_trigger := NOT GVL_nodes_dynamic.dyn_scalar_BOOL_trigger; 
+END_IF
 
 IF( timer_100ms.Q ) THEN 
 	CASE nTextMode OF
@@ -233,7 +240,11 @@ END_IF]]></ST>
     <LineIds Name="PRG_Dynamic">
       <LineId Id="125" Count="0" />
       <LineId Id="162" Count="1" />
+      <LineId Id="311" Count="0" />
       <LineId Id="161" Count="0" />
+      <LineId Id="312" Count="2" />
+      <LineId Id="316" Count="0" />
+      <LineId Id="315" Count="0" />
       <LineId Id="164" Count="0" />
       <LineId Id="166" Count="19" />
       <LineId Id="139" Count="0" />
