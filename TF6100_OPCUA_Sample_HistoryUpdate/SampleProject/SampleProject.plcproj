@@ -18,8 +18,10 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
     <CombineIds>false</CombineIds>
-    <Released>true</Released>
-    <DocFormat>reStructuredText</DocFormat>
+    <Released>false</Released>
+    <DocFormat>
+    </DocFormat>
+    <GenerateTpy>false</GenerateTpy>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PlcTask.TcTTO">

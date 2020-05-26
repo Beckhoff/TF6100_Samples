@@ -1,14 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1022
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "TF6100_OPCUA_Sample_HistoryUpdate", "TF6100_OPCUA_Sample_HistoryUpdate.tsproj", "{D1C445DB-AD84-4AF5-B163-02E17492F56E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{303FE615-6E49-4FEB-8523-5CC7CC19E03C}"
 	ProjectSection(SolutionItems) = preProject
 		TcUaHaConfig.xml = TcUaHaConfig.xml
-		TF6100_OPCUA_Sample_HistoryUpdate.tszip = TF6100_OPCUA_Sample_HistoryUpdate.tszip
 	EndProjectSection
 EndProject
 Global
@@ -59,16 +58,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://nt-teamfd02:8080/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = SampleProject\\SampleProject.plcproj
-		SccProjectTopLevelParentUniqueName1 = TF6100_OPCUA_Sample_HistoryUpdate.tsproj
-		SccProjectName1 = SampleProject
-		SccLocalPath1 = SampleProject
-		SccProjectUniqueName2 = TF6100_OPCUA_Sample_HistoryUpdate.tsproj
-		SccLocalPath2 = .
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6908FDAC-8680-4E21-8C73-3BC490660E7A}
 	EndGlobalSection
 EndGlobal
