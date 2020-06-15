@@ -1,0 +1,20 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="U_ArraysInOne" Id="{b19e9b8f-692c-49a2-855a-1438e587ac6c}">
+    <Declaration><![CDATA[TYPE U_ArraysInOne :
+
+UNION
+	nData	: ARRAY[1..nMaxReadDataArray] OF BYTE;
+	bBool	: ARRAY[1..nArrayTestLength] OF BOOL;
+	bByte	: ARRAY[1..nArrayTestLength] OF BYTE;
+	nInt	: ARRAY[1..nArrayTestLength] OF INT;
+	nUdint	: ARRAY[1..nArrayTestLength] OF UDINT;
+	nReal	: ARRAY[1..nArrayTestLength] OF REAL;
+	nLReal	: ARRAY[1..nArrayTestLength] OF LREAL;
+	sString	: ARRAY[1..nArrayTestLength] OF STRING(80);
+	wLword	: ARRAY[1..nArrayTestLength] OF LWORD;
+END_UNION
+
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

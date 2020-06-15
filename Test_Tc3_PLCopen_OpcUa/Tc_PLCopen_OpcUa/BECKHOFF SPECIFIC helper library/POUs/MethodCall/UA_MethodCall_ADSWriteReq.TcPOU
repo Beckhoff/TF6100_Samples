@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="UA_MethodCall_ADSWriteReq" Id="{070d76ef-441d-4391-a39f-dbe371bad421}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK UA_MethodCall_ADSWriteReq
+VAR_INPUT
+	bExecute			: BOOL;
+	nConnectionHdl		: DWORD;
+	nNamespaceIndex		: UINT; 			(* to be retrieved using UA_GetNamespaceIndex *)
+	sNetID				: T_AmsNetId; 		(* AmsNetId OF the Target *)
+	nPort				: INT; 			(* Port number	*)
+	nIndexGroup			: DINT;			(* IndexGroup*)
+	nIndexOffset		: DINT; 			(* IndexOffset*)
+	pWriteData			: PVOID;
+	cbWriteData			: UDINT;			(* Count of bytes to be written*)
+	Timeout				: TIME := DEFAULT_ADS_TIMEOUT;
+END_VAR
+VAR_OUTPUT
+	bDone				: BOOL;
+	bBusy				: BOOL;
+	bError				: BOOL;
+	nErrorID			: DWORD;
+END_VAR
+VAR
+	iWriteReqState		: INT;
+	RTrig				: R_TRIG;
+
+	fbUA_MethodGetHandle	: UA_MethodGetHandle;
+	nMethodHdl				: DWORD;
+	ObjectNodeID			: ST_UANodeID;
+	MethodNodeID			: ST_UANodeID;
+
+	fbUA_MethodCall			: UA_MethodCall;
+	InputArguments			: ARRAY [1..nNumberOfInputArguments] OF ST_UAMethodArgInfo; (*WriteReq has 5 input parameters *)
+	nNumberOfOutputArguments_R: UDINT;
+	nArg					: INT;
+	nInputData				: ARRAY [1..nInputArgSize] OF BYTE; (* NetID(24)+ Port(2)+ IG(4)+ IO(4)*)
+	nOffset					: UDINT;
+
+
+	fbUA_MethodReleaseHandle	: UA_MethodReleaseHandle; 
+	bInputDataError				: BOOL;
+END_VAR
+VAR CONSTANT
+	nInputArgSize				: UDINT := 34; // (* NetID(24)+ Port(2)+ IG(4)+ IO(4)*)
+	nNumberOfInputArguments 	: UDINT := 5;
+	nNumberOfOutputArguments	: UDINT := 0;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+ADSWriteReq(
+******** Input Arguments ********
+	string sNetID, 		: AmsNetId of the Target
+	int16 Port,			: Port number	
+	int32 IndexGroup,	: IndexGroup
+	int32 IndexOffset,	: IndexOffset
+	byteString Data		: Data to be written to the device
+******** Output Arguments ********
+);
+*)
+
+RTrig(CLK:= bExecute);
+
+CASE iWriteReqState OF
+
+0:	(* Get Method Handle *)
+	IF RTrig.Q THEN
+		bBusy		:= TRUE;
+		bDone 		:= FALSE;
+		bError		:= FALSE;
+		nErrorID	:= 0;
+		ObjectNodeID.eIdentifierType 	:= eUAIdentifierType_String;
+		ObjectNodeID.nNamespaceIndex 	:= nNamespaceIndex;
+		ObjectNodeID.sIdentifier		:= 'ADSAMS';
+	
+		MethodNodeID.eIdentifierType 	:= eUAIdentifierType_String;
+		MethodNodeID.nNamespaceIndex 	:= nNamespaceIndex;
+		MethodNodeID.sIdentifier		:= 'ADSAMS.AdsWriteReq';
+
+		M_Init();
+		IF bInputDataError = FALSE THEN
+			iWriteReqState 	:= iWriteReqState + 1;
+		ELSE
+			bBusy		:= FALSE;
+			bError 		:= TRUE;
+			nErrorID 	:= DEVICE_INVALIDSIZE; //16#705 parameter size not correct
+		END_IF
+	END_IF
+
+
+1:	(* Method Get Handle *)
+	fbUA_MethodGetHandle(
+			Execute			:= TRUE,
+			ConnectionHdl	:= nConnectionHdl,
+			ObjectNodeID	:= ObjectNodeID,
+			MethodNodeID 	:= MethodNodeID,
+			Timeout			:= Timeout,
+			MethodHdl		=> nMethodHdl
+		);
+	IF NOT fbUA_MethodGetHandle.Busy THEN
+		fbUA_MethodGetHandle(Execute := FALSE);
+
+		IF NOT fbUA_MethodGetHandle.Error THEN
+			(*  *)
+			iWriteReqState 	:= iWriteReqState + 1; (* Call Method *)
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_MethodGetHandle.ErrorID;
+			iWriteReqState 	:= 3; (* Release Handle *)
+		END_IF
+	END_IF
+
+
+2:	(* Method Call *)
+	fbUA_MethodCall(
+		Execute					:= TRUE,
+		ConnectionHdl			:= nConnectionHdl,
+		MethodHdl				:= nMethodHdl,
+		nNumberOfInputArguments := nNumberOfInputArguments,		(* 5 *)
+		pInputArgInfo			:= ADR(InputArguments),
+		cbInputArgInfo			:= SIZEOF(InputArguments),
+		pInputArgData			:= ADR(nInputData),
+		cbInputArgData			:= nOffset,
+		pInputWriteData			:= pWriteData,
+		cbInputWriteData		:= cbWriteData,
+		nNumberOfOutputArguments:= nNumberOfOutputArguments,		(* 0 *)
+		pOutputArgInfo			:= 0,
+		cbOutputArgInfo			:= 0,
+		pOutputArgInfoAndData	:= ADR(nNumberOfOutputArguments_R),
+		cbOutputArgInfoAndData	:= SIZEOF(nNumberOfOutputArguments_R),
+		Timeout					:= Timeout
+	);
+
+	IF NOT fbUA_MethodCall.Busy THEN
+		fbUA_MethodCall(Execute := FALSE);
+		IF NOT fbUA_MethodCall.Error THEN
+			(*  *)
+			iWriteReqState 	:= iWriteReqState + 1; (* Release handle *)
+			(*MEMSET(ADR(Data),0,nMaxNumberofOutputArgBytes);
+			MEMCPY(ADR(Data),ADR(OutputArguments),cbData); *)
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_MethodCall.ErrorID;
+			iWriteReqState	:= 3; (* Release handle *)
+		END_IF
+	END_IF
+
+
+3:	(* Release Method Handle *)
+	fbUA_MethodReleaseHandle(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		MethodHdl		:= nMethodHdl,
+		Timeout			:= Timeout
+	);
+
+	IF NOT fbUA_MethodReleaseHandle.Busy THEN
+		fbUA_MethodReleaseHandle(Execute := FALSE);
+		bBusy := FALSE;
+		IF NOT fbUA_MethodReleaseHandle.Error THEN
+			(* session closed *)
+			bDone := TRUE;
+			iWriteReqState 	:= 0; (* idle *)
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_MethodReleaseHandle.ErrorID;
+			iWriteReqState 	:= 0; (* idle *)
+		END_IF
+	END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+    <Action Name="M_Init" Id="{31d18178-4aa0-4804-baac-5b5f0d268ed9}">
+      <Implementation>
+        <ST><![CDATA[bInputDataError := FALSE; 
+nOffset := 0;
+MEMSET(ADR(InputArguments),0,SIZEOF(InputArguments));
+MEMSET(ADR(nInputData),0,SIZEOF(nInputData));
+
+nArg := 1;
+(*sNetID := sAmsNetID;*)	(********** NET ID **********);
+InputArguments[nArg].DataType			:= eUAType_String;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= INT_TO_UDINT(LEN(sNetId)) + 1;				(* Length if its a STRING *)
+IF nOffset + INT_TO_UDINT(LEN(sNetId))+1 > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(sNetId),INT_TO_UDINT(LEN(sNetId))+1);				(* VALUE in BYTES FORM *)
+	nOffset := nOffset + INT_TO_UDINT(LEN(sNetId))+1;
+END_IF
+
+nArg := nArg + 1;
+(* nPort := 851;*)			(********** PORT **********)
+InputArguments[nArg].DataType			:= eUAType_Int16;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(nPort);				(* Length if its a STRING *)
+IF nOffset + SIZEOF(nPort) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(nPort),SIZEOF(nPort));			(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(nPort);
+END_IF
+
+nArg := nArg + 1;
+(*nIndexGroup := 16#4020;*)	(********** INDEX GROUP **********)
+InputArguments[nArg].DataType			:= eUAType_Int32;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(nIndexGroup);			(* Length if its a STRING *)
+IF nOffset + SIZEOF(nIndexGroup) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(nIndexGroup),SIZEOF(nIndexGroup));		(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(nIndexGroup);
+END_IF
+
+nArg := nArg + 1;
+(*nIndexOffset := 0; *)		(********** INDEX OFFSET **********)
+InputArguments[nArg].DataType			:= eUAType_Int32;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(nIndexOffset);		(* Length if its a STRING *)
+IF nOffset + SIZEOF(nIndexOffset) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(nIndexOffset),SIZEOF(nIndexOffset));	(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(nIndexOffset);
+END_IF
+
+nArg := nArg + 1;
+(*Data := 2; *)		(*********** WriteData ***********)
+InputArguments[nArg].DataType			:= eUAType_ByteString;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= cbWriteData;	
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="UA_MethodCall_ADSWriteReq">
+      <LineId Id="3" Count="120" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="UA_MethodCall_ADSWriteReq.M_Init">
+      <LineId Id="2" Count="66" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

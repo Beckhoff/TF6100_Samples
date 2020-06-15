@@ -1,0 +1,17 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="ST_UAMethodCall_CallTestMethodIntArray3Dim" Id="{526073ee-28b0-4af2-a5fc-ccf1d1f15761}">
+    <Declaration><![CDATA[TYPE ST_UAMethodCall_CallTestMethodIntArray3Dim :
+STRUCT
+	nNumberOfOutputArguments	: UDINT := 1;
+	nReserved					: ARRAY [1..4] OF BYTE; // padding
+	stOutputArgInfo				: ARRAY [1..1] OF ST_UAMethodArgInfo;
+	//If dynamic out params are in front of others: they need to be memcpyed afterwards.
+	//OutputData					: ARRAY [1..8] OF BYTE;
+	//This testmethod just returns 2 DINTs so we could directly define them here
+	output1						: ARRAY[1..3,1..3,1..3] OF DINT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

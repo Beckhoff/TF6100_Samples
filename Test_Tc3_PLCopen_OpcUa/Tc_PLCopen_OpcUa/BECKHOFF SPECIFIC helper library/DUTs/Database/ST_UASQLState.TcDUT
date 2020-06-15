@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <DUT Name="ST_UASQLState" Id="{dcd0c226-c3de-45ae-8967-26322f55cb4b}">
+    <Declaration><![CDATA[TYPE ST_UASQLState :
+STRUCT
+	sSQLState 		: STRING(5);
+	nReserved		: ARRAY [1..2] OF BYTE; //padding
+	nSQLErrorCode 	: DINT;
+	nReturnCode		: UDINT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

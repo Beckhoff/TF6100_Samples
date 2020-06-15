@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="CloudSample_SQL" Id="{56272979-d0ec-46c9-a662-d78cf485a8cd}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM CloudSample_SQL
+VAR
+	(* Declarations for Cloud connect to Microsoft Azure Cloud *)
+	bInsertAzure					: BOOL;
+	bInsertAzureCyclic				: BOOL;
+	nStateAzure						: BYTE := 0;
+	R_TRIGAzure						: R_TRIG;
+	
+	ObjectNodeID					: ST_UANodeID;
+	MethodNodeID					: ST_UANodeID;
+
+	bErrorAzure						: BOOL; 
+	nErrorIDAzure					: DWORD;
+				
+	fb_OpcUAConnectAzure			: UA_Connect;
+	SessionConnectInfo				: ST_UASessionConnectInfo;
+	sOpcUA_URLAzure					: STRING(MAX_STRING_LENGTH);
+	hUAConnectionHdlAzure			: UDINT;
+	
+	fbUA_OpcUAGetNSIndexAzure 		: UA_GetNamespaceIndex;
+	nNamespaceIndexAzure			: UINT;
+	
+	fbMethodCall_DBRecordInsert		: UA_MethodCall_DBRecordInsert;
+	stUASQLState					: ST_UASQLState;
+	
+	fbBuildSqlInsertAzure			: FB_BuildSQLInsert;
+	sSqlInsertAzure					: STRING(100);	
+	
+	fb_OpcUADisconnectAzure			: UA_Disconnect;
+	bUADisconnectStartAzure			: BOOL; 
+	
+	(* Miscellaneous variables *)
+	fbRandom					: DRAND;
+	lrRandom					: LREAL;
+	sRandom						: STRING(MAX_DATA_ACCURACY);
+	sRandom2					: STRING(MAX_DATA_ACCURACY);
+	fbNTGetTime					: NT_GetTime;
+	bBusyTime					: BOOL;
+	stTime						: TIMESTRUCT;
+	
+	bInit			: BOOL := TRUE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Create random number for upload into the Cloud *)
+fbRandom(
+	Seed := 1,
+	Num => lrRandom);
+lrRandom := lrRandom * 10;
+sRandom := LREAL_TO_STRING(lrRandom);
+
+(* The value of Poti 1 will be used to write into Cloud *)
+sRandom2 := INT_TO_STRING(us_Poti_1);
+IF bInit THEN 
+	M_Init();
+	bInit := FALSE; 
+END_IF
+R_TRIGAzure(CLK := bInsertAzure);
+(* Upload once to Microsoft Azure Cloud *)
+CASE nStateAzure OF
+	0:
+	 	(* To start this sample you have to set a rising edge to the variable bInsertAzure *)
+		IF R_TRIGAzure.Q OR bInsertAzureCyclic THEN
+			M_Init();
+			nStateAzure 	:= 1;		
+			bInsertAzure 	:= FALSE;
+			bInsertAzureCyclic := TRUE;
+			bErrorAzure 	:= FALSE; 
+			nErrorIDAzure 	:= 0; 
+		END_IF
+			
+	1:
+		(* Get System Time to create timestamp*)
+		fbNTGetTime(
+			NETID 	:= '',
+			START	:= TRUE,
+			TMOUT 	:= T#5S,
+			BUSY 	=> bBusyTime,
+			TIMESTR => stTime);
+		
+		IF NOT bBusyTime THEN
+			fbNTGetTime(START := FALSE);
+			nStateAzure := 2;
+		END_IF
+
+	2:
+		(* Establish session to OPC-UA Server *)
+		IF hUAConnectionHdlAzure = 0 THEN
+			fb_OpcUAConnectAzure(
+				Execute 			:= TRUE,
+				ServerUrl 			:= 'opc.tcp://ew2013vm.cloudapp.net:4840',
+				SessionConnectInfo 	:= SessionConnectInfo,
+				Timeout 			:= T#5S,
+				ConnectionHdl 		=> hUAConnectionHdlAzure
+				);
+		ELSE
+			nStateAzure := 4; 		
+		END_IF
+		
+		IF NOT fb_OpcUAConnectAzure.Busy THEN
+			fb_OpcUAConnectAzure(Execute := FALSE);
+			IF NOT fb_OpcUAConnectAzure.Error THEN
+				nStateAzure := 3;
+			ELSE
+				(* Error Occurred *)
+				bErrorAzure	 := TRUE; 
+				nErrorIDAzure := fb_OpcUAConnectAzure.ErrorID;
+			END_IF	
+		END_IF	
+		
+	3: 
+		(* GetNS Index *)
+		fbUA_OpcUAGetNSIndexAzure(
+			Execute			:= TRUE,
+			ConnectionHdl	:= hUAConnectionHdlAzure,
+			NamespaceUri	:= 'ADSAMS',
+			NamespaceIndex	=> nNamespaceIndexAzure
+		);
+	
+		IF NOT fbUA_OpcUAGetNSIndexAzure.Busy THEN
+			fbUA_OpcUAGetNSIndexAzure(Execute := FALSE);
+			IF NOT fbUA_OpcUAGetNSIndexAzure.Error THEN
+				(* session closed *)
+				ObjectNodeID.eIdentifierType := eUAIdentifierType_String;
+				ObjectNodeID.nNamespaceIndex := nNamespaceIndexAzure;
+				ObjectNodeID.sIdentifier	 := 'ADSAMS';
+				
+				MethodNodeID.eIdentifierType := eUAIdentifierType_String;
+				MethodNodeID.nNamespaceIndex := nNamespaceIndexAzure;
+				MethodNodeID.sIdentifier	 := 'ADSAMS.AdsReadWriteReq';
+				nStateAzure := 4; (* method *)
+			ELSE
+				(* Error occurred *)
+				bErrorAzure	 := TRUE; 
+				nErrorIDAzure := fbUA_OpcUAGetNSIndexAzure.ErrorID;
+			END_IF
+		END_IF
+	
+	4:
+		 (* Prepare SQL Insert for Cloud *)
+		fbBuildSqlInsertAzure(
+			sTableName 		:= 'Zaehlerdaten',
+			stTimestamp 	:= stTime,
+			uiMesstellenID 	:= 2,
+			stLogger 		:= 'HelloWorld',
+			rMesswert 		:= 42,
+			stEinheit 		:= 'Celsius',
+			sValue 			:= sRandom2,
+			sQuery 			=> sSqlInsertAzure);
+		
+		(* Write data to the Microsoft Azure cloud via OPC-UA *)
+		fbMethodCall_DBRecordInsert(
+			bExecute		:= TRUE, 
+			nConnectionHdl	:= hUAConnectionHdlAzure, 
+			nNamespaceIndex	:= nNamespaceIndexAzure, 
+			pWriteData		:= ADR(sSqlInsertAzure), 
+			cbWriteData		:= INT_TO_UDINT(LEN(sSqlInsertAzure))+1, 
+			stUASQLState	=> stUASQLState);
+
+		
+		IF NOT fbMethodCall_DBRecordInsert.bBusy THEN
+			fbMethodCall_DBRecordInsert(bExecute := FALSE,stUASQLState	=> stUASQLState);
+			IF NOT fbMethodCall_DBRecordInsert.bError THEN
+				bInsertAzure 	:= FALSE;
+				nStateAzure 	:= 0;
+				bErrorAzure 	:= FALSE;
+				nErrorIDAzure 	:= fbMethodCall_DBRecordInsert.nErrorID;
+			ELSE
+				(* Error Occurred *)
+				nStateAzure 	:= 6; 
+				bErrorAzure	  	:= TRUE; 
+				nErrorIDAzure 	:= fbMethodCall_DBRecordInsert.nErrorID;
+			END_IF	
+		END_IF
+	
+	6:
+		;
+END_CASE]]></ST>
+    </Implementation>
+    <Action Name="M_Init" Id="{10cc5265-ace1-4d52-a345-70911d07b78b}">
+      <Implementation>
+        <ST><![CDATA[(* Parameterize *)
+SessionConnectInfo.tConnectTimeout 		:= T#1S;
+SessionConnectInfo.tSessionTimeout 		:= T#1S;
+SessionConnectInfo.sApplicationName		:= '';
+// SessionConnectInfo.sApplicationUri 		:= '';
+SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_None;
+SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
+SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="CloudSample_SQL">
+      <LineId Id="3" Count="132" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="CloudSample_SQL.M_Init">
+      <LineId Id="2" Count="6" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

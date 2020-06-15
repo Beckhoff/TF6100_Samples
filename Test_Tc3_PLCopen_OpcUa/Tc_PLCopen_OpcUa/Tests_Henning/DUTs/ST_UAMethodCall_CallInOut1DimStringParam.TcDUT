@@ -1,0 +1,17 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="ST_UAMethodCall_CallInOut1DimStringParam" Id="{eb74328e-001a-40ed-8ebc-ed444618dd47}">
+    <Declaration><![CDATA[TYPE ST_UAMethodCall_CallInOut1DimStringParam :
+STRUCT
+	nNumberOfOutputArguments	: UDINT;
+	nReserved					: ARRAY [1..4] OF BYTE; // padding
+	stOutputArgInfo				: ARRAY [1..1] OF ST_UAMethodArgInfo;
+	//If dynamic out params are in front of others: they need to be memcpyed afterwards.
+	//OutputData					: ARRAY [1..8] OF BYTE;
+	//This testmethod just returns 2 DINTs so we could directly define them here
+	sOutArray					: ARRAY[1..3] OF STRING;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

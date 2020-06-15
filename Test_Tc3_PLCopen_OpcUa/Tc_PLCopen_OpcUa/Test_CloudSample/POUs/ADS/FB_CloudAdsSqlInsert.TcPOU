@@ -1,0 +1,87 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.20">
+  <POU Name="FB_CloudAdsSqlInsert" Id="{d0621e9f-bc27-439c-832f-aabf94778676}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_CloudAdsSqlInsert
+VAR_INPUT
+	sNetID 			: T_AmsNetID	:='';
+	sInsertCmd 		: T_MaxString	:='';
+	bExecute		: BOOL;
+	tTimeout		: TIME 			:= T#15S;
+END_VAR
+VAR_OUTPUT
+	bBusy 			: BOOL;
+	bError 			: BOOL;
+	nErrID 			: UDINT;
+	sSQLState		: ST_DBSQLError := (sSQLState:='',nSQLErrorCode:=0);
+END_VAR
+VAR
+	RisingEdge		: R_TRIG;
+	ReturnCode		: UDINT := 0;
+	ReturnValues	: ARRAY [0..15] OF BYTE;
+	ADSRDWRITE1		: ADSRDWRT;
+	state			: BYTE;
+	dummy			: ST_internalSQLError;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[RisingEdge(CLK:=bExecute);
+IF RisingEdge.Q THEN
+	state := 1;
+END_IF
+
+CASE state OF
+	0:
+		;
+	1:
+		bBusy := TRUE;
+		bError := FALSE;
+		nErrID := 0;
+
+		ReturnCode := 0;
+		sSQLState.sSQLState := '';
+		sSQLState.nSQLErrorCode := 0;
+
+		MEMSET(ADR(ReturnValues), 0, SIZEOF(ReturnValues));
+
+		ADSRDWRITE1(WRTRD:= FALSE);
+		ADSRDWRITE1(
+			NETID:= sNetID,
+			PORT:= 21372,
+			IDXGRP:= 524290,
+			IDXOFFS:= 1,
+			WRITELEN:= SIZEOF(sInsertCmd),
+			SRCADDR:= ADR(sInsertCmd),
+			READLEN:= SIZEOF(ReturnValues),
+			DESTADDR:= ADR(ReturnValues),
+			WRTRD:= TRUE,
+			TMOUT:= tTimeout);
+		state := 2;
+	2:
+		ADSRDWRITE1( WRTRD:=FALSE);
+		IF NOT ADSRDWRITE1.BUSY THEN
+			state:= 3;
+		END_IF
+	3:
+		bBusy := ADSRDWRITE1.BUSY;
+		bError := ADSRDWRITE1.ERR;
+		nErrID := ADSRDWRITE1.ERRID;
+
+		MEMCPY(ADR(ReturnCode), ADR(ReturnValues)+12, SIZEOF(ReturnCode));
+
+		IF NOT ADSRDWRITE1.ERR THEN
+			 IF ReturnCode <> 0 THEN
+				bError 	:= TRUE;
+				nErrID 	:= ReturnCode;
+				MEMCPY(ADR(dummy), ADR(ReturnValues), SIZEOF(dummy));
+				sSQLState.nSQLErrorCode := dummy.nSQLErrorCode;
+				sSQLState.sSQLState := dummy.sSQLState;
+			ELSE
+				sSQLState.sSQLState := '00000';
+				sSQLState.nSQLErrorCode := 0;
+			END_IF
+		END_IF
+		state := 0;
+END_CASE]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

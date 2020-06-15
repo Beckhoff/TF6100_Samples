@@ -1,0 +1,358 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.23">
+  <POU Name="CloudSample" Id="{da57d87a-5801-4da1-9ee4-d0e78b16b2a3}">
+    <Declaration><![CDATA[PROGRAM CloudSample
+VAR
+	(* Declarations for Cloud connect to Microsoft Azure Cloud *)
+	bInsertAzure					: BOOL;
+	bInsertAzureCyclic				: BOOL;
+	nStateAzure						: BYTE := 0;
+	R_TRIGAzure						: R_TRIG;
+	
+	ObjectNodeID					: ST_UANodeID;
+	MethodNodeID					: ST_UANodeID;
+
+	bErrorAzure						: BOOL; 
+	nErrorIDAzure					: DWORD;
+				
+	fb_OpcUAConnectAzure			: UA_Connect;
+	SessionConnectInfo				: ST_UASessionConnectInfo;
+	sOpcUA_URLAzure					: STRING(MAX_STRING_LENGTH);
+	hUAConnectionHdlAzure			: UDINT;
+	
+	fbUA_OpcUAGetNSIndexAzure 		: UA_GetNamespaceIndex;
+	nNamespaceIndexAzure			: UINT;
+	nNamespaceIndex					: UINT;
+	
+	fb_OpcUAMethodGetHandleAzure	: UA_MethodGetHandle;
+	hUAMethodHandleAzure			: UDINT;
+	
+	fb_OpcUAMethodCallAzure			: UA_MethodCall;
+	hUAMethodCallAzure				: UDINT;
+	nUAMethodCallOutputAzure		: ST_UASQLState;
+	stOutputArgInfo					: ARRAY [1..nNumberOfOutputArguments] OF ST_UAMethodArgInfo;
+	fbBuildSqlInsertAzure			: FB_BuildSQLInsert;
+	sSqlInsertAzure					: STRING(100);	
+	stOutputArgInfoAndData			: ST_CloudSampleRes;
+	
+	fb_OpcUADisconnectAzure			: UA_Disconnect;
+	bUADisconnectStartAzure			: BOOL; 
+	
+(* Method Call Struct *)
+	InputArguments				: ARRAY [1..nNumberOfInputArguments] OF ST_UAMethodArgInfo; (*ReadWriteReq has 6 input parameters *)
+	OutputArguments				: ARRAY [1..1024] OF BYTE; (* Bytes to be read *)
+	nArg						: INT;
+	nInputData					: ARRAY [1..nInputArgSize] OF BYTE; // (sNetID(24) + Port(2) + IG(4) + IO(4))
+	nOffset						: UDINT;
+
+	
+	sNetID						: T_AmsNetId := '127.0.0.1.1.1'; 		(* AmsNetId OF the Target *)
+	nPort						: INT; 				(* Port number	*)
+	nIndexGroup					: DINT;				(* IndexGroup*)
+	nIndexOffset				: DINT; 			(* IndexOffset*)
+//	cbWriteData					: UDINT;			(* Count of bytes to be read*)
+	bInputDataError				: BOOL; 
+	
+	(* Miscellaneous variables *)
+	fbRandom					: DRAND;
+	lrRandom					: LREAL;
+	sRandom						: STRING(MAX_DATA_ACCURACY);
+	sRandom2					: STRING(MAX_DATA_ACCURACY);
+	fbNTGetTime					: NT_GetTime;
+	bBusyTime					: BOOL;
+	stTime						: TIMESTRUCT;
+	
+	bInit						: BOOL := TRUE;
+END_VAR
+VAR CONSTANT
+	nInputArgSize				: UDINT := 34;  //(sNetID(24) + Port(2) + IG(4) + IO(4))
+	nNumberOfInputArguments 	: UDINT := 6;	
+	nNumberOfOutputArguments	: UDINT := 1;		(* 6 *)
+	cbReadData					: UDINT := SIZEOF(ST_UASQLState);			(* Count of bytes to be read*)
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Create random number for upload into the Cloud *)
+fbRandom(
+	Seed := 1,
+	Num => lrRandom);
+lrRandom := lrRandom * 10;
+sRandom := LREAL_TO_STRING(lrRandom);
+
+(* The value of Poti 1 will be used to write into Cloud *)
+sRandom2 := INT_TO_STRING(us_Poti_1);
+IF bInit THEN 
+	M_Init();
+	bInit := FALSE; 
+END_IF
+R_TRIGAzure(CLK := bInsertAzure);
+(* Upload once to Microsoft Azure Cloud *)
+CASE nStateAzure OF
+	0:
+	 	(* To start this sample you have to set a rising edge to the variable bInsertAzure *)
+		IF R_TRIGAzure.Q OR bInsertAzureCyclic THEN
+			M_Init();
+			nStateAzure 	:= 1;		
+			bInsertAzure 	:= FALSE;
+			bInsertAzureCyclic := TRUE;
+			bErrorAzure 	:= FALSE; 
+			nErrorIDAzure 	:= 0; 
+		END_IF
+			
+	1:
+		(* Get System Time to create timestamp*)
+		fbNTGetTime(
+			NETID 	:= '',
+			START	:= TRUE,
+			TMOUT 	:= T#5S,
+			BUSY 	=> bBusyTime,
+			TIMESTR => stTime);
+		
+		IF NOT bBusyTime THEN
+			fbNTGetTime(START := FALSE);
+			nStateAzure := 2;
+		END_IF
+
+	2:
+		(* Establish session to OPC-UA Server *)
+		IF hUAConnectionHdlAzure = 0 THEN
+			fb_OpcUAConnectAzure(
+				Execute 			:= TRUE,
+				ServerUrl 			:= 'opc.tcp://ew2013vm.cloudapp.net:4840',
+				SessionConnectInfo 	:= SessionConnectInfo,
+				Timeout 			:= T#5S,
+				ConnectionHdl 		=> hUAConnectionHdlAzure
+				);
+		ELSE
+			nStateAzure := 4; 		
+		END_IF
+		
+		IF NOT fb_OpcUAConnectAzure.Busy THEN
+			fb_OpcUAConnectAzure(Execute := FALSE);
+			IF NOT fb_OpcUAConnectAzure.Error THEN
+				nStateAzure := 3;
+			ELSE
+				(* Error Occurred *)
+				bErrorAzure	 := TRUE; 
+				nErrorIDAzure := fb_OpcUAConnectAzure.ErrorID;
+			END_IF	
+		END_IF	
+		
+	3: 
+		(* GetNS Index *)
+		fbUA_OpcUAGetNSIndexAzure(
+			Execute			:= TRUE,
+			ConnectionHdl	:= hUAConnectionHdlAzure,
+			NamespaceUri	:= 'ADSAMS',
+			NamespaceIndex	=> nNamespaceIndexAzure
+		);
+	
+		IF NOT fbUA_OpcUAGetNSIndexAzure.Busy THEN
+			fbUA_OpcUAGetNSIndexAzure(Execute := FALSE);
+			IF NOT fbUA_OpcUAGetNSIndexAzure.Error THEN
+				(* session closed *)
+				ObjectNodeID.eIdentifierType := eUAIdentifierType_String;
+				ObjectNodeID.nNamespaceIndex := nNamespaceIndexAzure;
+				ObjectNodeID.sIdentifier	 := 'ADSAMS';
+				
+				MethodNodeID.eIdentifierType := eUAIdentifierType_String;
+				MethodNodeID.nNamespaceIndex := nNamespaceIndexAzure;
+				MethodNodeID.sIdentifier	 := 'ADSAMS.AdsReadWriteReq';
+				nStateAzure := 4; (* method *)
+			ELSE
+				(* Error occurred *)
+				bErrorAzure	 := TRUE; 
+				nErrorIDAzure := fbUA_OpcUAGetNSIndexAzure.ErrorID;
+			END_IF
+		END_IF
+	
+	4:
+		(* Get method handle for AdsReadWrite method *)
+		IF hUAMethodHandleAzure = 0 THEN
+			fb_OpcUAMethodGetHandleAzure(
+				Execute 		:= TRUE,
+				Timeout 		:= T#15S,
+				ConnectionHdl  	:= hUAConnectionHdlAzure,
+				ObjectNodeID	:= ObjectNodeID,
+				MethodNodeID	:= MethodNodeID,
+				MethodHdl 		=> hUAMethodHandleAzure);
+		END_IF
+		
+		IF NOT fb_OpcUAMethodGetHandleAzure.Busy THEN 
+			fb_OpcUAMethodGetHandleAzure(Execute := FALSE);
+			IF NOT fb_OpcUAMethodGetHandleAzure.Error THEN
+				nStateAzure := 5;		
+			ELSE
+				(* Error occurred *)
+				bErrorAzure	  := TRUE; 
+				nErrorIDAzure := fb_OpcUAMethodGetHandleAzure.ErrorID;
+			END_IF
+		END_IF 
+	
+	5:
+		(* Prepare SQL Insert for Cloud *)
+		fbBuildSqlInsertAzure(
+			sTableName 		:= 'Zaehlerdaten',
+			stTimestamp 	:= stTime,
+			uiMesstellenID 	:= 2,
+			stLogger 		:= 'HelloWorld',
+			rMesswert 		:= 42,
+			stEinheit 		:= 'Celsius',
+			sValue 			:= sRandom2,
+			sQuery 			=> sSqlInsertAzure);
+		
+		(* Write data to the Microsoft Azure cloud via OPC-UA *)
+		nNamespaceIndex := nNamespaceIndexAzure;
+		M_MethodCallInit();
+		stOutputArgInfoAndData.stOutputArgInfo[1].nLenData:= SIZEOF(ST_UASQLState);
+		IF bInputDataError = FALSE THEN 
+			fb_OpcUAMethodCallAzure(
+				Execute					:= TRUE,
+				Timeout 				:= T#15S,
+				ConnectionHdl			:= hUAConnectionHdlAzure,
+				MethodHdl				:= hUAMethodHandleAzure,
+				nNumberOfInputArguments := nNumberOfInputArguments,		(* 6 *)
+				pInputArgInfo			:= ADR(InputArguments),
+				cbInputArgInfo			:= SIZEOF(InputArguments),
+				pInputArgData			:= ADR(nInputData),
+				cbInputArgData			:= nOffset,
+				pInputWriteData			:= ADR(sSqlInsertAzure),
+				cbInputWriteData		:= INT_TO_UDINT(LEN(sSqlInsertAzure))+1,
+				nNumberOfOutputArguments:= nNumberOfOutputArguments,		(* 6 *)
+				pOutputArgInfo			:= ADR(stOutputArgInfo),
+				cbOutputArgInfo			:= SIZEOF(stOutputArgInfo),
+				pOutputArgInfoAndData	:= ADR(stOutputArgInfoAndData),
+				cbOutputArgInfoAndData	:= SIZEOF(stOutputArgInfoAndData)		
+			);
+			IF NOT fb_OpcUAMethodCallAzure.Busy THEN
+				fb_OpcUAMethodCallAzure(Execute := FALSE);
+				IF NOT fb_OpcUAMethodCallAzure.Error THEN
+					bInsertAzure := FALSE;
+					nStateAzure := 0;
+					nUAMethodCallOutputAzure.nReturnCode := stOutputArgInfoAndData.stUASQLStateInternal.nReturnCode;
+					(* ------------ according to TcDatabase.lib *)
+					IF nUaMethodCallOutputAzure.nReturnCode <> 0 THEN 
+						bErrorAzure := TRUE;
+						nErrorIDAzure := stOutputArgInfoAndData.stUASQLStateInternal.nReturnCode;
+						nUAMethodCallOutputAzure.sSQLState		:= stOutputArgInfoAndData.stUASQLStateInternal.sSQLState;
+						nUAMethodCallOutputAzure.nSQLErrorCode 	:= stOutputArgInfoAndData.stUASQLStateInternal.nSQLErrorCode;
+					ELSE
+						nUAMethodCallOutputAzure.sSQLState		:= '00000';	
+						nUAMethodCallOutputAzure.nSQLErrorCode 	:= 0;		
+					END_IF		
+					(* ------------- according to TcDatabase.lib *)
+				ELSE
+					(* Error Occurred *)
+					nStateAzure   := 6; 
+					bErrorAzure	  := TRUE; 
+					nErrorIDAzure := fb_OpcUAMethodCallAzure.ErrorID;
+				END_IF	
+			END_IF
+		ELSE
+			(* ERROR nInputData array is too small for the data *)
+			(* see M_MethodCallInit*)
+			;
+		END_IF
+END_CASE]]></ST>
+    </Implementation>
+    <Action Name="M_Init" Id="{b449b954-fdc1-4f21-a608-664fd8671a9d}">
+      <Implementation>
+        <ST><![CDATA[(* Parameterize *)
+SessionConnectInfo.tConnectTimeout 		:= T#1S;
+SessionConnectInfo.tSessionTimeout 		:= T#1S;
+SessionConnectInfo.sApplicationName		:= '';
+SessionConnectInfo.sApplicationUri 		:= '';
+SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_None;
+SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
+SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_MethodCallInit" Id="{f0b92a76-e4de-4d67-840c-eb632fee9dcd}">
+      <Implementation>
+        <ST><![CDATA[bInputDataError := FALSE; 
+(* Method Call parameters *)
+sNetID				:= '127.0.0.1.1.1'; 		(* AmsNetId OF the Target *)
+nPort				:= 21372; 					(* Port number *) (* AMSPORT_DATABASESRV := 21372 = 16#537C*)
+nIndexGroup			:= 16#80002;				(* IndexGroup*) 
+nIndexOffset		:= 2; 						(* IndexOffset = DBID (Configurator)*)
+//cbWriteData			:= LEN(sSqlInsertAzure)+1;		
+//cbReadData			:= 16;	
+
+nOffset := 0;
+MEMSET(ADR(InputArguments),0,SIZEOF(InputArguments));
+MEMSET(ADR(nInputData),0,SIZEOF(nInputData));
+
+nArg := 1;
+(*sNetID := sAmsNetID;*)	(*****l***** NET ID **********)
+InputArguments[nArg].DataType			:= eUAType_String;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= INT_TO_UDINT(LEN(sNetId)) + 1;				(* Length if its a STRING *)
+IF nOffset + INT_TO_UDINT(LEN(sNetId))+1 > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(sNetId),INT_TO_UDINT(LEN(sNetId))+1);				(* VALUE in BYTES FORM *)
+	nOffset := nOffset + INT_TO_UDINT(LEN(sNetId))+1;
+END_IF
+
+nArg := nArg + 1;
+(* nPort := 851;*)			(********** PORT **********)
+InputArguments[nArg].DataType			:= eUAType_Int16;
+InputArguments[nArg].ValueRank			:= -1; 						(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 						(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(nPort);			(* Length if its a STRING *)
+IF nOffset + SIZEOF(nPort) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(nPort),SIZEOF(nPort));			(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(nPort);
+END_IF
+
+nArg := nArg + 1;
+(*nIndexGroup := 16#4020;*)	(********** INDEX GROUP **********)
+InputArguments[nArg].DataType			:= eUAType_Int32;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(nIndexGroup);			(* Length if its a STRING *)
+IF nOffset + SIZEOF(nIndexGroup) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(nIndexGroup),SIZEOF(nIndexGroup));		(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(nIndexGroup);
+END_IF
+
+
+nArg := nArg + 1;
+(*nIndexOffset := 0; *)		(********** INDEX OFFSET **********)
+InputArguments[nArg].DataType			:= eUAType_Int32;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(nIndexOffset);		(* Length if its a STRING *)
+IF nOffset + SIZEOF(nIndexOffset) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(nIndexOffset),SIZEOF(nIndexOffset));	(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(nIndexOffset);
+END_IF
+
+nArg := nArg + 1;
+(*Data := 2; *)		(*********** WriteData ***********)
+InputArguments[nArg].DataType			:= eUAType_ByteString;
+InputArguments[nArg].ValueRank			:= -1; 										(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 										(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= INT_TO_UDINT(LEN(sSqlInsertAzure))+1;	(* Length if its a STRING *)
+
+nArg := nArg + 1;
+(*Data := 2; *)		(*********** ReadData size ***********)
+InputArguments[nArg].DataType			:= eUAType_UInt32;
+InputArguments[nArg].ValueRank			:= -1; 						(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 						(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(cbReadData);		(* Length if its a STRING *)
+]]></ST>
+      </Implementation>
+    </Action>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

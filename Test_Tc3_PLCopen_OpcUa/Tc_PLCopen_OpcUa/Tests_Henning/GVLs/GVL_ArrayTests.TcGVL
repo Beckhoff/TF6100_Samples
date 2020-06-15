@@ -1,0 +1,21 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <GVL Name="GVL_ArrayTests" Id="{756316c7-4bda-4a1a-89ce-ae538eef2bcc}">
+    <Declaration><![CDATA[VAR_GLOBAL CONSTANT
+	nEndOfNodeIDVarsArray: UINT := 8;
+	nArrayTestLength: UDINT := 4;
+	///nArrayTestLength*80
+	nMaxReadDataArray: UDINT := 320;
+	sOpcUA_URL: STRING := 'opc.tcp://localhost:4841';
+	sNodeIDNamespace: STRING := 'PLC1';
+END_VAR
+VAR_GLOBAL
+	NodeID_Identifiers: ARRAY[0..nEndOfNodeIDVarsArray] OF STRING := ['GVL_static.stat_BOOL', 'GVL_static.stat_BSTRARRAY', 'GVL_static.stat_I1', 'GVL_static.stat_I2', 'GVL_static.stat_I4', 'GVL_static.stat_R8', 'GVL_static.stat_UI1', 'GVL_static.stat_UI2', 'GVL_static.stat_UI4'];
+	NodeID_Sizes: ARRAY[0..nEndOfNodeIDVarsArray] OF UDINT := [(1 * nArrayTestLength), (81 * nArrayTestLength), (1 * nArrayTestLength), (2 * nArrayTestLength), (4 * nArrayTestLength), (8 * nArrayTestLength), (1 * nArrayTestLength), (2 * nArrayTestLength), (4 * nArrayTestLength)];
+	NodeID_WriteCommands: ARRAY[0..nEndOfNodeIDVarsArray] OF U_ArraysInOne := [(bBool := [TRUE, FALSE, TRUE, FALSE]), (sString := ['aaa', 'bbbb', 'ccccc', 'ddddddd']), (bByte := [123, 124, 125, 126]), (nInt := [127, 128, 129, 130]), (nUdint := [131, 132, 133, 134]), (nLReal := [1.23456, 1.23457, 1.23458, 1.23459]), (bByte := [111, 112, 113, 114]), (nInt := [115, 116, 117, 118]), (nUdint := [119, 120, 121, 122])];
+	NodeID_ReadResults: ARRAY[0..nEndOfNodeIDVarsArray] OF U_ArraysInOne;
+	NodeID_ReadWrittenResults: ARRAY[0..nEndOfNodeIDVarsArray] OF U_ArraysInOne;
+	NodeID_CheckReadWrite: ARRAY[0..nEndOfNodeIDVarsArray] OF BOOL;
+END_VAR]]></Declaration>
+    <ObjectProperties />
+  </GVL>
+</TcPlcObject>

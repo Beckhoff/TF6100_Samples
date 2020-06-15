@@ -1,0 +1,30 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <POU Name="PRG_ArrayTest" Id="{cff03f4a-d35c-4bf2-aa93-c79c1e5866ea}">
+    <Declaration><![CDATA[PROGRAM PRG_ArrayTest
+VAR
+	iState: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE iState OF
+0:	
+	PRG_ArrayTest_Read();
+	IF(NOT PRG_ArrayTest_Read.bBusy AND NOT PRG_ArrayTest_Read.bError) THEN
+		iState := iState+1;
+	END_IF
+1:
+	PRG_ArrayTest_Write();
+	IF(NOT PRG_ArrayTest_Write.bBusy AND NOT PRG_ArrayTest_Write.bError) THEN
+		iState := iState+1;
+	END_IF
+2:
+	PRG_ArrayTest_ReadWritten();
+	IF(NOT PRG_ArrayTest_ReadWritten.bBusy AND NOT PRG_ArrayTest_ReadWritten.bError) THEN
+		iState := iState+1;
+	END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

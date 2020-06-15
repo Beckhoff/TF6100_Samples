@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <DUT Name="ST_ADSReadRes" Id="{61640ea7-3183-42fc-aea5-3db247e6278d}">
+    <Declaration><![CDATA[TYPE ST_ADSReadRes :
+STRUCT
+	nNumberOfOutputArguments	: UDINT;
+	nReserved					: ARRAY [1..4] OF BYTE; // padding
+	stOutputArgInfo				: ST_UAMethodArgInfo;
+	nReadData					: INT; 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

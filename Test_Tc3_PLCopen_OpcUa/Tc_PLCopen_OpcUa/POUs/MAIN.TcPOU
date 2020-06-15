@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <POU Name="MAIN" Id="{1126fbb9-140c-4253-8162-27e495b070c3}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR	
+	diVar1			: DINT := 22; 		(* ~ (OPC : 1 : enabled for OPC) *)
+	diVar2			: DINT := 33; 		(* ~ (OPC : 1 : enabled for OPC) *)		
+	iVar1			: INT := 11; 		(* ~ (OPC : 1 : enabled for OPC) *)
+	iVar2			: INT := 55; 		(* ~ (OPC : 1 : enabled for OPC) *)
+	
+	bVar			: BOOL; 		(* ~ (OPC : 1 : enabled for OPC) *)
+	nDint			: DINT;			(* ~ (OPC : 1 : enabled for OPC) *)
+	iVar	 AT%MB0	: INT := 45;	(* ~ (OPC : 1 : enabled for OPC) *)
+	iCount			: INT := 66;	(* ~ (OPC : 1 : enabled for OPC) *)
+	sString1		: STRING(5) := 'OPCUA'; (* ~ (OPC : 1 : enabled for OPC) *)
+	
+	iCounter		: INT;	(*~(OPC:1:enabled)*)
+	
+	iArrayIntVar1	: ARRAY [1..10] OF INT := [10(22)]; 		(* ~ (OPC : 1 : enabled for OPC) *)
+	diArrayDintVar2	: ARRAY [1..2] OF DINT := [2(4444)]; 		(* ~ (OPC : 1 : enabled for OPC) *)
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[iCounter := iCounter + 1; 
+
+// ************ test programs **************
+PRG_READ();
+PRG_WRITE();
+
+// ************ ADS test programs **************
+PRG_ADSReadReq(); 
+PRG_ADSWriteReq();
+PRG_ADSReadDeviceInfoReq();
+PRG_ADSReadStateReq();
+PRG_ADSWriteControlReq();
+PRG_ADSReadWriteReq();
+
+//************ Read List programs
+PRG_READ_List_woConnectIdent();
+PRG_READ_List();
+PRG_READ_List_ArrayInt();
+
+// ************ Cloud test program **************
+CloudSample_SQL();
+
+// ************ Manz test programs **************
+PRG_CallTestMethodStringArray2Dim();
+PRG_CallTestMethodIntArray3Dim();]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="3" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="4" Count="21" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

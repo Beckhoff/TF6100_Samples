@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.6">
+  <DUT Name="ST_UAMethodCall_AdsReadDeviceInfoRes" Id="{b2d2973b-86ab-43fa-8ec6-eda5eb31effc}">
+    <Declaration><![CDATA[TYPE ST_UAMethodCall_AdsReadDeviceInfoRes :
+STRUCT
+	nNumberOfOutputArguments	: UDINT;
+	nReserved					: ARRAY [1..4] OF BYTE; // padding
+	stOutputArgInfo				: ARRAY [1..4] OF ST_UAMethodArgInfo;
+	stDeviceInfo				: ST_DeviceInfo;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

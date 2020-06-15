@@ -1,0 +1,12 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.20">
+  <DUT Name="ST_DBSQLError" Id="{b3a9e29e-070d-418c-a5b0-dca98f75c597}">
+    <Declaration><![CDATA[TYPE ST_DBSQLError :
+STRUCT
+	sSQLState : STRING(5);
+	nSQLErrorCode : DINT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

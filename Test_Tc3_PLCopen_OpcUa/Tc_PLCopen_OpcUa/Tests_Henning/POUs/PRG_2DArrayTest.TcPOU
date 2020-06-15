@@ -1,0 +1,30 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <POU Name="PRG_2DArrayTest" Id="{abac3fd7-c0b6-477f-b872-e859a0154aac}">
+    <Declaration><![CDATA[PROGRAM PRG_2DArrayTest
+VAR
+	iState: INT := 3; //we need to wait for UAServer to provide variables
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE iState OF
+0:	
+	PRG_2DArrayTest_Read();
+	IF(NOT PRG_2DArrayTest_Read.bBusy AND NOT PRG_2DArrayTest_Read.bError) THEN
+		iState := iState+1;
+	END_IF
+1:
+	PRG_2DArrayTest_Write();
+	IF(NOT PRG_2DArrayTest_Write.bBusy AND NOT PRG_2DArrayTest_Write.bError) THEN
+		iState := iState+1;
+	END_IF
+2:
+	PRG_2DArrayTest_ReadWritten();
+	IF(NOT PRG_2DArrayTest_ReadWritten.bBusy AND NOT PRG_2DArrayTest_ReadWritten.bError) THEN
+		iState := iState+1;
+	END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

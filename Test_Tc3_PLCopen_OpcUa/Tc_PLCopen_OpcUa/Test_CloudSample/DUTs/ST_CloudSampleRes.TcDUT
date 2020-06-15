@@ -1,0 +1,14 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.23">
+  <DUT Name="ST_CloudSampleRes" Id="{2144c2dd-1bd0-4da4-9d33-624c95a8099f}">
+    <Declaration><![CDATA[TYPE ST_CloudSampleRes :
+STRUCT
+	nNumberOfOutputArguments	: UDINT;
+	nReserved 					: ARRAY [1..4] OF BYTE;
+	stOutputArgInfo				: ARRAY [1..1] of ST_UAMethodArgInfo;
+	stUASQLStateInternal		: ST_UASQLState;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

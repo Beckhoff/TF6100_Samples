@@ -1,0 +1,275 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <POU Name="PRG_CallInOut1DimParam" Id="{6592a558-d66d-475d-8991-f9427804f60c}">
+    <Declaration><![CDATA[PROGRAM PRG_CallInOut1DimParam
+VAR
+	///CallInOutMultiParams(numberIn1(uInt32),numberIn2(UInt32),numberOut1(UInt32),numberOut2(UINT32));
+	fbUA_Connect		: UA_Connect;
+	SessionConnectInfo	: ST_UASessionConnectInfo;
+	sOpcUA_URL			: STRING(MAX_STRING_LENGTH);
+	nConnectionHdl		: DWORD;
+	
+	fbUA_GetNamespaceIndex	: UA_GetNamespaceIndex;
+	nNamespaceIndex			: UINT;
+	
+	fbUA_MethodGetHandle: UA_MethodGetHandle;
+	nMethodHdl			: DWORD;
+	ObjectNodeID		: ST_UANodeID;
+	MethodNodeID		: ST_UANodeID;
+	fbUA_MethodCall		: UA_MethodCall;
+	InputArguments		: ARRAY[1..nNumberOfInputArguments] OF ST_UAMethodArgInfo;
+	nInputData			: ARRAY[1..nInputArgSize] OF BYTE;
+	stOutputArgInfoAndData	: ST_UAMethodCall_CallInOut1DimParam;
+	stOutputArgInfo		: ARRAY[1..nNumberOfOutputArguments] OF ST_UAMethodArgInfo;
+	numberIn1			: UDINT;
+	numberIn2			: UDINT;
+	
+	fbUA_MethodReleaseHandle	: UA_MethodReleaseHandle;
+	
+	fbUA_Disconnect	: UA_Disconnect;
+	
+	/// Count of bytes to be written 
+	cbWriteData		: UDINT;
+	
+	nArg			: INT;
+	nOffset			: UDINT;
+	bInputDataError	: BOOL;
+	bTest			: BOOL := TRUE;
+	bDone			: BOOL;
+	bBusy			: BOOL;
+	bError			: BOOL;
+	nErrorID		: DWORD;
+	iState			: INT;
+	
+END_VAR
+VAR CONSTANT
+	nNumberOfInputArguments	: UDINT := 1;
+	nNumberOfOutputArguments: UDINT := 1;
+	nInputArgSize			: UDINT := 8; 
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+CallInOut1DimParams(	[numberIn1(uInt32),	numberIn2(UInt32)]
+						[numberOut1(UInt32),numberOut2(UINT32),	numberOut3(UINT32)]
+);
+*)
+
+CASE iState OF
+
+0:	(* idle *)
+	IF bTest THEN
+		bTest		:= FALSE;
+		bError		:= FALSE;
+		nErrorID	:= 0;
+		stOutputArgInfoAndData.output1 	:= 0; 
+		stOutputArgInfoAndData.output2 	:= 0; 
+		stOutputArgInfoAndData.output3 	:= 0; 
+		(* Parameterize *)
+		sOpcUA_URL		:= 'opc.tcp://localhost:4841';	(* OpcUA Url of the device with ip address *)
+
+		SessionConnectInfo.tConnectTimeout 		:= T#9M;
+		SessionConnectInfo.tSessionTimeout 		:= T#9M;
+		SessionConnectInfo.sApplicationName		:= '';
+		SessionConnectInfo.sApplicationUri 		:= '';
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_None;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
+		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
+
+		iState	:= iState + 1;
+	END_IF
+
+1:	(* open UA session *)
+	fbUA_Connect(
+		Execute				:= TRUE,
+		ServerURL			:= sOpcUA_URL,
+		SessionConnectInfo	:= SessionConnectInfo,
+		Timeout				:= T#10S,
+		ConnectionHdl		=> nConnectionHdl
+	);
+
+	IF NOT fbUA_Connect.Busy THEN
+		fbUA_Connect(Execute := FALSE);
+
+		IF NOT fbUA_Connect.Error THEN
+			(* connected *)
+			iState := iState + 1;
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Connect.ErrorID;
+			nConnectionHdl	:= 0;
+			iState 			:= 0; (* idle *)
+		END_IF
+	END_IF
+
+
+2:	(* GetNS Index *)
+	fbUA_GetNamespaceIndex(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		NamespaceUri	:= 'PLC1',
+		NamespaceIndex	=> nNamespaceIndex
+	);
+
+	IF NOT fbUA_GetNamespaceIndex.Busy THEN
+		fbUA_GetNamespaceIndex(Execute := FALSE);
+
+		IF NOT fbUA_GetNamespaceIndex.Error THEN
+			(* namespace index read successfully *)
+			iState 		:= iState + 1; (* get node handle *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_GetNamespaceIndex.ErrorID;
+			iState 		:= 7; (* disconnect *)
+		END_IF
+	END_IF
+
+3:	(* Get Method Handle *)
+		ObjectNodeID.eIdentifierType := eUAIdentifierType_String;
+		ObjectNodeID.nNamespaceIndex := nNamespaceIndex;
+		ObjectNodeID.sIdentifier	:= 'TestMethods';
+	
+		MethodNodeID.eIdentifierType := eUAIdentifierType_String;
+		MethodNodeID.nNamespaceIndex := nNamespaceIndex;
+		MethodNodeID.sIdentifier	:= 'TestMethods.CallInOut1DimParam';
+
+		M_Init();
+		IF bInputDataError = FALSE THEN
+			iState 	:= iState + 1;
+		ELSE
+			bBusy		:= FALSE; 
+			bError 		:= TRUE;
+			nErrorID 	:= 16#70A; //out of memory
+		END_IF
+
+
+4:	(* Method Get Handle *)
+	fbUA_MethodGetHandle(
+			Execute			:= TRUE,
+			ConnectionHdl	:= nConnectionHdl,
+			ObjectNodeID	:= ObjectNodeID,
+			MethodNodeID 	:= MethodNodeID,
+			MethodHdl		=> nMethodHdl
+		);
+	IF NOT fbUA_MethodGetHandle.Busy THEN
+		fbUA_MethodGetHandle(Execute := FALSE);
+
+		IF NOT fbUA_MethodGetHandle.Error THEN
+			(*  *)
+			iState := iState + 1; (* Call Method *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_MethodGetHandle.ErrorID;
+			iState	 	:= 6; (* Release method Handle *)
+		END_IF
+	END_IF
+
+
+5:	(* Method Call *)
+	fbUA_MethodCall(
+		Execute					:= TRUE,
+		Timeout					:= T#20S,
+		ConnectionHdl			:= nConnectionHdl,
+		MethodHdl				:= nMethodHdl,
+		nNumberOfInputArguments := nNumberOfInputArguments, 
+		pInputArgData			:= ADR(nInputData),
+		cbInputArgData			:= cbWriteData,
+		pInputArgInfo			:= ADR(InputArguments),
+		cbInputArgInfo			:= SIZEOF(InputArguments),
+		nNumberOfOutputArguments:= nNumberOfOutputArguments,
+		pOutputArgInfo			:= ADR(stOutputArgInfo),
+		cbOutputArgInfo			:= SIZEOF(stOutputArgInfo),
+		pOutputArgInfoAndData	:= ADR(stOutputArgInfoAndData),
+		cbOutputArgInfoAndData	:= SIZEOF(stOutputArgInfoAndData)	
+	);
+	IF NOT fbUA_MethodCall.Busy THEN
+		fbUA_MethodCall(Execute := FALSE);
+		IF NOT fbUA_MethodCall.Error THEN
+			(*  *)
+			iState 	:= iState + 1; (* Release handle *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_MethodCall.ErrorID;
+			iState		:= 6; (* Release method handle *)
+		END_IF
+	END_IF
+
+
+6:	(* Release Method Handle *)
+	fbUA_MethodReleaseHandle(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		MethodHdl		:= nMethodHdl
+	);
+
+	IF NOT fbUA_MethodReleaseHandle.Busy THEN
+		fbUA_MethodReleaseHandle(Execute := FALSE);
+		bBusy := FALSE;
+		IF NOT fbUA_MethodReleaseHandle.Error THEN
+			(* session closed *)
+			iState 	:= 7; (* Disconnect *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_MethodReleaseHandle.ErrorID;
+			iState 		:= 7; (* Disconnect *)
+		END_IF
+	END_IF
+	
+7:	(* Disconnect *) 
+	fbUA_Disconnect(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl
+	);
+
+	IF NOT fbUA_Disconnect.Busy THEN
+		fbUA_Disconnect(Execute := FALSE);
+
+		IF NOT fbUA_Disconnect.Error THEN
+			(* disconnected *)
+			iState 	:= 0; (* idle *)
+			bDone 	:= TRUE;
+			bBusy 	:= FALSE;
+		ELSE
+			bBusy 			:= FALSE;
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Disconnect.ErrorID;
+			iState 			:= 0; (* idle *)
+			nConnectionHdl	:= 0;
+		END_IF
+	END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+    <Action Name="M_Init" Id="{2eadeb3f-f4eb-4468-8f07-a236d41e29c3}">
+      <Implementation>
+        <ST><![CDATA[bInputDataError := FALSE; 
+nOffset := 0;
+MEMSET(ADR(InputArguments),0,SIZEOF(InputArguments));
+MEMSET(ADR(nInputData),0,SIZEOF(nInputData));
+
+nArg := 1;
+(*numberIn1*)			(********** Input parameter 1 **********)
+InputArguments[nArg].DataType			:= eUAType_UInt32;
+InputArguments[nArg].ValueRank			:= 1; 							(* Scalar = -1 or 1Dim-Array =1*)
+InputArguments[nArg].ArrayDimensions[1]	:= 2; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(numberIn1)+SIZEOF(numberIn2);			(* Length if its a STRING *)
+
+IF nOffset + SIZEOF(numberIn1)+SIZEOF(numberIn2) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(numberIn1),SIZEOF(numberIn1));				(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(numberIn1);
+	MEMCPY(ADR(nInputData)+nOffset,ADR(numberIn2),SIZEOF(numberIn2));				(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(numberIn2);
+END_IF
+cbWriteData := nOffset;
+
+//************** Prepare Output Argument information ***********
+stOutputArgInfo[1].nLenData := 	SIZEOF(stOutputArgInfoAndData.output1) +
+								SIZEOF(stOutputArgInfoAndData.output2) +
+								SIZEOF(stOutputArgInfoAndData.output3);]]></ST>
+      </Implementation>
+    </Action>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

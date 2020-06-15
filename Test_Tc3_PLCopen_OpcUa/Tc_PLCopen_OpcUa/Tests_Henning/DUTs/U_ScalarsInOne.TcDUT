@@ -1,0 +1,20 @@
+﻿<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="U_ScalarsInOne" Id="{adf47e8c-1b75-40d2-95f6-0641a89ab126}">
+    <Declaration><![CDATA[TYPE U_ScalarsInOne :
+
+UNION
+	nData	: ARRAY[1..nMaxReadData] OF BYTE;
+	bBool	: BOOL;
+	bByte	: BYTE;
+	nInt	: INT;
+	nUdint	: UDINT;
+	nReal	: REAL;
+	nLReal	: LREAL;
+	sString	: STRING(255);
+	wLword	: LWORD;
+END_UNION
+
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>
