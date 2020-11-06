@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4023.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
   <POU Name="PRG_HA_SingleNode" Id="{fce75bf9-8c13-44e6-a03d-58b2db280665}" SpecialFunc="None">
     <Declaration><![CDATA[//| use case:
 //| One variable is specified for historical access. 
@@ -187,12 +187,12 @@ CASE nState OF
 	fbUADisconnect( Execute := TRUE, ConnectionHdl := nConnectionHdl );
 		
 	IF NOT fbUADisconnect.Busy THEN
-		IF fbUAConnect.Error THEN
+		IF fbUADisconnect.Error THEN
 			bError 			:= TRUE;
-			nErrorID 		:= fbUAConnect.ErrorID;
+			nErrorID 		:= fbUADisconnect.ErrorID;
 			nConnectionHdl 	:= 0;
 		END_IF
-		fbUAConnect(Execute := FALSE);
+		fbUADisconnect(Execute := FALSE);
 		nState := 0;
 	END_IF
 END_CASE
