@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="PRG_METHOD" Id="{b0f3f37a-01c7-43ac-8c3b-e326dc128492}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_METHOD
+VAR
+	(* Declarations for UA_Connect *)	
+	fbUA_Connect: UA_Connect;
+	SessionConnectInfo: ST_UASessionConnectInfo;
+	nConnectionHdl: DWORD;
+	
+	(* Declarations for UA_GetNamespaceIndex *)
+	fbUA_GetNamespaceIndex: UA_GetNamespaceIndex;
+	nNamespaceIndex: UINT;
+	
+	(* Declarations for UA_MethodGetHandle *)
+	fbUA_MethodGetHandle: UA_MethodGetHandle;
+	ObjectNodeID: ST_UANodeID;
+	MethodNodeID: ST_UANodeID;
+	nMethodHdl: DWORD;
+	
+	(* Declarations for UA_MethodCall *)
+	fbUA_MethodCall: UA_MethodCall;
+	sObjectNodeIdIdentifier	: STRING(MAX_STRING_LENGTH) := 'MAIN.fbMathematics'; // change to object node identifier (UAObject above method)
+	sMethodNodeIdIdentifier : STRING(MAX_STRING_LENGTH) := 'MAIN.fbMathematics#M_Mul'; // change to method node identifier (UAMethod to call)
+	nAdrWriteData: PVOID;
+	numberIn1: INT := 42; // change according to input value and data type
+	numberIn2: INT := 42; // change according to input value and data type
+	numberOutPro: DINT; // result (output parameter of M_Mul())
+	cbWriteData: UDINT; // calculated automatically by M_Init()
+	InputArguments: ARRAY[1..2] OF ST_UAMethodArgInfo; // change according to input parameters - M_Mul has 2 input parameters 
+	stOutputArgInfo: ARRAY[1..1] OF ST_UAMethodArgInfo; // change according to output parameters - M_Mul has 1 output parameters
+	stOutputArgInfoAndData: ST_OutputArgInfoAndData;
+	nInputData: ARRAY[1..4] OF BYTE; // numberIn1(INT16)(2) + numberIn2(INT16)(2)
+	nOffset: UDINT; // calculated by M_Init()
+	nArg: INT; // used by M_Init()
+	
+	(* Declarations for UA_MethodReleaseHandle *)
+	fbUA_MethodReleaseHandle: UA_MethodReleaseHandle;
+
+	(* Declarations for UA_Disconnect *)
+	fbUA_Disconnect: UA_Disconnect;
+			
+	(* Other Declarations *)
+	bTest: BOOL := TRUE;
+	bDone: BOOL;
+	bBusy: BOOL;
+	bError: BOOL;
+	nErrorID: DWORD;
+	iState: INT;
+	RTrig: R_TRIG;
+	bInputDataError: BOOL;
+END_VAR
+VAR CONSTANT
+	nInputArgSize: INT := 4; // numberIn1(INT16)(2) + numberIn2(INT16)(2)
+	nNumberOfInputArguments: DINT := 2; // change to number of input parameters - M_Mul has 2 input parameters
+	nNumberOfOutputArguments: DINT := 1; // change to number of output parameters - M_Mul has 1 output parameters
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE iState OF
+
+0:	(* idle *)
+	IF bTest THEN
+		bTest		:= FALSE;
+		bError		:= FALSE;
+		nErrorID	:= 0;
+
+		SessionConnectInfo.tConnectTimeout 		:= T#1M;
+		SessionConnectInfo.tSessionTimeout 		:= T#1M;
+		SessionConnectInfo.sApplicationName		:= '';
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_None;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
+		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
+
+		iState	:= iState + 1;
+	END_IF
+
+	
+1:	(* open UA session *)
+	fbUA_Connect(
+		Execute				:= TRUE,
+		ServerURL			:= sOpcUaServerUrl,
+		SessionConnectInfo	:= SessionConnectInfo,
+		Timeout				:= T#2M,
+		ConnectionHdl		=> nConnectionHdl
+	);
+
+	IF NOT fbUA_Connect.Busy THEN
+		fbUA_Connect(Execute := FALSE);
+
+		IF NOT fbUA_Connect.Error THEN
+			(* connected *)
+			iState := iState + 1;
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Connect.ErrorID;
+			nConnectionHdl	:= 0;
+			iState 			:= 0; (* idle *)
+		END_IF
+	END_IF
+
+
+2:	(* GetNS Index *)
+	fbUA_GetNamespaceIndex(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		NamespaceUri	:= sNamespaceUri,
+		NamespaceIndex	=> nNamespaceIndex
+	);
+
+	IF NOT fbUA_GetNamespaceIndex.Busy THEN
+		fbUA_GetNamespaceIndex(Execute := FALSE);
+
+		IF NOT fbUA_GetNamespaceIndex.Error THEN
+			(* namespace index read successfully *)
+			iState 		:= iState + 1;
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_GetNamespaceIndex.ErrorID;
+			iState 		:= 7; (* disconnect *)
+		END_IF
+	END_IF
+
+	
+3:	(* Get Method Handle *)
+	ObjectNodeID.eIdentifierType := eUAIdentifierType_String;
+	ObjectNodeID.nNamespaceIndex := nNamespaceIndex;
+	ObjectNodeID.sIdentifier	 := sObjectNodeIdIdentifier;
+
+	MethodNodeID.eIdentifierType := eUAIdentifierType_String;
+	MethodNodeID.nNamespaceIndex := nNamespaceIndex;
+	MethodNodeID.sIdentifier	 := sMethodNodeIdIdentifier;
+
+	M_Init();
+	IF bInputDataError = FALSE THEN
+		iState 	:= iState + 1;
+	ELSE
+		bBusy		:= FALSE;  
+		bError 		:= TRUE;
+		nErrorID 	:= 16#70A; //out of memory
+	END_IF
+
+	
+4:	(* Method Get Handle *)
+	fbUA_MethodGetHandle(
+			Execute			:= TRUE,
+			ConnectionHdl	:= nConnectionHdl,
+			ObjectNodeID	:= ObjectNodeID,
+			MethodNodeID 	:= MethodNodeID,
+			MethodHdl		=> nMethodHdl
+		);
+	IF NOT fbUA_MethodGetHandle.Busy THEN
+		fbUA_MethodGetHandle(Execute := FALSE);
+
+		IF NOT fbUA_MethodGetHandle.Error THEN
+			(*  *)
+			iState := iState + 1; (* Call Method *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_MethodGetHandle.ErrorID;
+			iState	 	:= 6; (* Release method Handle *)
+		END_IF
+	END_IF
+
+
+5:	(* Method Call *)
+	stOutputArgInfo[1].nLenData := SIZEOF(stOutputArgInfoAndData.pro);
+	fbUA_MethodCall(
+		Execute					:= TRUE,
+		ConnectionHdl			:= nConnectionHdl,
+		MethodHdl				:= nMethodHdl,
+		nNumberOfInputArguments := nNumberOfInputArguments,	
+		pInputArgInfo			:= ADR(InputArguments),
+		cbInputArgInfo			:= SIZEOF(InputArguments),
+		pInputArgData			:= ADR(nInputData),
+		cbInputArgData			:= cbWriteData,
+		pInputWriteData			:= 0,
+		cbInputWriteData		:= 0,
+		nNumberOfOutputArguments:= nNumberOfOutputArguments,
+		pOutputArgInfo			:= ADR(stOutputArgInfo),
+		cbOutputArgInfo			:= SIZEOF(stOutputArgInfo),
+		pOutputArgInfoAndData	:= ADR(stOutputArgInfoAndData),
+		cbOutputArgInfoAndData	:= SIZEOF(stOutputArgInfoAndData),		
+	);
+	IF NOT fbUA_MethodCall.Busy THEN
+		fbUA_MethodCall(Execute := FALSE);
+		IF NOT fbUA_MethodCall.Error THEN
+			(* clear data and restart *)
+			iState := iState + 1; (* Release handle *)
+			numberOutPro := stOutputArgInfoAndData.pro;
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_MethodCall.ErrorID;
+			iState		:= 6; (* Release method handle *)
+		END_IF
+	END_IF
+
+
+6:	(* Release Method Handle *)
+	fbUA_MethodReleaseHandle(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		MethodHdl		:= nMethodHdl
+	);
+
+	IF NOT fbUA_MethodReleaseHandle.Busy THEN
+		fbUA_MethodReleaseHandle(Execute := FALSE);
+		bBusy := FALSE;
+		IF NOT fbUA_MethodReleaseHandle.Error THEN
+			(* session closed *)
+			iState 	:= 7; (* Disconnect *)
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_MethodReleaseHandle.ErrorID;
+			iState 		:= 7; (* Disconnect *)
+		END_IF
+	END_IF
+	
+	
+7:	(* Disconnect *) 
+	fbUA_Disconnect(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl
+	);
+
+	IF NOT fbUA_Disconnect.Busy THEN
+		fbUA_Disconnect(Execute := FALSE);
+
+		IF NOT fbUA_Disconnect.Error THEN
+			(* disconnected *)
+			iState 	:= 0; (* idle *)
+			bDone 	:= TRUE;
+			bBusy 	:= FALSE;
+		ELSE
+			bBusy 			:= FALSE;
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Disconnect.ErrorID;
+			iState 			:= 0; (* idle *)
+			nConnectionHdl	:= 0;
+		END_IF
+	END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+    <Action Name="M_Init" Id="{f4027831-6a18-44c6-a7f4-dc4926f9a100}">
+      <Implementation>
+        <ST><![CDATA[bInputDataError := FALSE; 
+nOffset := 0;
+MEMSET(ADR(InputArguments),0,SIZEOF(InputArguments));
+MEMSET(ADR(nInputData),0,SIZEOF(nInputData));
+
+nArg := 1;
+(*numberIn1*)			(********** Input parameter 1 **********)
+InputArguments[nArg].DataType			:= eUAType_Int16;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(numberIn1);			(* Length if its a STRING *)
+IF nOffset + SIZEOF(numberIn1) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(numberIn1),SIZEOF(numberIn1));				(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(numberIn1);
+END_IF
+
+nArg := nArg + 1;
+(* numberIn2;*)			(********** Input parameter 2 **********)
+InputArguments[nArg].DataType			:= eUAType_Int16;
+InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
+InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
+InputArguments[nArg].nLenData			:= SIZEOF(numberIn2);				(* Length if its a STRING *)
+IF nOffset + SIZEOF(numberIn2) > nInputArgSize THEN 
+	bInputDataError := TRUE;
+	RETURN;
+ELSE
+	MEMCPY(ADR(nInputData)+nOffset,ADR(numberIn2),SIZEOF(numberIn2));			(* VALUE in BYTES FORM *)
+	nOffset := nOffset + SIZEOF(numberIn2);
+END_IF
+
+cbWriteData := nOffset;
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="PRG_METHOD">
+      <LineId Id="3" Count="182" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="PRG_METHOD.M_Init">
+      <LineId Id="2" Count="33" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GlobalSettings" Id="{eb05ed2f-70d2-4892-b1f1-f5dc3e9ac14b}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	sOpcUaServerUrl : STRING(MAX_STRING_LENGTH) := 'opc.tcp://localhost:4840';
+	sNamespaceUri : STRING(MAX_STRING_LENGTH) := 'urn:BeckhoffAutomation:Ua:PLC1'; // TF6100 setup version 4.x default
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

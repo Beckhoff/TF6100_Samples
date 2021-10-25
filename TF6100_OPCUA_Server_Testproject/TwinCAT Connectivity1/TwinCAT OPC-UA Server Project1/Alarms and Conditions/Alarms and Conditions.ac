@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TcUaAcConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ConditionController Name="Condition Controller">
-    <Condition Name="Objects.PLC1.GVL_nodes_static.stat_scalar_I4" Severity="500">
-      <LimitAlarmType LowLowLimit="0" LowLimit="0" HighLimit="0" HighHighLimit="0" MessageNormal="3" MessageLowLow="5" MessageLow="4" MessageHigh="2" MessageHighHigh="1" />
-      <ItemToMonitor SamplingRate="50" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="ns=4;s=GVL_nodes_static.stat_scalar_I4" />
-    </Condition>
-  </ConditionController>
-</TcUaAcConfig>

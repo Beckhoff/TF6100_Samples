@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_HistoryUpdate_INT" Id="{7d56da8c-b650-4266-b490-b5c44d5ff704}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_HistoryUpdate_INT
+VAR_INPUT
+	bSample			: BOOL := TRUE; //Set True if data should be sampled; set FALSE if sampling should be stopped.
+	bStop			: BOOL; // set TRUE if nodes should be released
+	nConnectionHdl	: DWORD;
+	nNamespaceIndex	: UINT;
+	sNodeIdentifier	: STRING(MAX_STRING_LENGTH);
+	pValue			: PVOID;
+END_VAR
+VAR_OUTPUT
+	bBusy			: BOOL;
+	bError			: BOOL;
+	nErrorID		: DWORD;
+	nNodeHdl		: DWORD;
+END_VAR
+
+VAR CONSTANT
+	cBufferSize		: UINT := 1000;
+	cValueSize		: UINT := SIZEOF(INT);
+END_VAR
+VAR
+	// state machine declarations 
+	RisingEdgeStart			: R_TRIG;
+	nState					: INT := 0;
+
+	// Declarations for UA_NodeGetHandle
+	fbUANodeGetHandle		: UA_NodeGetHandle;
+	NodeID					: ST_UANodeID := (eIdentifierType 	:= eUAIdentifierType_String);
+	
+	// Declarations for UA_HistoryUpdate
+	fbUAHistoryUpdate		: UA_HistoryUpdate;
+	aDataValues				: ARRAY [1..cBufferSize] OF UAHADataValue(ValueSize:=cValueSize);
+	aValueErrorIDs			: ARRAY [1..cBufferSize] OF DWORD;
+	nCounter				: UINT := 1;
+	
+	// Declarations for UA_NodeReleaseHandle
+	fbUANodeReleaseHandle	: UA_NodeReleaseHandle;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[RisingEdgeStart(CLK:=bSample);
+
+CASE nState OF
+0: //Idle	
+	IF RisingEdgeStart.Q THEN
+		bError := FALSE;
+		nErrorID := 0;
+		nCounter := 1;
+		
+		NodeID.nNamespaceIndex 	:= nNamespaceIndex;
+		NodeID.sIdentifier		:= sNodeIdentifier;
+		
+		fbUANodeGetHandle(	Execute 			:= TRUE,
+							ConnectionHdl 		:= nConnectionHdl,
+							NodeID 				:= NodeID,
+							Busy				=> bBusy );	
+		nState := 1;	
+	END_IF
+	
+1: //Get Node Handle
+	fbUANodeGetHandle(Execute := FALSE, NodeHdl=>nNodeHdl, Busy=>bBusy );
+	IF NOT fbUANodeGetHandle.Busy THEN
+		IF NOT fbUANodeGetHandle.Error THEN
+			nCounter		:= 1;
+			nState 			:= 2;
+		ELSE
+			bError  		:= TRUE;
+			nErrorID 		:= fbUANodeGetHandle.ErrorID;
+			nState 			:= 666; //error state
+		END_IF
+	END_IF
+	
+2: //UA_HistoryUpdate
+	IF bSample THEN
+		aDataValues[nCounter].Value			 	:= pValue;
+		aDataValues[nCounter].StatusCode 		:= UAHAUpdateStatusCode.HistorianRaw;
+		aDataValues[nCounter].ServerTimeStamp 	:= F_GetSystemTime();
+		aDataValues[nCounter].SourceTimeStamp 	:= aDataValues[nCounter].ServerTimeStamp;	
+		nCounter := nCounter + 1;
+
+		IF nCounter > cBufferSize THEN
+			fbUAHistoryUpdate.Execute := TRUE;
+			nCounter := 1;
+		END_IF
+	END_IF
+	
+	fbUAHistoryUpdate(	Execute 		:= , //already set above
+						ConnectionHdl 	:= nConnectionHdl,
+						NodeHdl 		:= nNodeHdl,
+						PerformInsert 	:= TRUE,
+						PerformReplace 	:= FALSE,
+						DataValueCount 	:= cBufferSize,
+						DataValues	 	:= aDataValues,
+						ValueErrorIDs 	:= aValueErrorIDs,
+						Busy			=> bBusy );
+						
+	IF NOT fbUAHistoryUpdate.Busy THEN
+		IF NOT fbUAHistoryUpdate.Error THEN
+			IF bStop THEN
+				nState := 3; //Release Node Handle
+			END_IF
+		ELSE
+			bError 			:= TRUE;
+			nErrorID 		:= fbUAHistoryUpdate.ErrorID;
+			nState 			:= 666; //error state
+		END_IF
+		fbUAHistoryUpdate(	Execute			:= FALSE, 			
+							DataValues	 	:= aDataValues,
+							ValueErrorIDs 	:= aValueErrorIDs,
+							Busy			=> bBusy );
+	END_IF
+	
+3: //Release Node Handle
+	fbUANodeReleaseHandle(	Execute 		:= TRUE,
+							ConnectionHdl 	:= nConnectionHdl,
+							NodeHdl 		:= nNodeHdl,
+							Busy			=> bBusy );
+		
+	IF NOT fbUANodeReleaseHandle.Busy THEN
+		IF NOT fbUANodeReleaseHandle.Error THEN
+			nState		:= 0;
+			nNodeHdl	:= 0;
+		ELSE
+			bError 		:= TRUE;
+			nErrorID 	:= fbUANodeReleaseHandle.ErrorID;
+			nState 		:= 666; //error state
+		END_IF
+		fbUANodeReleaseHandle(Execute := FALSE, Busy => bBusy );
+	END_IF	
+	
+666: //error state	
+	
+END_CASE
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_HistoryUpdate_INT">
+      <LineId Id="177" Count="1" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="180" Count="1" />
+      <LineId Id="200" Count="3" />
+      <LineId Id="185" Count="2" />
+      <LineId Id="195" Count="2" />
+      <LineId Id="349" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="183" Count="1" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="40" Count="8" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="259" Count="2" />
+      <LineId Id="257" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="300" Count="0" />
+      <LineId Id="302" Count="0" />
+      <LineId Id="307" Count="1" />
+      <LineId Id="301" Count="0" />
+      <LineId Id="216" Count="0" />
+      <LineId Id="69" Count="8" />
+      <LineId Id="350" Count="0" />
+      <LineId Id="78" Count="1" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="84" Count="7" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="351" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="111" Count="2" />
+      <LineId Id="352" Count="0" />
+      <LineId Id="114" Count="1" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="255" Count="0" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="118" Count="1" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="205" Count="0" />
+      <LineId Id="106" Count="1" />
+      <LineId Id="133" Count="1" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="136" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
