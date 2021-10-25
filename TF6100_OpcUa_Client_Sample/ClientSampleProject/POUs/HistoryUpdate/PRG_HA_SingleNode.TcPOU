@@ -66,8 +66,8 @@ CASE nState OF
 		stSessionConnectInfo.tConnectTimeout 		:= T#1M;
 		stSessionConnectInfo.tSessionTimeout 		:= T#1M;
 		stSessionConnectInfo.sApplicationName		:= '';
-		stSessionConnectInfo.eSecurityMode 			:= eUASecurityMsgMode_None;
-		stSessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
+		stSessionConnectInfo.eSecurityMode 			:= eUASecurityMsgMode_Sign_Encrypt;
+		stSessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
 		stSessionConnectInfo.eTransportProfileUri	:= eUATransportProfileUri_UATcp;
 		
 		nState := 1;

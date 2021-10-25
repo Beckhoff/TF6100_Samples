@@ -53,7 +53,7 @@ CASE iState OF
 		SessionConnectInfo.tSessionTimeout 		:= T#1M;
 		SessionConnectInfo.sApplicationName		:= '';
 		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
-		SessionConnectInfo.eSecurityPolicyUri 	:= 5;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
 		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
 
 (*		nIndexRange[1].nStartIndex := 0;

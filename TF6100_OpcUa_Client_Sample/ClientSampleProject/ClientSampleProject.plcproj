@@ -33,6 +33,9 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Connect\PRG_CONNECT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\HistoryUpdate\FB_HistoryUpdate_INT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -76,6 +79,7 @@
     <Folder Include="Helper" />
     <Folder Include="POUs\HistoryUpdate" />
     <Folder Include="POUs\MethodCall" />
+    <Folder Include="POUs\Connect" />
     <Folder Include="POUs\Write" />
     <Folder Include="POUs\Read" />
     <Folder Include="VISUs" />

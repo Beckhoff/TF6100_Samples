@@ -48,8 +48,8 @@ CASE iState OF
 		SessionConnectInfo.tConnectTimeout 		:= T#1M;
 		SessionConnectInfo.tSessionTimeout 		:= T#1M;
 		SessionConnectInfo.sApplicationName		:= '';
-		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_None;
-		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
 		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
 
 		iState	:= iState + 1;
