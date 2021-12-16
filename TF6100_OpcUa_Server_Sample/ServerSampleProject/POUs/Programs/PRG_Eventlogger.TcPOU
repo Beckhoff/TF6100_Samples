@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="PRG_Eventlogger" Id="{32d7ca8e-ad6d-434e-9b14-2b33a430a957}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This program is based on the standard TcEventlogger sample and provides sample code to fire an alarm and event
+   The TcOpcUaServer can be configured to subscribe to TcEventlogger alarms and events and convert them into an 
+   OPC UA alarm/event. Please consult the TF6100 documentation on the Beckhoff Information System fore more info *) 
+PROGRAM PRG_Eventlogger
+VAR
+	bInit : BOOL := TRUE; 
+    bSend : BOOL := FALSE;	
+	bAlmRaise : BOOL := FALSE;
+	bAlmConfirm : BOOL := FALSE;
+	bAlmClear : BOOL := FALSE;
+    fbMsg : FB_TcMessage;
+	fbAlm : FB_TcAlarm; 	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bInit THEN
+    bInit := FALSE; 
+    fbMsg.CreateEx(TC_EVENTS.TutorialClass.Event, 0); 
+	fbAlm.CreateEx(TC_EVENTS.TutorialClass.Alarm, TRUE, 0, );
+END_IF
+
+IF bSend THEN 
+    bSend := FALSE;
+	fbMsg.SetJsonAttribute( '{"name":"fbMsg", "action":"send"}' );
+    fbMsg.Send(0); 
+END_IF
+
+IF bAlmRaise THEN
+	bAlmRaise := FALSE;
+	fbAlm.SetJsonAttribute( '{"name":"fbAlm", "action":"Raise"}' );
+	fbAlm.Raise(0);
+END_IF
+
+IF bAlmConfirm THEN
+	bAlmConfirm := FALSE;
+	fbAlm.SetJsonAttribute( '{"name":"fbAlm", "action":"Confirm"}' );
+	fbAlm.Confirm(0);
+END_IF
+	
+IF bAlmClear THEN
+	bAlmClear := FALSE;
+	fbAlm.SetJsonAttribute( '{"name":"fbAlm", "action":"Clear"}' );
+	fbAlm.Clear(0, FALSE);
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_Eventlogger">
+      <LineId Id="16" Count="27" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
