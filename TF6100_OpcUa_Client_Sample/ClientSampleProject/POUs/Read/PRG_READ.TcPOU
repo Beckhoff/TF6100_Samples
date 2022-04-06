@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="PRG_READ" Id="{dbb9970d-bf43-4de9-9e80-056cb08db1cf}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_READ
 VAR
@@ -56,7 +56,22 @@ CASE iState OF
 		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
 		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
 
-(*		nIndexRange[1].nStartIndex := 0;
+		(* Please note: when connecting to newer versions of the TwinCAT OPC UA Server,
+		a server initialization is required, which basically activates username/password
+		authentication for every client connection. Please set the corresponding username/password
+		in stUserIdentTokenType as shown below. *)
+		
+		(* Please note: in order to successfully connect to the server, you need to trust the  
+		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
+		"PKI\CA\trusted" folder after the first connection. *)
+ 		
+		(*
+		SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
+		SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
+		SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
+		*)		
+		
+		(* nIndexRange[1].nStartIndex := 0;
 		nIndexRange[1].nEndIndex := 1;
 		nIndexRange[1].bRangeAccess := TRUE; *)
 		stNodeAddInfo.nIndexRangeCount := nIndexRangeCount;
@@ -200,7 +215,12 @@ END_CASE
 ]]></ST>
     </Implementation>
     <LineIds Name="PRG_READ">
-      <LineId Id="3" Count="155" />
+      <LineId Id="3" Count="13" />
+      <LineId Id="197" Count="0" />
+      <LineId Id="199" Count="12" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="18" Count="140" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

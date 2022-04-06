@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="PRG_CONNECT" Id="{002e8e07-f0b2-479e-99d2-5f4b67fd2a40}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_CONNECT
 VAR
@@ -35,6 +35,15 @@ CASE iState OF
 		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
 		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
 
+		(* Please note: when connecting to newer versions of the TwinCAT OPC UA Server,
+		a server initialization is required, which basically activates username/password
+		authentication for every client connection. Please set the corresponding username/password
+		in stUserIdentTokenType as shown below. *)
+		
+		(* Please note: in order to successfully connect to the server, you need to trust the  
+		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
+		"PKI\CA\trusted" folder after the first connection. *)
+ 		
 		(*
 		SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
 		SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
@@ -94,7 +103,13 @@ END_CASE
     </Implementation>
     <LineIds Name="PRG_CONNECT">
       <LineId Id="3" Count="13" />
+      <LineId Id="260" Count="0" />
       <LineId Id="241" Count="0" />
+      <LineId Id="262" Count="1" />
+      <LineId Id="266" Count="2" />
+      <LineId Id="273" Count="0" />
+      <LineId Id="272" Count="0" />
+      <LineId Id="271" Count="0" />
       <LineId Id="236" Count="0" />
       <LineId Id="22" Count="0" />
       <LineId Id="238" Count="2" />
