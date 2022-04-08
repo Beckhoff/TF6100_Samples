@@ -36,9 +36,9 @@ VAR
 	nNamespaceIndex			: UINT;
 	
 	// Declarations for UA_HistoryUpdate
-	fbHistoryUpdateNode1	: FB_HistoryUpdate_INT := (sNodeIdentifier := 'PRG_HA_MultipleNodes.nMyValue1');
-	fbHistoryUpdateNode2	: FB_HistoryUpdate_INT := (sNodeIdentifier := 'PRG_HA_MultipleNodes.nMyValue2');
-	fbHistoryUpdateNode3	: FB_HistoryUpdate_LREAL := (sNodeIdentifier := 'PRG_HA_MultipleNodes.fMyValue3');
+	fbHistoryUpdateNode1	: FB_HistoryUpdate_INT := (sNodeIdentifier := 'MAIN.nMyValue1');
+	fbHistoryUpdateNode2	: FB_HistoryUpdate_INT := (sNodeIdentifier := 'MAIN.nMyValue2');
+	fbHistoryUpdateNode3	: FB_HistoryUpdate_LREAL := (sNodeIdentifier := 'MAIN.fMyValue3');
 	
 	// Declarations for UA_Disconnect
 	fbUADisconnect			: UA_Disconnect;

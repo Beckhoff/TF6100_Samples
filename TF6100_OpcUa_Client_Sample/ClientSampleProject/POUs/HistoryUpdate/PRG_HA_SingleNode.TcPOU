@@ -35,7 +35,7 @@ VAR
 	
 	// Declarations for UA_NodeGetHandle
 	fbUANodeGetHandle		: UA_NodeGetHandle;
-	sNodeIdentifier			: STRING(MAX_STRING_LENGTH) := 'PRG_HA_SingleNode.nMyValue'; // change to node identifier
+	sNodeIdentifier			: STRING(MAX_STRING_LENGTH) := 'MAIN.nMyValue'; // change to node identifier
 	NodeID					: ST_UANodeID;
 	nNodeHdl				: DWORD;
 	
