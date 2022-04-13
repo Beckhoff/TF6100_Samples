@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <GVL Name="GVL_properties" Id="{06f1162b-8093-4af3-88c3-eb2b8e70aaef}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	{attribute 'OPC.UA.DA' := '1'}
+	Properties : FB_Properties;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

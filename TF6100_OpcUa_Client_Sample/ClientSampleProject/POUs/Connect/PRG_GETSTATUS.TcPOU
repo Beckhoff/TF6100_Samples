@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="PRG_GETSTATUS" Id="{3c230600-8f51-44eb-8de1-1b223ccc36df}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_GETSTATUS
+VAR
+	(* Declarations for UA_Connect *)
+	fbUA_Connect			: UA_Connect;
+	SessionConnectInfo		: ST_UASessionConnectInfo;
+	nConnectionHdl			: DWORD;
+
+	(* Declarations for ConnectionGetStatus *)
+	fbUA_ConnectGetStatus	: UA_ConnectGetStatus;
+	eUaConnectionGetStatus	: E_UAConnectionStatus;
+	eUaServerState			: E_UAServerState;
+	
+	(* Declarations for UA_Disconnect *)
+	fbUA_Disconnect		: UA_Disconnect;
+
+	(* Other declarations *)
+	iState		: INT;
+	bTest		: BOOL:= TRUE;
+	bDone		: BOOL;
+	bBusy		: BOOL;
+	bError		: BOOL;
+	nErrorID	: DWORD;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+CASE iState OF
+0:	(* idle *)
+	IF bTest THEN
+		bTest		:= FALSE;
+		bError		:= FALSE;
+		nErrorID	:= 0;
+
+		SessionConnectInfo.tConnectTimeout 		:= T#1M;
+		SessionConnectInfo.tSessionTimeout 		:= T#1M;
+		SessionConnectInfo.sApplicationName		:= '';
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
+		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
+
+		(* Please note: when connecting to newer versions of the TwinCAT OPC UA Server,
+		a server initialization is required, which basically activates username/password
+		authentication for every client connection. Please set the corresponding username/password
+		in stUserIdentTokenType as shown below. *)
+		
+		(* Please note: in order to successfully connect to the server, you need to trust the  
+		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
+		"PKI\CA\trusted" folder after the first connection. *)
+ 		
+		(*
+		SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
+		SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
+		SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
+		*)
+		
+		iState	:= iState + 1;
+	END_IF
+
+1:	(* Open UA session *)
+	fbUA_Connect(
+		Execute				:= TRUE,
+		ServerURL			:= sOpcUaServerUrl,
+		SessionConnectInfo	:= SessionConnectInfo,
+		Timeout				:= T#2M,
+		ConnectionHdl		=> nConnectionHdl
+	);
+
+	IF NOT fbUA_Connect.Busy THEN
+		fbUA_Connect(Execute := FALSE);
+
+		IF NOT fbUA_Connect.Error THEN
+			(* session open *)
+			iState := iState + 1;
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Connect.ErrorID;
+			nConnectionHdl	:= 0;
+			iState 			:= 0; (* idle *)
+		END_IF
+	END_IF
+
+2:	(* Query server connection status *)
+	fbUA_ConnectGetStatus(
+		Execute				:= TRUE,
+		ConnectionHdl		:= nConnectionHdl,
+		Timeout				:= T#2M,
+		GetServiceLevel		:= FALSE,
+		ConnectionStatus	=> eUaConnectionGetStatus,
+		ServerState			=> eUaServerState
+	);
+
+	IF NOT fbUA_ConnectGetStatus.Busy THEN
+		fbUA_ConnectGetStatus(Execute := FALSE);
+
+		IF NOT fbUA_ConnectGetStatus.Error THEN
+			(* session open *)
+			iState := iState + 1;
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Connect.ErrorID;
+			nConnectionHdl	:= 0;
+			iState 			:= 0; (* idle *)
+		END_IF
+	END_IF
+	
+3:	(* close session *)
+	fbUA_Disconnect(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl
+	);
+
+	IF NOT fbUA_Disconnect.Busy THEN
+		fbUA_Disconnect(Execute := FALSE);
+		bBusy := FALSE;
+		IF NOT fbUA_Disconnect.Error THEN
+			(* session closed *)
+			iState 		:= 0;
+			IF NOT bError THEN 
+				bDone 	:= TRUE;
+			END_IF
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Disconnect.ErrorID;
+			iState 			:= 0; (* idle *)
+			nConnectionHdl	:= 0;
+		END_IF
+	END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_GETSTATUS">
+      <LineId Id="3" Count="13" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="262" Count="1" />
+      <LineId Id="266" Count="2" />
+      <LineId Id="273" Count="0" />
+      <LineId Id="272" Count="0" />
+      <LineId Id="271" Count="0" />
+      <LineId Id="236" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="238" Count="2" />
+      <LineId Id="237" Count="0" />
+      <LineId Id="23" Count="15" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="40" Count="7" />
+      <LineId Id="314" Count="0" />
+      <LineId Id="316" Count="2" />
+      <LineId Id="322" Count="0" />
+      <LineId Id="337" Count="3" />
+      <LineId Id="323" Count="13" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="315" Count="0" />
+      <LineId Id="136" Count="22" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_Properties" Id="{52da11e9-c7f6-41cc-97e6-b578e0fee606}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Properties
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="MyProperty1" Id="{6dab72ae-36ea-425b-901e-e597e4a770d1}">
+      <Declaration><![CDATA[{attribute 'OPC.UA.DA.Property' := '1'}
+{attribute 'monitoring' := 'call'}
+PROPERTY MyProperty1 : BOOL]]></Declaration>
+      <Get Name="Get" Id="{1616f76b-00c7-4b3c-ace2-b501d1727482}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{98a1fda8-9f23-4b09-8692-aa674b2e6d7c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <LineIds Name="FB_Properties">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Properties.MyProperty1.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Properties.MyProperty1.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

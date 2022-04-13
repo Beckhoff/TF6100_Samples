@@ -36,6 +36,9 @@
     <Compile Include="POUs\Connect\PRG_CONNECT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Connect\PRG_GETSTATUS.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\HistoryUpdate\FB_HistoryUpdate_INT.TcPOU">
       <SubType>Code</SubType>
     </Compile>

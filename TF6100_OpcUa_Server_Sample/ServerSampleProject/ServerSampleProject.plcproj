@@ -69,6 +69,10 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="GVLs\GVL_properties.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="GVLs\GVL_user_access.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
@@ -125,6 +129,9 @@
     <Compile Include="POUs\Programs\PRG_Static.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Properties\FB_Properties.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
@@ -133,6 +140,7 @@
     <Folder Include="GVLs" />
     <Folder Include="POUs\Inheritance" />
     <Folder Include="POUs\Methods" />
+    <Folder Include="POUs\Properties" />
     <Folder Include="POUs\Programs" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
