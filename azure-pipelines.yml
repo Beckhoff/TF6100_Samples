@@ -1,13 +1,16 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
 pool: 
   name: TwinCAT-Builds
+
+variables:
+  Version.Major: '1'
+  Version.Minor: '0'
+  Version.CounterName: Version$(Version.Major).$(Version.Minor)
+  Version.Build: $[counter(variables['Version.CounterName'], 0)]
+
+name: TcOpcUaSamples_v$(Version.Major).$(Version.Minor).$(Version.Build)($(Rev:r)).$(Build.SourceBranchName)
 
 steps:
 - task: CopyFiles@1
