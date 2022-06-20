@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <GVL Name="GVL_structures" Id="{55b4d72c-7100-4385-be79-aa7caa1663d1}">
     <Declaration><![CDATA[VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 	
 	StructuredType1 : ST_Complex_1;
+	
+	{attribute 'OPC.UA.DA' := '2'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 	
+	StructuredType1WithoutMember : ST_Complex_1;
 
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
