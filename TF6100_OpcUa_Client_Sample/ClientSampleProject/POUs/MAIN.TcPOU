@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="MAIN" Id="{fc8ad144-f214-4b14-b487-cf23eecee195}" SpecialFunc="None">
     <Declaration><![CDATA[//| use case:
 //| Demonstrates how to use the TwinCAT OPC UA Client with PLCopen function blocks. 
@@ -10,7 +10,8 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[PRG_CONNECT(); // Call sample for UA_Connect and UA_Disconnect
-PRG_GETSTATUS(); // Call sample to query server connection status via UA_ConnectGetStatus
+//PRG_GETSTATUS(); // Call sample to query server connection status via UA_ConnectGetStatus
+//PRG_BROWSE(); // Call sample for UA_Browse
 //PRG_READ(); // Call sample for UA_Read
 //PRG_READ_IndexRange(); // Call sample for UA_Read
 //PRG_READ_List(); // Call sample for UA_ReadList
@@ -24,6 +25,7 @@ PRG_GETSTATUS(); // Call sample to query server connection status via UA_Connect
     <LineIds Name="MAIN">
       <LineId Id="32" Count="0" />
       <LineId Id="39" Count="0" />
+      <LineId Id="46" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="9" Count="2" />

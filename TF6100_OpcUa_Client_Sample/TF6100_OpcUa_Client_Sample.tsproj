@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.25">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.32">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{D77C326D-9F8A-4461-A4D9-9D5535A9CCE4}" PersistentType="true">ETcWGroups</Name>
@@ -5211,7 +5211,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{70C1EE89-A65D-417C-90F4-4BEBDC9B1346}" Name="ServerSampleProject" PrjFilePath="ServerSampleProject\ServerSampleProject.plcproj" TmcFilePath="ServerSampleProject\ServerSampleProject.tmc" ReloadTmc="true" AmsPort="851" TargetArchiveSettings="#x0002" FileArchiveSettings="#x0002" CopyTmcToTarget="true" CopyTpyToTarget="false">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="ServerSampleProject\ServerSampleProject.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="ServerSampleProject\ServerSampleProject.tmc" TmcHash="{D33E2FCE-C403-6197-F251-3C63FC8679D6}">
 					<Name>ServerSampleProject Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -5231,7 +5231,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{525B8F9C-92F8-4802-832B-9F33CD7B9ED0}" Name="ClientSampleProject" PrjFilePath="ClientSampleProject\ClientSampleProject.plcproj" TmcFilePath="ClientSampleProject\ClientSampleProject.tmc" ReloadTmc="true" AmsPort="852" TargetArchiveSettings="#x0002" FileArchiveSettings="#x0002">
-				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="ClientSampleProject\ClientSampleProject.tmc">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="ClientSampleProject\ClientSampleProject.tmc" TmcHash="{72AC0024-C6F8-CE21-6FB3-A6CBE48B9039}">
 					<Name>ClientSampleProject Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="PRG_BROWSE" Id="{519da70b-4e8f-47b7-b486-5f29557ce652}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_BROWSE
+VAR
+	(* Declarations for UA_Connect *)
+	fbUA_Connect			: UA_Connect;
+	SessionConnectInfo		: ST_UASessionConnectInfo;
+	nConnectionHdl			: DWORD;
+
+	(* Declarations for UA_Browse *)
+	fbUA_Browse				: UA_Browse;
+	stBrowseDescription		: ST_UABrowseDescription; // Default node if not specified: ObjectRoot
+	nContinuationPointIn	: DWORD;
+	nNamespaceIndex			: UINT;
+	stReferenceDescriptions	: ARRAY[1..30] OF ST_UAReferenceDescription;
+	nContinuationPointOut	: DWORD;
+	cbBrowseResultCount		: UDINT; 
+
+	(* Declarations for UA_Disconnect *)
+	fbUA_Disconnect		: UA_Disconnect;
+
+	(* Other declarations *)
+	iState		: INT;
+	bTest		: BOOL:= TRUE;
+	bDone		: BOOL;
+	bBusy		: BOOL;
+	bError		: BOOL;
+	nErrorID	: DWORD;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+CASE iState OF
+0:	(* idle *)
+	IF bTest THEN
+		bTest		:= FALSE;
+		bError		:= FALSE;
+		nErrorID	:= 0;
+
+		SessionConnectInfo.tConnectTimeout 		:= T#1M;
+		SessionConnectInfo.tSessionTimeout 		:= T#1M;
+		SessionConnectInfo.sApplicationName		:= '';
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
+		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
+		
+		(* Please note: when connecting to newer versions of the TwinCAT OPC UA Server,
+		a server initialization is required, which basically activates username/password
+		authentication for every client connection. Please set the corresponding username/password
+		in stUserIdentTokenType as shown below. *)
+		
+		(* Please note: in order to successfully connect to the server, you need to trust the  
+		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
+		"PKI\CA\trusted" folder after the first connection. *)
+ 		
+		(*
+		SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
+		SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
+		SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
+		*)		
+		
+		iState	:= iState + 1;
+	END_IF
+
+1:	(* Open UA session *)
+	fbUA_Connect(
+		Execute				:= TRUE,
+		ServerURL			:= sOpcUaServerUrl,
+		SessionConnectInfo	:= SessionConnectInfo,
+		Timeout				:= T#2M,
+		ConnectionHdl		=> nConnectionHdl
+	);
+
+	IF NOT fbUA_Connect.Busy THEN
+		fbUA_Connect(Execute := FALSE);
+
+		IF NOT fbUA_Connect.Error THEN
+			(* session open *)
+			iState := iState + 1;
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Connect.ErrorID;
+			nConnectionHdl	:= 0;
+			iState 			:= 0; (* idle *)
+		END_IF
+	END_IF
+
+
+2:	(* Browse *)
+	fbUA_Browse(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl,
+		BrowseDescription := stBrowseDescription,
+		ContinuationPointIn := nContinuationPointIn,
+		ReferenceDescriptions := stReferenceDescriptions,
+		ContinuationPointOut => nContinuationPointOut,
+		cbBrowseResultCount => cbBrowseResultCount
+	);
+
+	IF NOT fbUA_Browse.Busy THEN
+		fbUA_Browse(Execute := FALSE);
+		IF NOT fbUA_Browse.Error THEN
+			iState 		:= iState + 1;
+		ELSE
+			bError		:= TRUE;
+			nErrorID	:= fbUA_Browse.ErrorID;
+			iState 		:= 3; (* idle *)
+		END_IF
+	END_IF
+
+3:	(* close session *)
+	fbUA_Disconnect(
+		Execute			:= TRUE,
+		ConnectionHdl	:= nConnectionHdl
+	);
+
+	IF NOT fbUA_Disconnect.Busy THEN
+		fbUA_Disconnect(Execute := FALSE);
+		bBusy := FALSE;
+		IF NOT fbUA_Disconnect.Error THEN
+			(* session closed *)
+			iState 		:= 0;
+			IF NOT bError THEN 
+				bDone 	:= TRUE;
+			END_IF
+		ELSE
+			bError			:= TRUE;
+			nErrorID		:= fbUA_Disconnect.ErrorID;
+			iState 			:= 0; (* idle *)
+			nConnectionHdl	:= 0;
+		END_IF
+	END_IF
+END_CASE
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_BROWSE">
+      <LineId Id="32" Count="10" />
+      <LineId Id="144" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="146" Count="0" />
+      <LineId Id="149" Count="12" />
+      <LineId Id="147" Count="1" />
+      <LineId Id="46" Count="71" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
