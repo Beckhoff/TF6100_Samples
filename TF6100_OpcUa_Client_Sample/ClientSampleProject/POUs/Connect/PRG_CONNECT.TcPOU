@@ -42,7 +42,7 @@ CASE iState OF
 		
 		(* Please note: in order to successfully connect to the server, you need to trust the  
 		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
-		"PKI\CA\trusted" folder after the first connection. *)
+		"PKI\CA\certs\trusted" folder after the first connection. *)
  		
 		(*
 		SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
