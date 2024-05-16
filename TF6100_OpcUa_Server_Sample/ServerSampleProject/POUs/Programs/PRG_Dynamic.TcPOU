@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="PRG_Dynamic" Id="{f47a6e91-8ae4-4c58-8719-5ee04fd610ef}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_Dynamic
 VAR
@@ -28,6 +28,8 @@ timer_100ms(IN:=TRUE);
 timer_1s(IN:=TRUE);
 timer_2s(IN:=TRUE);
 timer_30s(IN:=TRUE);
+
+GVL_methods.Job();
 
 IF( timer_2s.Q ) THEN
 	timer_2s(IN:=FALSE);
@@ -242,6 +244,8 @@ END_IF]]></ST>
       <LineId Id="162" Count="1" />
       <LineId Id="311" Count="0" />
       <LineId Id="161" Count="0" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="337" Count="0" />
       <LineId Id="312" Count="2" />
       <LineId Id="316" Count="0" />
       <LineId Id="315" Count="0" />

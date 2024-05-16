@@ -114,6 +114,9 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Methods\FB_Job.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Methods\FB_Mathematics.TcPOU">
       <SubType>Code</SubType>
     </Compile>

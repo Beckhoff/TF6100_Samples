@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <GVL Name="GVL_methods" Id="{ed212e00-68d5-48e7-8c2d-6f495f9062bb}">
     <Declaration><![CDATA[VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'}
@@ -8,7 +8,11 @@
 	
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'Methods with mathematical functions'}
-	Mathematics : FB_Mathematics;		
+	Mathematics : FB_Mathematics;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Job method which execution may take longer than a PLC cycle'}
+	Job : FB_Job;	
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_Job" Id="{8a26e45c-b764-4450-92ac-a1261a1e29af}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'OPC.UA.DA.JobMethod' := 'MyJob'}
+FUNCTION_BLOCK FB_Job
+VAR
+	// Used for debugging purposes to display InputArguments of method call
+	Input_a : INT; // used to store InputArg "a" from Start() method
+	Input_b : LREAL; // used to store InputArg "b" from Start() method
+	Input_c : BOOL; // used to store InputArg "c" from Start() method
+	Input_d : ST_Complex_1; // used to store InputArg "d" from Start() method
+	callCounterStart : ULINT; // counts how many times the Start() method has been called
+	callCounterCheckState : ULINT; // counts how many times the CheckState() method has been called
+	callCounterAbort : ULINT; // counts how many times the Abort() method has been called
+	
+	// Timer to "artificially delay" job execution
+	timer : TON := (PT:=T#4S);
+	
+	// Variables to determine if a job has been started (Start() method has been called) or finished
+	jobRunning : BOOL;
+	jobFinished : BOOL;
+
+	// State machine variable
+	state : UDINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE state OF
+	0:
+		IF jobRunning THEN
+			state := state + 1;
+		END_IF
+		
+	1:
+		timer(IN:=TRUE);
+		IF timer.Q THEN
+			timer(IN:=FALSE);
+			jobRunning := FALSE;
+			jobFinished := TRUE;
+			state := 0;
+		END_IF
+		
+END_CASE
+
+]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{a3f18e5a-12e6-4a70-8697-275827ac76ca}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable' := '1'}
+METHOD Abort : HRESULT
+VAR_INPUT
+	hdl : UDINT; // Do not change, used by server.
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[callCounterAbort := callCounterAbort + 1;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckState" Id="{89e7ee9d-9129-44d6-b390-8e15e88d0e04}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable' := '1'}
+METHOD CheckState : HRESULT
+VAR_INPUT
+	hdl : UDINT; // Do not change, used by server.
+END_VAR
+VAR_OUTPUT
+	bBusy : BOOL; // Do not change. Used by server to find out if the job is finished
+	
+	// List of OutputArguments for OPC UA method, may be customized
+	a : INT; // some description
+	b : LREAL; // some description
+	c : BOOL; // some description
+	d : ST_Complex_1; // some description
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[callCounterCheckState := callCounterCheckState + 1;
+IF NOT jobFinished THEN
+	bBusy := TRUE; // job is not finished yet
+	CheckState := 0; // no error
+ELSE
+	bBusy := FALSE; // job is finished
+	CheckState := 0; // done, no error occured during execution (OPC UA StatusCode "GOOD")
+	jobFinished := FALSE;
+	a := Input_a;
+	b := Input_b;
+	c := Input_c;
+	d := Input_d;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Start" Id="{d7456b05-1ddc-4259-b442-8ae76bbb795d}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable' := '1'}
+METHOD Start : HRESULT
+VAR_INPUT
+	// List of InputArguments for OPC UA method, may be customized
+	a : INT; // some description
+	b : LREAL; // some description
+	c : BOOL; // some description
+	d : ST_Complex_1; // some description
+END_VAR
+VAR_OUTPUT
+	hdl : UDINT; // Do not change, used by server.
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[callCounterStart := callCounterStart + 1;
+Input_a := a;
+Input_b := b;
+Input_c := c;
+Input_d := d;
+jobRunning := TRUE;
+Start := 0; // no error occured, e.g. while parsing the input arguments (0 = OPC UA StatusCode "GOOD")]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Job">
+      <LineId Id="27" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Job.Abort">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Job.CheckState">
+      <LineId Id="45" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Job.Start">
+      <LineId Id="33" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="3" />
+      <LineId Id="35" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
