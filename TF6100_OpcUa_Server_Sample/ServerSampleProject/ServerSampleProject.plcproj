@@ -149,10 +149,6 @@
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="Tc2_MPBus">
-      <DefaultResolution>Tc2_MPBus, * (Beckhoff Automation GmbH)</DefaultResolution>
-      <Namespace>Tc2_MPBus</Namespace>
-    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>

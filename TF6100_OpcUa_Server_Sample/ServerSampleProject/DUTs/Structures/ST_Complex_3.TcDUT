@@ -5,7 +5,7 @@
 {attribute 'OPC.UA.DA.StructuredType' := '1'}
 TYPE ST_Complex_3 :
 STRUCT
-	ErrorID : MP_ERROR;
+	stAmsAddr : ST_AmsAddr;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
