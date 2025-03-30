@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{70c1ee89-a65d-417c-90f4-4bebdc9b1346}</ProjectGuid>
     <Name>ServerSampleProject</Name>
-    <ProgramVersion>3.1.0.8</ProgramVersion>
+    <ProgramVersion>3.1.4026.13</ProgramVersion>
     <Application>{38756cf6-3856-4f6d-a1bf-115d44d32659}</Application>
     <TypeSystem>{3e289b21-4e1f-4ed1-af64-669ce9e3eb36}</TypeSystem>
     <Implicit_Task_Info>{ecafdd6b-ba1d-4875-ad0a-d367121c6193}</Implicit_Task_Info>
@@ -55,14 +55,9 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ServerSampleProject.tmc">
+    <None Include="ServerSampleProject.tmc">
       <SubType>Content</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <PlaceholderResolution Include="Tc2_Standard">
-      <Resolution>Tc2_Standard, * (Beckhoff Automation GmbH)</Resolution>
-    </PlaceholderResolution>
+    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

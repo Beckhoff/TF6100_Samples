@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.32">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.13">
 	<DataTypes>
 		<DataType>
 			<Name GUID="{A2DF9140-A915-47B1-9901-35CC79B09E92}" PersistentType="true">TutorialClass</Name>
@@ -19,7 +19,7 @@
 			</Hides>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{46F57825-3085-4014-A591-E4DD7F71DEE3}" ShowHideConfigurations="#x106">
+	<Project ProjectGUID="{46F57825-3085-4014-A591-E4DD7F71DEE3}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
 			<Licenses>
 				<Target>
@@ -34,12 +34,12 @@
 		</System>
 		<Plc>
 			<Project GUID="{B51F9A5D-57DC-4E81-917D-52466A79C949}" Name="ServerSampleProject" PrjFilePath="ServerSampleProject\ServerSampleProject.plcproj" TmcFilePath="ServerSampleProject\ServerSampleProject.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="ServerSampleProject\ServerSampleProject.tmc" TmcHash="{277D3027-53F3-05B8-FF5A-9F9959D09BF2}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9E192EDC-7145-8A0B-B9C2-17302ED59EC4}" TmcPath="ServerSampleProject\ServerSampleProject.tmc">
 					<Name>ServerSampleProject Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
 						<Context>
-							<Id NeedCalleeCall="true">0</Id>
+							<Id>0</Id>
 							<Name>PlcTask</Name>
 							<ManualConfig>
 								<OTCID>#x02010030</OTCID>

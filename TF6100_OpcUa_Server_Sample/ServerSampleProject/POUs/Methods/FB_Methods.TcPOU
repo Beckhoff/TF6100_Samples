@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Methods" Id="{daffb5d3-941c-4f0b-84c9-30e8405c541a}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Methods
 VAR
@@ -23,6 +23,17 @@ END_VAR]]></Declaration>
 aTest[1] := 2;
 aTest[2] := 3;
 M_Array_1 := aTest;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Array_2" Id="{fa68f12f-e6d5-42bd-ab0a-04def1c9d2b8}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Returns array of INT'}
+METHOD M_Array_2 : ARRAY[0..9] OF INT
+VAR_INPUT
+	aTest : ARRAY[0..9] OF INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Array_2 := aTest;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Complex_1" Id="{5806ee66-5b5d-4b39-9af1-417eb561995c}">
@@ -49,12 +60,26 @@ M_Complex_2.a := in.a + 1;
 M_Complex_2.b := in.b + 1;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_NoArgs" Id="{d2f58dae-424c-4621-996c-d0582f3e8ba7}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable'}
+{attribute 'OPC.UA.DA.Description' := 'Method without InOut arguments'}
+METHOD M_NoArgs
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count :=count+1;]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_Methods">
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Methods.M_Array_1">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_Methods.M_Array_2">
+      <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="FB_Methods.M_Complex_1">
       <LineId Id="10" Count="0" />
@@ -65,6 +90,9 @@ M_Complex_2.b := in.b + 1;]]></ST>
       <LineId Id="12" Count="0" />
       <LineId Id="3" Count="0" />
       <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Methods.M_NoArgs">
+      <LineId Id="1" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

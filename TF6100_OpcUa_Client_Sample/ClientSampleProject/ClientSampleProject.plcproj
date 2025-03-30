@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{525b8f9c-92f8-4802-832b-9f33cd7b9ed0}</ProjectGuid>
     <Name>ClientSampleProject</Name>
-    <ProgramVersion>3.1.0.8</ProgramVersion>
+    <ProgramVersion>3.1.4026.13</ProgramVersion>
     <Application>{aafff3c5-4c1a-45ca-a7b2-bc49a5188945}</Application>
     <TypeSystem>{e3aa1986-980c-4971-9f53-420d1d3628d5}</TypeSystem>
     <Implicit_Task_Info>{8b0817a1-ac23-4bd5-8a40-eac810b11dba}</Implicit_Task_Info>
@@ -60,6 +60,9 @@
     <Compile Include="POUs\MethodCall\PRG_METHOD.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\MethodCall\PRG_METHOD_NOARGS.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Read\PRG_READ.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -111,9 +114,9 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClientSampleProject.tmc">
+    <None Include="ClientSampleProject.tmc">
       <SubType>Content</SubType>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <LibraryReference Include="Tc2_Utilities,newest,Beckhoff Automation GmbH">

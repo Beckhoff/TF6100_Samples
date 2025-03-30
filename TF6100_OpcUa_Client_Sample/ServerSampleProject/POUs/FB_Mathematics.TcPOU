@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
-  <POU Name="FB_Mathematics" Id="{d21c0b8e-6469-45a1-ba1e-9bee226b3d60}">
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Mathematics" Id="{d21c0b8e-6469-45a1-ba1e-9bee226b3d60}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Mathematics
 VAR_INPUT
 END_VAR
@@ -9,6 +9,9 @@ END_VAR
 VAR
 	{attribute 'OPC.UA.DA':='1'}
 	nNumberOfCallsMMul : INT;
+	
+	{attribute 'OPC.UA.DA':='1'}
+	nNumberOfCallsMNoArgs : INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -27,6 +30,25 @@ END_VAR
 nNumberOfCallsMMul := nNumberOfCallsMMul + 1;]]></ST>
       </Implementation>
     </Method>
-    <ObjectProperties />
+    <Method Name="M_NoArgs" Id="{4bcd4f7b-cebc-45d2-a6a2-6c2d24fcd79e}">
+      <Declaration><![CDATA[{attribute 'TcRpcEnable':='1'}
+METHOD M_NoArgs
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nNumberOfCallsMNoArgs := nNumberOfCallsMNoArgs + 1;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Mathematics">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.M_Mul">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Mathematics.M_NoArgs">
+      <LineId Id="1" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

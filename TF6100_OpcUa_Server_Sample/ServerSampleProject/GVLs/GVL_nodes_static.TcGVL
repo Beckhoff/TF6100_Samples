@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+<TcPlcObject Version="1.1.0.1">
   <GVL Name="GVL_nodes_static" Id="{2d757ea9-5f4e-4ca0-8dad-0a37993fda23}">
     <Declaration><![CDATA[VAR_GLOBAL
 	//scalars
@@ -246,64 +246,64 @@
 	{attribute 'OPC.UA.DA.Description' := '3dim Array BOOL'}
 	stat_3dim_BOOL		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF BOOL;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array SINT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array SINT'}
 	stat_3dim_I1		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF SINT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array USINT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array USINT'}
 	stat_3dim_UI1		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF USINT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array INT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array INT'}
 	stat_3dim_I2 		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF INT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array UINT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array UINT'}
 	stat_3dim_UI2		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF UINT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array DINT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array DINT'}
 	stat_3dim_I4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DINT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array UDINT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array UDINT'}
 	stat_3dim_UI4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF UDINT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array LINT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array LINT'}
 	stat_3dim_I8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LINT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array ULINT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array ULINT'}
 	stat_3dim_UI8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF ULINT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array BYTE'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array BYTE'}
 	stat_3dim_BYTE		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF BYTE;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array WORD'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array WORD'}
 	stat_3dim_WORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF WORD;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array DWORD'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array DWORD'}
 	stat_3dim_DWORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DWORD;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array LWORD'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array LWORD'}
 	stat_3dim_LWORD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LWORD;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array REAL'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array REAL'}
 	stat_3dim_R4		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF REAL;	
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array LREAL'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array LREAL'}
 	stat_3dim_R8		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF LREAL;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array STRING'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array STRING'}
 	stat_3dim_BSTR		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF STRING;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array WSTRING'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array WSTRING'}
 	stat_3dim_WSTRING 	: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF WSTRING;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array DT'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array DT'}
 	stat_3dim_DT		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DT;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array DATE'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array DATE'}
 	stat_3dim_DATE 		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF DATE;
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array TOD'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array TOD'}
 	stat_3dim_TOD		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF TOD;	
 	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.Description' := '2dim Array TIME'}
+	{attribute 'OPC.UA.DA.Description' := '3dim Array TIME'}
 	stat_3dim_TIME		: ARRAY[0..ARRSIZEX, 0..ARRSIZEY, 0..ARRSIZEZ] OF TIME;
 
 	
