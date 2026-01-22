@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<TcUaDaConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<MaxStructureSize>16384</MaxStructureSize>
+	<UaNodeManager>
+		<DiComponent SerialNumber="" Manufacturer="beckhoff.com" Model="PC-based Control" SoftwareRevision="" DeviceManual="" DeviceRevision="" HardwareRevision="" RevisionCounter="" />
+		<Name>PLC1</Name>
+		<AdsPort>851</AdsPort>
+		<AdsNetId>127.0.0.1.1.1</AdsNetId>
+		<AdsTimeout>2000</AdsTimeout>
+		<AdsTimeSuspend>20000</AdsTimeSuspend>
+		<AutoCfg>4041</AutoCfg>
+		<IoMode>1</IoMode>
+		<AutoCfgSymFile>[BootDir]/Plc/Port_851.tmc</AutoCfgSymFile>
+		<MaxGetHandle>100</MaxGetHandle>
+		<ReleaseAdsVarHandles>0</ReleaseAdsVarHandles>
+		<Disabled>0</Disabled>
+		<NamespaceNameVersion>2</NamespaceNameVersion>
+		<ImportPlcProperties>false</ImportPlcProperties>
+	</UaNodeManager>
+ </TcUaDaConfig>

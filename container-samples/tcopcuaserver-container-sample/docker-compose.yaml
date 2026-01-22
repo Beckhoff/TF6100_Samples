@@ -1,0 +1,42 @@
+networks:
+  container-network:
+    name: container-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.20.0/24
+          gateway: 192.168.20.1
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    hostname: mosquitto
+    ports:
+      - "1883:1883"
+    restart: unless-stopped
+    volumes:
+      - ./simple-mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    networks:
+      container-network:
+        ipv4_address: 192.168.20.2
+
+  tc31-opc-ua-server:
+    image: tc31-opc-ua-server:latest
+    container_name: tc31-opc-ua-server
+    hostname: tc31-opc-ua-server
+    restart: unless-stopped
+    depends_on:
+      - mosquitto
+    ports:
+      - "4840:4840"
+    privileged: true
+    volumes:
+      - /dev/hugepages:/dev/hugepages:rw
+      - ./tc31-opc-ua-server/configs:/etc/TwinCAT/Functions/TF6100-OPC-UA/TcOpcUaServer/configs:rw
+      - ./tc31-opc-ua-server/configs/location/TcUaConfigLocation.xml:/etc/TwinCAT/Functions/TF6100-OPC-UA/TcOpcUaServer/TcUaConfigLocation.xml:rw
+    networks:
+      container-network:
+        ipv4_address: 192.168.20.3
+    environment:
+      - AMS_NETID=15.15.15.15.1.1

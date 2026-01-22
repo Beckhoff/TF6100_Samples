@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpcServerConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <UaServerConfig>
+      <MaxRequestAge>0</MaxRequestAge>
+      <MaxSessionCount>100</MaxSessionCount>
+      <MinSessionTimeout>10000</MinSessionTimeout>
+      <MaxSessionTimeout>3600000</MaxSessionTimeout>
+      <MaxBrowseContinuationPoints>0</MaxBrowseContinuationPoints>
+      <MaxHistoryContinuationPoints>0</MaxHistoryContinuationPoints>
+      <MinPublishingInterval>50</MinPublishingInterval>
+      <MaxPublishingInterval>0</MaxPublishingInterval>
+      <MinKeepAliveInterval>5000</MinKeepAliveInterval>
+      <MinSubscriptionLifetime>10000</MinSubscriptionLifetime>
+      <MaxSubscriptionLifetime>0</MaxSubscriptionLifetime>
+      <MaxRetransmitionQueueSize>10</MaxRetransmitionQueueSize>
+      <MaxNotificationsPerPublish>0</MaxNotificationsPerPublish>
+      <MaxDataQueueSize>100</MaxDataQueueSize>
+      <MaxEventQueueSize>10000</MaxEventQueueSize>
+      <MaxSubscriptionCount>0</MaxSubscriptionCount>
+      <MaxMonitoredItemCount>0</MaxMonitoredItemCount>
+      <MaxMonitoredItemPerSubscriptionCount>0</MaxMonitoredItemPerSubscriptionCount>
+      <AvailableLocaleIds>
+         <LocaleId>en</LocaleId>
+      </AvailableLocaleIds>
+      <AvailableServerProfiles>
+         <ServerProfileUri>http://opcfoundation.org/UAProfile/Server/StandardUA</ServerProfileUri>
+         <ServerProfileUri>http://opcfoundation.org/UAProfile/Server/DataAccess</ServerProfileUri>
+         <ServerProfileUri>http://opcfoundation.org/UAProfile/Server/Methods</ServerProfileUri>
+         <ServerProfileUri>http://opcfoundation.org/UAProfile/Server/EventSubscription</ServerProfileUri>
+      </AvailableServerProfiles>
+      <IsAuditActivated>false</IsAuditActivated>
+      <RedundancySettings>
+         <RedundancySupport>None</RedundancySupport>
+      </RedundancySettings>
+      <AvailableSamplingRates>
+         <SamplingRate>2</SamplingRate>
+         <SamplingRate>3</SamplingRate>
+         <SamplingRate>4</SamplingRate>
+         <SamplingRate>5</SamplingRate>
+         <SamplingRate>6</SamplingRate>
+         <SamplingRate>7</SamplingRate>
+         <SamplingRate>8</SamplingRate>
+         <SamplingRate>9</SamplingRate>
+         <SamplingRate>10</SamplingRate>
+         <SamplingRate>15</SamplingRate>
+         <SamplingRate>20</SamplingRate>
+         <SamplingRate>25</SamplingRate>
+         <SamplingRate>30</SamplingRate>
+         <SamplingRate>35</SamplingRate>
+         <SamplingRate>40</SamplingRate>
+         <SamplingRate>45</SamplingRate>
+         <SamplingRate>50</SamplingRate>
+         <SamplingRate>60</SamplingRate>
+         <SamplingRate>70</SamplingRate>
+         <SamplingRate>80</SamplingRate>
+         <SamplingRate>90</SamplingRate>
+         <SamplingRate>100</SamplingRate>
+         <SamplingRate>150</SamplingRate>
+         <SamplingRate>200</SamplingRate>
+         <SamplingRate>250</SamplingRate>
+         <SamplingRate>300</SamplingRate>
+         <SamplingRate>350</SamplingRate>
+         <SamplingRate>400</SamplingRate>
+         <SamplingRate>450</SamplingRate>
+         <SamplingRate>500</SamplingRate>
+         <SamplingRate>550</SamplingRate>
+         <SamplingRate>600</SamplingRate>
+         <SamplingRate>650</SamplingRate>
+         <SamplingRate>700</SamplingRate>
+         <SamplingRate>750</SamplingRate>
+         <SamplingRate>800</SamplingRate>
+         <SamplingRate>850</SamplingRate>
+         <SamplingRate>900</SamplingRate>
+         <SamplingRate>950</SamplingRate>
+         <SamplingRate>1000</SamplingRate>
+         <SamplingRate>2000</SamplingRate>
+         <SamplingRate>5000</SamplingRate>
+         <SamplingRate>10000</SamplingRate>
+      </AvailableSamplingRates>
+      <ThreadPoolSettings>
+         <MinSizeTransactionManager>1</MinSizeTransactionManager>
+         <MaxSizeTransactionManager>4</MaxSizeTransactionManager>
+         <MinSizeSubscriptionManager>1</MinSizeSubscriptionManager>
+         <MaxSizeSubscriptionManager>4</MaxSizeSubscriptionManager>
+      </ThreadPoolSettings>
+      <ServerUri>urn:[NodeName]:BeckhoffAutomation:TcOpcUaServer:1</ServerUri>
+      <ServerName>TcOpcUaServer@[NodeName]</ServerName>
+      <RejectedCertificatesDirectory>[ApplicationPath]/PKI/CA/rejected</RejectedCertificatesDirectory>
+      <AllowDeprecatedSecurityPolicies>false</AllowDeprecatedSecurityPolicies>
+      <UaEndpoint>
+         <SerializerType>Binary</SerializerType>
+         <Url>opc.tcp://[NodeName]:4840</Url>
+         <IsVisible>true</IsVisible>
+         <IsDiscoveryUrl>true</IsDiscoveryUrl>
+         <AutomaticallyTrustAllClientCertificates>true</AutomaticallyTrustAllClientCertificates>
+         <CertificateStore>
+            <OpenSSLStore>
+               <CertificateTrustListLocation>[ApplicationPath]/PKI/CA/trusted/certs/</CertificateTrustListLocation>
+               <CertificateRevocationListLocation>[ApplicationPath]/PKI/CA/trusted/crl/</CertificateRevocationListLocation>
+               <IssuersCertificatesLocation>[ApplicationPath]/PKI/CA/issuers/certs/</IssuersCertificatesLocation>
+               <IssuersRevocationListLocation>[ApplicationPath]/PKI/CA/issuers/crl/</IssuersRevocationListLocation>
+               <ServerCertificate>[ApplicationPath]/PKI/CA/own/certs/Beckhoff_OpcUaServer.der</ServerCertificate>
+               <ServerPrivateKey>[ApplicationPath]/PKI/CA/own/private/Beckhoff_OpcUaServer.pem</ServerPrivateKey>
+            </OpenSSLStore>
+            <GenerateCertificate>true</GenerateCertificate>
+            <CertificateSettings>
+               <CommonName>[ServerName]</CommonName>
+               <Organization>Organization</Organization>
+               <OrganizationUnit>Unit</OrganizationUnit>
+               <Locality>LocationName</Locality>
+               <State>
+               </State>
+               <Country>DE</Country>
+               <YearsValidFor>20</YearsValidFor>
+               <KeyLength>4096</KeyLength>
+               <CertificateType>RsaSha256</CertificateType>
+               <DNSName>[NodeName]</DNSName>
+               <!--Add IPAddress in certificate SAN-->
+               <!--<IPAddress>127.0.0.1</IPAddress>-->
+            </CertificateSettings>
+         </CertificateStore>
+         <SecuritySetting>
+            <SecurityPolicy>http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256</SecurityPolicy>
+            <MessageSecurityMode>SignAndEncrypt</MessageSecurityMode>
+         </SecuritySetting>
+         <SecuritySetting>
+            <SecurityPolicy>http://opcfoundation.org/UA/SecurityPolicy#Aes256_Sha256_RsaPss</SecurityPolicy>
+            <MessageSecurityMode>SignAndEncrypt</MessageSecurityMode>
+         </SecuritySetting>
+         <SecuritySetting>
+            <SecurityPolicy>http://opcfoundation.org/UA/SecurityPolicy#Aes128_Sha256_RsaOaep</SecurityPolicy>
+            <MessageSecurityMode>SignAndEncrypt</MessageSecurityMode>
+         </SecuritySetting>
+         <SecurityCheckOverwrites>
+            <DisableApplicationUriCheck>true</DisableApplicationUriCheck>
+         </SecurityCheckOverwrites>
+      </UaEndpoint>
+      <UserIdentityTokens>
+         <EnableAnonymous>true</EnableAnonymous>
+         <EnableUserPw>true</EnableUserPw>
+         <EnableCertificate>true</EnableCertificate>
+         <!--The security policy to use when encrypting or signing the UserIdentityToken when it is passed to the server.
+      This security policy is only applied for None Endpoints. For other Endpoints we use the security policy of the Endpoint.-->
+         <SecurityPolicy>http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256</SecurityPolicy>
+         <!--Configuration for file based certificate store to handle user certificates.-->
+         <DefaultUserCertificateStore>
+            <CertificateTrustListLocation>[ApplicationPath]/pkiuser/trusted/certs/</CertificateTrustListLocation>
+            <CertificateRevocationListLocation>[ApplicationPath]/pkiuser/trusted/crl/</CertificateRevocationListLocation>
+            <IssuersCertificatesLocation>[ApplicationPath]/pkiuser/issuers/certs/</IssuersCertificatesLocation>
+            <IssuersRevocationListLocation>[ApplicationPath]/pkiuser/issuers/crl/</IssuersRevocationListLocation>
+         </DefaultUserCertificateStore>
+         <!--Folder used to store rejected user certificates.-->
+         <RejectedUserCertificatesDirectory>[ApplicationPath]/pkiuser/rejected/</RejectedUserCertificatesDirectory>
+         <!--Maximum number of certificates stored in the rejected directory.-->
+         <RejectedUserCertificatesCount>100</RejectedUserCertificatesCount>
+      </UserIdentityTokens>
+      <DiscoveryRegistration>
+         <!--Flag indicating if the certificates should be exchanged with the windows certificate store -->
+         <AutomaticCertificateExchange>false</AutomaticCertificateExchange>
+         <!--Path of the local discovery server trust list. This is where the server copies it's certificate to
+         if the file based store of the new LDS is used. -->
+		<DiscoveryServerTrustListLocation></DiscoveryServerTrustListLocation>
+         <!--Store name used for the local discovery server in the windows certificate store -->
+         <DiscoveryServerStoreName>UA Applications</DiscoveryServerStoreName>
+         <!--Certificate name of the local discovery server in the windows certificate store -->
+         <DiscoveryServerCertificateName>UA Local Discovery Server</DiscoveryServerCertificateName>
+         <!--Interval in milliseconds for registration with discovery server(s) -->
+         <RegistrationInterval>30000</RegistrationInterval>
+         <!--List of discovery servers to register with.
+         If the list is empty, no registration is executed.
+         Default is opc.tcp://localhost:4840 for the local discovery server.
+         Additional remote discovery servers can be added
+      <Url>opc.tcp://127.0.0.1:4840</Url>-->
+      </DiscoveryRegistration>
+      <Serializer>
+         <MaxAlloc>4194304</MaxAlloc>
+         <MaxStringLength>65535</MaxStringLength>
+         <MaxByteStringLength>1048560</MaxByteStringLength>
+         <MaxArrayLength>65535</MaxArrayLength>
+         <MaxMessageSize>4194304</MaxMessageSize>
+      </Serializer>
+      <StackThreadPoolSettings>
+         <Enabled>true</Enabled>
+         <MinThreads>5</MinThreads>
+         <MaxThreads>5</MaxThreads>
+         <MaxJobs>20</MaxJobs>
+         <BlockOnAdd>true</BlockOnAdd>
+         <Timeout>0</Timeout>
+      </StackThreadPoolSettings>
+      <Trace>
+         <UaStackTraceEnabled>false</UaStackTraceEnabled>
+         <UaStackTraceLevel>ALL</UaStackTraceLevel>
+         <UaAppTraceEnabled>true</UaAppTraceEnabled>
+         <UaAppTraceLevel>Errors</UaAppTraceLevel>
+         <UaAppTraceMaxEntries>100000</UaAppTraceMaxEntries>
+         <UaAppTraceMaxBackup>5</UaAppTraceMaxBackup>
+         <UaAppTraceFile>[BkTracePath]/srvTrace.log</UaAppTraceFile>
+         <TraceEvents>Disabled</TraceEvents>
+         <DisableFileTrace>true</DisableFileTrace>
+      </Trace>
+   </UaServerConfig>
+   <General>
+  </General>
+</OpcServerConfig>
