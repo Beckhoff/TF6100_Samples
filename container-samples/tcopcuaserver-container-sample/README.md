@@ -119,6 +119,8 @@ The sample includes a Docker Compose file (`docker-compose.yml`) to simplify the
 - A container instance of the Mosquitto Message Broker
 - A container instance of our custom `tc31-opc-ua-server` image
 
+**Make sure that the network settings do not conflict with any existing containers or networks defined on your host.** This might be the case if you have tried other samples before and if the corresponding containers are still running. If this is the case, adapt the Docker Compose file accordingly, for example by using different IP addresses (ipv4_address) for the containers or also by removing not required containers from the Docker Compose file (for example if you already have a container for the Mosquitto message broker). Also make sure that each runtime container has a unique AMS Net ID by configuring the corresponding environment variable (AMS_NETID).
+
 You can use the following command to setup the containers based on the Docker Compose file:
 
 ```bash

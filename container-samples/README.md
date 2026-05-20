@@ -13,4 +13,5 @@ The table below gives an overview of the samples that are currently available.
 
 | Name | Description |
 | ----------- | ----------- |
-| tcopcuaserver-container-sample | Demonstrates how to deploy XAR Base and server into the same container. |
+| tcopcuaserver-container-sample | Demonstrates how to deploy XAR Base and TwinCAT OPC UA Server into the same container. |
+| tcopcuaclientpubsub-container-sample | Demonstrates how to deploy XAR Base and TwinCAT OPC UA Client and Pub/Sub into the same container. |
