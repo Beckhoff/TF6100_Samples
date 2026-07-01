@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{b51f9a5d-57dc-4e81-917d-52466a79c949}</ProjectGuid>
     <Name>ServerSampleProject</Name>
-    <ProgramVersion>3.1.4026.13</ProgramVersion>
+    <ProgramVersion>3.1.4026.23</ProgramVersion>
     <Application>{783c92a5-d4d5-49d9-91dd-67e825587773}</Application>
     <TypeSystem>{9168173e-0ab9-4732-894c-0523547ee9df}</TypeSystem>
     <Implicit_Task_Info>{9e65430d-12fb-436a-8478-9120b764b4cd}</Implicit_Task_Info>
@@ -73,15 +73,7 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="GVLs\GVL_user_access.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
     <Compile Include="GVLs\Settings.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="GVLs\GVL_arrays.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
@@ -123,10 +115,19 @@
     <Compile Include="POUs\Methods\FB_Methods.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Programs\PRG_AlarmsConditions.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Programs\PRG_Dynamic.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Programs\PRG_Eventlogger.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Programs\PRG_HistoricalAccess.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Programs\PRG_Methods.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Programs\PRG_Static.TcPOU">

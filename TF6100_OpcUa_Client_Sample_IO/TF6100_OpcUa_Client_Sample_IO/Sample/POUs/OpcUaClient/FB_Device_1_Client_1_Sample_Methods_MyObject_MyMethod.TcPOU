@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <POU Name="FB_Device_1_Client_1_Sample_Methods_MyObject_MyMethod" Id="{1c25728c-bfd1-46fe-adb5-6dde6035f650}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK  FB_Device_1_Client_1_Sample_Methods_MyObject_MyMethod
+VAR_INPUT
+	bExecute AT %Q* : BOOL;
+	Input1 AT %Q* : INT;
+	Input2 AT %Q* : DINT;
+END_VAR
+VAR_OUTPUT
+	nErrorID AT %I* : DINT;
+	bDone AT %I* : BOOL;
+	bBusy AT %I* : BOOL;
+	bError AT %I* : BOOL;
+	Output1 AT %I* : INT;
+	Output2 AT %I* : DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

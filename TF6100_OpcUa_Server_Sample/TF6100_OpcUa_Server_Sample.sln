@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# TcXaeShell Solution File, Format Version 11.00
-VisualStudioVersion = 17.7.34302.85
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11903.348 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "TF6100_OpcUa_Server_Sample", "TF6100_OpcUa_Server_Sample.tsproj", "{46F57825-3085-4014-A591-E4DD7F71DEE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE804B18-A833-47A1-8139-F12FE391F6D6}"
+	ProjectSection(SolutionItems) = preProject
+		TcUaAcConfig.xml = TcUaAcConfig.xml
+		TcUaHaConfig.xml = TcUaHaConfig.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

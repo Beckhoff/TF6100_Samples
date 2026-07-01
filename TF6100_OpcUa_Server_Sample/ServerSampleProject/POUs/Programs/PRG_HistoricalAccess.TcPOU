@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="PRG_HistoricalAccess" Id="{85e98303-a3a7-4a1a-ba88-7401084da5e3}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Generates data for variables in GVL_historizing, which are used by server for Historical Access. *)
+PROGRAM PRG_HistoricalAccess
+VAR
+	i : INT;
+	o : LREAL;
+	Sinus : LREAL;
+	Cosinus : LREAL;
+	Cosinus_Half : LREAL;
+	Ts : INT;	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[i := i + 1;
+o := o + 0.001;
+Ts := 128 * 10;
+
+Sinus := SIN(o);
+Cosinus := COS(o);
+Cosinus_Half:=COS(PI * i / (2 * Ts));
+
+(* Update global variables in GVL_historizing, which are being used by server for HA *)
+GVL_historizing.volatile_sinus := Sinus;  
+GVL_historizing.volatile_cosinus := Cosinus;
+GVL_historizing.volatile_cosinushalf := Cosinus_Half;  
+
+GVL_historizing.sqlite_sinus := Sinus;
+GVL_historizing.sqlite_cosinus := Cosinus;
+GVL_historizing.sqlite_cosinushalf := Cosinus_Half;
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

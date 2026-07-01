@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="PRG_METHOD" Id="{b0f3f37a-01c7-43ac-8c3b-e326dc128492}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM PRG_METHOD
+    <Declaration><![CDATA[(* This sample demonstrates how to use UA_MethodCall function block together will all function blocks that it requires for operation. *)
+PROGRAM PRG_METHOD
 VAR
 	(* Declarations for UA_Connect *)	
 	fbUA_Connect: UA_Connect;
@@ -20,16 +21,17 @@ VAR
 	
 	(* Declarations for UA_MethodCall *)
 	fbUA_MethodCall: UA_MethodCall;
-	sObjectNodeIdIdentifier	: STRING(MAX_STRING_LENGTH) := 'MAIN.fbMathematics'; // change to object node identifier (UAObject above method)
-	sMethodNodeIdIdentifier : STRING(MAX_STRING_LENGTH) := 'MAIN.fbMathematics#M_Mul'; // change to method node identifier (UAMethod to call)
-	numberIn1: INT := 42; // change according to input value and data type
-	numberIn2: INT := 42; // change according to input value and data type
-	numberOutPro: DINT; // result (output parameter of M_Mul())
+	sObjectNodeIdIdentifier	: STRING(MAX_STRING_LENGTH) := 'MyObject'; // change to object node identifier (UAObject above method)
+	sMethodNodeIdIdentifier : STRING(MAX_STRING_LENGTH) := 'MyObject.MyMethod'; // change to method node identifier (UAMethod to call)
+	numberIn1: INT := 21; // change according to input value and data type
+	numberIn2: DINT := 42; // change according to input value and data type
+	numberOut1: DINT; // result (output parameter 1)
+	numberOut2: DINT; // result (output parameter 2)
 	cbWriteData: UDINT; // calculated automatically by M_Init()
-	InputArguments: ARRAY[1..2] OF ST_UAMethodArgInfo; // change according to input parameters - M_Mul has 2 input parameters 
-	stOutputArgInfo: ARRAY[1..1] OF ST_UAMethodArgInfo; // change according to output parameters - M_Mul has 1 output parameters
+	InputArguments: ARRAY[1..2] OF ST_UAMethodArgInfo; // change according to input parameters - this method has 2 input parameters 
+	stOutputArgInfo: ARRAY[1..2] OF ST_UAMethodArgInfo; // change according to output parameters - this method has 2 output parameters
 	stOutputArgInfoAndData: ST_OutputArgInfoAndData;
-	nInputData: ARRAY[1..4] OF BYTE; // numberIn1(INT16)(2) + numberIn2(INT16)(2)
+	nInputData: ARRAY[1..6] OF BYTE; // numberIn1(INT16)(2) + numberIn2(INT32)(4)
 	nOffset: UDINT; // calculated by M_Init()
 	nArg: INT; // used by M_Init()
 	
@@ -49,9 +51,9 @@ VAR
 	bInputDataError: BOOL;
 END_VAR
 VAR CONSTANT
-	nInputArgSize: INT := 4; // numberIn1(INT16)(2) + numberIn2(INT16)(2)
-	nNumberOfInputArguments: DINT := 2; // change to number of input parameters - M_Mul has 2 input parameters
-	nNumberOfOutputArguments: DINT := 1; // change to number of output parameters - M_Mul has 1 output parameters
+	nInputArgSize: INT := 6; // numberIn1(INT16)(2) + numberIn2(INT32)(4)
+	nNumberOfInputArguments: UDINT := 2; // change to number of input parameters - this method has 2 input parameters
+	nNumberOfOutputArguments: UDINT := 2; // change to number of output parameters - this method has 2 output parameters
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -66,24 +68,19 @@ END_VAR
 		SessionConnectInfo.tConnectTimeout 		:= T#1M;
 		SessionConnectInfo.tSessionTimeout 		:= T#1M;
 		SessionConnectInfo.sApplicationName		:= '';
-		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
-		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
 		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
-
-		(* Please note: when connecting to newer versions of the TwinCAT OPC UA Server,
-		a server initialization is required, which basically activates username/password
-		authentication for every client connection. Please set the corresponding username/password
-		in stUserIdentTokenType as shown below. *)
 		
 		(* Please note: in order to successfully connect to the server, you need to trust the  
-		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
-		"PKI\CA\trusted" folder after the first connection. *)
- 		
-		(*
-		SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
-		SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
-		SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
-		*)	
+		server certificate. You can do this by moving the server certificate from the "PKI\CA\rejected" to the 
+		"PKI\CA\certs\trusted" folder after the first connection attempt. *)
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
+		
+		(* If the server requires user authentication, you need to specify the user credentials as follows. *) 
+		//SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
+		//SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
+		//SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
+
 
 		iState	:= iState + 1;
 	END_IF
@@ -177,7 +174,8 @@ END_VAR
 
 
 5:	(* Method Call *)
-	stOutputArgInfo[1].nLenData := SIZEOF(stOutputArgInfoAndData.pro);
+	stOutputArgInfo[1].nLenData := SIZEOF(stOutputArgInfoAndData.out1);
+	stOutputArgInfo[2].nLenData := SIZEOF(stOutputArgInfoAndData.out2);
 	fbUA_MethodCall(
 		Execute					:= TRUE,
 		ConnectionHdl			:= nConnectionHdl,
@@ -200,7 +198,8 @@ END_VAR
 		IF NOT fbUA_MethodCall.Error THEN
 			(* clear data and restart *)
 			iState := iState + 1; (* Release handle *)
-			numberOutPro := stOutputArgInfoAndData.pro;
+			numberOut1 := stOutputArgInfoAndData.out1;
+			numberOut2 := stOutputArgInfoAndData.out2;
 		ELSE
 			bError		:= TRUE;
 			nErrorID	:= fbUA_MethodCall.ErrorID;
@@ -264,7 +263,7 @@ MEMSET(ADR(nInputData),0,SIZEOF(nInputData));
 
 nArg := 1;
 (*numberIn1*)			(********** Input parameter 1 **********)
-InputArguments[nArg].DataType			:= eUAType_Int16;
+InputArguments[nArg].DataType			:= eUAType_Int16;				(* Change this to actual data type of input argument *)
 InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
 InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
 InputArguments[nArg].nLenData			:= SIZEOF(numberIn1);			(* Length if its a STRING *)
@@ -278,10 +277,10 @@ END_IF
 
 nArg := nArg + 1;
 (* numberIn2;*)			(********** Input parameter 2 **********)
-InputArguments[nArg].DataType			:= eUAType_Int16;
+InputArguments[nArg].DataType			:= eUAType_Int32;				(* Change this to actual data type of input argument *)
 InputArguments[nArg].ValueRank			:= -1; 							(* Scalar = -1 or Array *)
 InputArguments[nArg].ArrayDimensions[1]	:= 0; 							(* Number of Dimension in case its an array *)
-InputArguments[nArg].nLenData			:= SIZEOF(numberIn2);				(* Length if its a STRING *)
+InputArguments[nArg].nLenData			:= SIZEOF(numberIn2);			(* Length if its a STRING *)
 IF nOffset + SIZEOF(numberIn2) > nInputArgSize THEN 
 	bInputDataError := TRUE;
 	RETURN;
@@ -294,18 +293,5 @@ cbWriteData := nOffset;
 ]]></ST>
       </Implementation>
     </Action>
-    <LineIds Name="PRG_METHOD">
-      <LineId Id="3" Count="13" />
-      <LineId Id="240" Count="0" />
-      <LineId Id="242" Count="12" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="241" Count="0" />
-      <LineId Id="18" Count="167" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="PRG_METHOD.M_Init">
-      <LineId Id="2" Count="33" />
-      <LineId Id="1" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

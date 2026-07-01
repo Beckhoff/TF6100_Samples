@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <GVL Name="Device_1_Client_1" Id="{2e5d7d2d-ae32-4f73-9e99-4ced770114f3}">
+    <Declaration><![CDATA[{attribute 'linkalways'}
+VAR_GLOBAL
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Inputs^Status^Connected'}
+	bConnected AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Inputs^Status^ReadBusy'}
+	bReadBusy AT %I* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Inputs^Status^KeepAlives'}
+	nKeepAlives AT %I* : BYTE;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Inputs^Status^StmState'}
+	nStmState AT %I* : BYTE;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Outputs^Control^ResetStm'}
+	bResetStm AT %Q* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Outputs^Control^Execute'}
+	bExecute AT %Q* : BOOL;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Outputs^Control^Write Enable'}
+	bWrite_Enable AT %Q* : BOOL;
+
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Arrays^MyArrayByteString^Inputs^Value'}
+	Sample_Arrays_MyArrayByteString AT %I* : ARRAY [0..9] OF OpcUa_ByteString;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Arrays^MyArrayByteString^Inputs^TimeStamp'}
+	Sample_Arrays_tsMyArrayByteString AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Arrays^MyArrayByteString^Inputs^ErrorCode'}
+	Sample_Arrays_errMyArrayByteString AT %I* : UDINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Arrays^MyArrayByteString^Outputs^Value'}
+	Sample_Arrays_wMyArrayByteString AT %Q* : ARRAY [0..9] OF OpcUa_ByteString;
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Arrays^MyArrayInt32^Inputs^Value'}
+	Sample_Arrays_MyArrayInt32 AT %I* : ARRAY [0..9] OF DINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Arrays^MyArrayInt32^Inputs^TimeStamp'}
+	Sample_Arrays_tsMyArrayInt32 AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Arrays^MyArrayInt32^Inputs^ErrorCode'}
+	Sample_Arrays_errMyArrayInt32 AT %I* : UDINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Arrays^MyArrayInt32^Outputs^Value'}
+	Sample_Arrays_wMyArrayInt32 AT %Q* : ARRAY [0..9] OF DINT;
+
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Structures^MyStructure^Inputs^Value'}
+	Sample_Structures_MyStructure AT %I* : OpcUa_MyStructure;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Structures^MyStructure^Inputs^TimeStamp'}
+	Sample_Structures_tsMyStructure AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Structures^MyStructure^Inputs^ErrorCode'}
+	Sample_Structures_errMyStructure AT %I* : UDINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Structures^MyStructure^Outputs^Value'}
+	Sample_Structures_wMyStructure AT %Q* : OpcUa_MyStructure;
+
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt16^Inputs^Value'}
+	Sample_Scalars_MyInt16 AT %I* : INT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt16^Inputs^TimeStamp'}
+	Sample_Scalars_tsMyInt16 AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt16^Inputs^ErrorCode'}
+	Sample_Scalars_errMyInt16 AT %I* : UDINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt16^Outputs^Value'}
+	Sample_Scalars_wMyInt16 AT %Q* : INT;
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt32^Inputs^Value'}
+	Sample_Scalars_MyInt32 AT %I* : DINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt32^Inputs^TimeStamp'}
+	Sample_Scalars_tsMyInt32 AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt32^Inputs^ErrorCode'}
+	Sample_Scalars_errMyInt32 AT %I* : UDINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt32^Outputs^Value'}
+	Sample_Scalars_wMyInt32 AT %Q* : DINT;
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt64^Inputs^Value'}
+	Sample_Scalars_MyInt64 AT %I* : LINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt64^Inputs^TimeStamp'}
+	Sample_Scalars_tsMyInt64 AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt64^Inputs^ErrorCode'}
+	Sample_Scalars_errMyInt64 AT %I* : UDINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt64^Outputs^Value'}
+	Sample_Scalars_wMyInt64 AT %Q* : LINT;
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyString^Inputs^Value'}
+	Sample_Scalars_MyString AT %I* : STRING(80);
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyString^Inputs^TimeStamp'}
+	Sample_Scalars_tsMyString AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyString^Inputs^ErrorCode'}
+	Sample_Scalars_errMyString AT %I* : UDINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyString^Outputs^Value'}
+	Sample_Scalars_wMyString AT %Q* : STRING(80);
+
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt32Static^Inputs^Value'}
+	Sample_Scalars_MyInt32Static AT %I* : DINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt32Static^Inputs^TimeStamp'}
+	Sample_Scalars_tsMyInt32Static AT %I* : ULINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt32Static^Inputs^ErrorCode'}
+	Sample_Scalars_errMyInt32Static AT %I* : UDINT;
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Scalars^MyInt32Static^Outputs^Value'}
+	Sample_Scalars_wMyInt32Static AT %Q* : DINT;
+
+	{attribute 'TcLinkTo' := '.nErrorID:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Inputs^nErrorID;
+	                          .bDone:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Inputs^bDone;
+	                          .bBusy:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Inputs^bBusy;
+	                          .bError:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Inputs^bError;
+	                          .Output1:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Inputs^Output1;
+	                          .Output2:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Inputs^Output2;
+	                          .bExecute:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Outputs^bExecute;
+	                          .Input1:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Outputs^Input1;
+	                          .Input2:=TIID^Device 1 (OPC UA Virtual)^Client #1^Sample.Methods.MyObject.MyMethod^Outputs^Input2'}
+	Sample_Methods_MyObject_MyMethod : FB_Device_1_Client_1_Sample_Methods_MyObject_MyMethod;
+
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

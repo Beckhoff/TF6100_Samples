@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<HistoryConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HistoryController>
+    <HistoryAdapter Type="Volatile" Id="0" File="" StoragePath="" Server="" Database="" User="" Password="" />
+    <HistoryAdapter Type="SQLite" Id="1" File="" StoragePath="C:\Temp\TcOpcUaServer_HA.sqlite" Server="" Database="" User="" Password="" />
+  </HistoryController>
+  <HistoryNodes>
+    <HistoryNode SamplingRate="1000" MaxSamples="1000" AdapterId="0" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="s=GVL_historizing.volatile_sinus" HistoryWriteable="false" />
+    <HistoryNode SamplingRate="1000" MaxSamples="1000" AdapterId="0" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="s=GVL_historizing.volatile_cosinus" HistoryWriteable="false" />
+    <HistoryNode SamplingRate="1000" MaxSamples="1000" AdapterId="0" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="s=GVL_historizing.volatile_cosinushalf" HistoryWriteable="false" />
+    <HistoryNode SamplingRate="1000" MaxSamples="1000" AdapterId="1" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="s=GVL_historizing.sqlite_sinus" HistoryWriteable="false" />
+    <HistoryNode SamplingRate="1000" MaxSamples="1000" AdapterId="1" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="s=GVL_historizing.sqlite_cosinus" HistoryWriteable="false" />
+    <HistoryNode SamplingRate="1000" MaxSamples="1000" AdapterId="1" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="s=GVL_historizing.sqlite_cosinushalf" HistoryWriteable="false" />
+  </HistoryNodes>
+</HistoryConfig>

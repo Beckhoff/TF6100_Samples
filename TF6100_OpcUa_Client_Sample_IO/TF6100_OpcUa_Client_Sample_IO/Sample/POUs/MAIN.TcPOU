@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <POU Name="MAIN" Id="{ac3633b8-1073-4d2f-9427-195f6d6103d9}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	(* Variable declarations used for method call sample *)
+	bCallMethod : BOOL;
+	Input1 : INT := 21;
+	Input2 : DINT := 21;
+	Output1 : INT;
+	Output2 : DINT;
+	nMethodCallState : UINT;
+	
+	(* Variable declarations used for write sample *)
+	bToggleWrite : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE nMethodCallState OF
+
+    0: // Init, waiting for bCallMethod to be set to TRUE
+        IF bCallMethod THEN
+            bCallMethod := FALSE;
+            nMethodCallState := nMethodCallState + 1;
+        END_IF
+
+    1: // Calling the method
+        Sample_Methods_MyObject_MyMethod(
+            bExecute := TRUE,
+            Input1 := Input1,
+            Input2 := Input2
+        );
+		// Note that the OPC UA Client driver usually runs slower than the PLC task. 
+		// This can be configured on the task that is linked with the OPC UA Client device. (In this example: Device 1 (OPC UA Virtual)_Task_58)
+		// Therefore, it may take several PLC cycles until the driver detects the rising edge on bExecute and starts processing the method call. 
+		// Wait until bBusy becomes TRUE before continuing, because this confirms that the method call has actually been accepted/started by the driver.
+		IF Sample_Methods_MyObject_MyMethod.bBusy THEN
+			nMethodCallState := nMethodCallState + 1;	
+		END_IF
+
+    2: // Waiting for method execution to complete
+        Sample_Methods_MyObject_MyMethod(
+            bExecute := TRUE,
+            Output1 => Output1,
+            Output2 => Output2
+        );
+        IF NOT Sample_Methods_MyObject_MyMethod.bBusy THEN
+            IF NOT Sample_Methods_MyObject_MyMethod.bError THEN
+				Sample_Methods_MyObject_MyMethod(bExecute := FALSE);
+                nMethodCallState := 0;
+            ELSE
+                nMethodCallState := 255;
+            END_IF
+        END_IF
+
+    255: // Error state
+
+END_CASE
+
+// Toggle cyclic write commands - cycle time is configured via a corresponding setting on the virtual OPC UA client device
+IF bToggleWrite THEN
+	bToggleWrite := FALSE;
+	Device_1_Client_1.bWrite_Enable := NOT Device_1_Client_1.bWrite_Enable; // Activate write commands on virtual OPC UA client device
+END_IF
+Device_1_Client_1.Sample_Scalars_wMyInt32Static := Device_1_Client_1.Sample_Scalars_wMyInt32Static + 1; // Set new value for variable]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

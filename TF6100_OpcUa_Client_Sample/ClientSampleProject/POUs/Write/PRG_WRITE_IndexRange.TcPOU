@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="PRG_WRITE_IndexRange" Id="{576fe288-c26b-4a0c-9c39-aa76d292d37d}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM PRG_WRITE_IndexRange
+    <Declaration><![CDATA[(* This sample demonstrates how to use UA_Write to write an index range of an array on the server. *)
+PROGRAM PRG_WRITE_IndexRange
 VAR
 	(* Declarations for UA_Connect *)
 	fbUA_Connect			: UA_Connect;
@@ -22,7 +23,7 @@ VAR
 	stIndexRange			: ARRAY [1..nMaxIndexRange] OF ST_UAIndexRange;
 	nIndexRangeCount		: UINT;
 	stNodeAddInfo			: ST_UANodeAdditionalInfo;
-	sNodeIdentifier			: STRING(MAX_STRING_LENGTH) := '"IDB_Arrays_Typesafe"."MyDIntArray_Input"'; // change to node identifier
+	sNodeIdentifier			: STRING(MAX_STRING_LENGTH) := 'MyArrayInt32'; // change to node identifier
 	nWriteData				: ARRAY[0..3] OF DINT;		// change according to the type of variable that should be written
 	
 	(* Declarations for UA_NodeReleaseHandle *)
@@ -47,32 +48,26 @@ END_VAR]]></Declaration>
 		bError	:= FALSE;
 		nErrorID	:= 0;
 
-		nWriteData[0] := 42;
-		nWriteData[1] := 42;
-		nWriteData[2] := 42;
-		nWriteData[3] := 42;
+		nWriteData[0] := 1;
+		nWriteData[1] := 1;
+		nWriteData[2] := 1;
+		nWriteData[3] := 1;
 		
 		SessionConnectInfo.tConnectTimeout 		:= T#1M;
 		SessionConnectInfo.tSessionTimeout 		:= T#1M;
 		SessionConnectInfo.sApplicationName		:= '';
-		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_None;
-		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
 		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
-
-		(* Please note: when connecting to newer versions of the TwinCAT OPC UA Server,
-		a server initialization is required, which basically activates username/password
-		authentication for every client connection. Please set the corresponding username/password
-		in stUserIdentTokenType as shown below. *)
 		
 		(* Please note: in order to successfully connect to the server, you need to trust the  
-		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
-		"PKI\CA\trusted" folder after the first connection. *)
- 		
-		(*
-		SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
-		SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
-		SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
-		*)		
+		server certificate. You can do this by moving the server certificate from the "PKI\CA\rejected" to the 
+		"PKI\CA\certs\trusted" folder after the first connection attempt. *)
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
+		
+		(* If the server requires user authentication, you need to specify the user credentials as follows. *) 
+		//SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
+		//SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
+		//SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';	
 		
 		stIndexRange[1].nStartIndex := 2;
 		stIndexRange[1].nEndIndex := 5;
@@ -221,23 +216,5 @@ END_VAR]]></Declaration>
 END_CASE
 ]]></ST>
     </Implementation>
-    <LineIds Name="PRG_WRITE_IndexRange">
-      <LineId Id="3" Count="5" />
-      <LineId Id="233" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="235" Count="2" />
-      <LineId Id="234" Count="0" />
-      <LineId Id="10" Count="5" />
-      <LineId Id="278" Count="0" />
-      <LineId Id="280" Count="12" />
-      <LineId Id="238" Count="0" />
-      <LineId Id="279" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="239" Count="0" />
-      <LineId Id="17" Count="2" />
-      <LineId Id="240" Count="0" />
-      <LineId Id="20" Count="138" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1">
   <GVL Name="GVL_structures" Id="{55b4d72c-7100-4385-be79-aa7caa1663d1}">
     <Declaration><![CDATA[VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'}
@@ -47,6 +47,15 @@
 	{attribute 'OPC.UA.DA.Description' := 'Complex (structured) type '} 		
 	StructuredType8 : ST_Complex_8;	
 	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Array of complex (structured) type'} 	
+	arrStComplex : ARRAY[0..ARRSIZEX] OF ST_Complex_1;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'Array of complex (structured) type'} 		
+	arrStComplex2 : ARRAY[0..ARRSIZEX] OF ST_Complex_2;		
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

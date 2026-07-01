@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="PRG_CONNECT" Id="{002e8e07-f0b2-479e-99d2-5f4b67fd2a40}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM PRG_CONNECT
+    <Declaration><![CDATA[(* This sample demonstrates how to use UA_Connect and UA_Disconnect. The connection will be established with the none/none server endpoint, which means without security.
+   For information about how to connect with a secure server endpoint, please have a look at PRG_CONNECT_Secure. *)
+PROGRAM PRG_CONNECT
 VAR
 	(* Declarations for UA_Connect *)
 	fbUA_Connect			: UA_Connect;
@@ -31,24 +33,9 @@ CASE iState OF
 		SessionConnectInfo.tConnectTimeout 		:= T#1M;
 		SessionConnectInfo.tSessionTimeout 		:= T#1M;
 		SessionConnectInfo.sApplicationName		:= '';
-		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
-		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
+		SessionConnectInfo.eSecurityMode 		:= eUASecurityMsgMode_None;
+		SessionConnectInfo.eSecurityPolicyUri 	:= eUASecurityPolicy_None;
 		SessionConnectInfo.eTransportProfileUri := eUATransportProfileUri_UATcp;
-
-		(* Please note: when connecting to newer versions of the TwinCAT OPC UA Server,
-		a server initialization is required, which basically activates username/password
-		authentication for every client connection. Please set the corresponding username/password
-		in stUserIdentTokenType as shown below. *)
-		
-		(* Please note: in order to successfully connect to the server, you need to trust the  
-		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
-		"PKI\CA\certs\trusted" folder after the first connection. *)
- 		
-		(*
-		SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
-		SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
-		SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
-		*)
 		
 		iState	:= iState + 1;
 	END_IF
@@ -101,24 +88,5 @@ CASE iState OF
 END_CASE
 ]]></ST>
     </Implementation>
-    <LineIds Name="PRG_CONNECT">
-      <LineId Id="3" Count="13" />
-      <LineId Id="260" Count="0" />
-      <LineId Id="241" Count="0" />
-      <LineId Id="262" Count="1" />
-      <LineId Id="266" Count="2" />
-      <LineId Id="273" Count="0" />
-      <LineId Id="272" Count="0" />
-      <LineId Id="271" Count="0" />
-      <LineId Id="236" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="238" Count="2" />
-      <LineId Id="237" Count="0" />
-      <LineId Id="23" Count="15" />
-      <LineId Id="235" Count="0" />
-      <LineId Id="40" Count="8" />
-      <LineId Id="136" Count="22" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

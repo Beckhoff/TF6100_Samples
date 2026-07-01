@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="PRG_READ_List" Id="{bd420e17-ea8f-4bb9-8bb3-35ac6d1cefa6}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM PRG_READ_List
+    <Declaration><![CDATA[(* This sample demonstrates how to read multiple values from the server. *)
+PROGRAM PRG_READ_List
 VAR
 	fbUA_ConnectEx			: UA_Connect;
 	SessionConnectInfoEx	: ST_UASessionConnectInfo;
@@ -49,24 +50,18 @@ CASE iState OF
 		SessionConnectInfoEx.tConnectTimeout 		:= T#1M;
 		SessionConnectInfoEx.tSessionTimeout 		:= T#1M;
 		SessionConnectInfoEx.sApplicationName		:= '';
-		SessionConnectInfoEx.eSecurityMode 			:= eUASecurityMsgMode_Sign_Encrypt;
-		SessionConnectInfoEx.eSecurityPolicyUri 	:= eUASecurityPolicy_Basic256Sha256;
-		SessionConnectInfoEx.eTransportProfileUri 	:= eUATransportProfileUri_UATcp;
-
-		(* Please note: when connecting to newer versions of the TwinCAT OPC UA Server,
-		a server initialization is required, which basically activates username/password
-		authentication for every client connection. Please set the corresponding username/password
-		in stUserIdentTokenType as shown below. *)
+		SessionConnectInfoEx.eTransportProfileUri := eUATransportProfileUri_UATcp;
 		
 		(* Please note: in order to successfully connect to the server, you need to trust the  
-		server certificate. Simply move the server certificate from the "PKI\CA\rejected" to the 
-		"PKI\CA\trusted" folder after the first connection. *)
- 		
-		(*
-		SessionConnectInfoEx.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
-		SessionConnectInfoEx.stUserIdentTokenType.sTokenParam1 := 'Administrator';
-		SessionConnectInfoEx.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
-		*)
+		server certificate. You can do this by moving the server certificate from the "PKI\CA\rejected" to the 
+		"PKI\CA\certs\trusted" folder after the first connection attempt. *)
+		SessionConnectInfoEx.eSecurityMode 		:= eUASecurityMsgMode_Sign_Encrypt;
+		SessionConnectInfoEx.eSecurityPolicyUri := eUASecurityPolicy_Basic256Sha256;
+		
+		(* If the server requires user authentication, you need to specify the user credentials as follows. *) 
+		//SessionConnectInfo.stUserIdentTokenType.eUserIdentTokenType := eUAUITT_Username;
+		//SessionConnectInfo.stUserIdentTokenType.sTokenParam1 := 'Administrator';
+		//SessionConnectInfo.stUserIdentTokenType.sTokenParam2 := 'SomeSecurePassword';
 		
 		iState	:= iState + 1;
 	END_IF
@@ -120,11 +115,11 @@ CASE iState OF
 	
 	NodeIDs[1].eIdentifierType := eUAIdentifierType_String;
 	NodeIDs[1].nNamespaceIndex := nNamespaceIndex;
-	NodeIDs[1].sIdentifier	:= 'MAIN.iVar1';
+	NodeIDs[1].sIdentifier	:= 'MyInt16';
 	
 	NodeIDs[2].eIdentifierType := eUAIdentifierType_String;
 	NodeIDs[2].nNamespaceIndex := nNamespaceIndex;
-	NodeIDs[2].sIdentifier	:= 'MAIN.iVar2';
+	NodeIDs[2].sIdentifier	:= 'MyInt32';
 
 	fbUA_NodeGetHandleList(
 		Execute			:= TRUE,
@@ -155,7 +150,7 @@ CASE iState OF
 	fbUA_ReadList(
 		Execute			:= TRUE,
 		ConnectionHdl	:= nConnectionHdl,
-		NodeHdlCount	:= NodeHdlCount, // 2
+		NodeHdlCount	:= NodeHdlCount,
 		NodeHdls		:= nNodeHdls,
 		stNodeAddInfo 	:= stNodeAddInfo,
 		pVariable		:= ADR(stReadListData),
@@ -224,14 +219,5 @@ CASE iState OF
 END_CASE
 ]]></ST>
     </Implementation>
-    <LineIds Name="PRG_READ_List">
-      <LineId Id="3" Count="13" />
-      <LineId Id="207" Count="0" />
-      <LineId Id="209" Count="12" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="208" Count="0" />
-      <LineId Id="18" Count="153" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

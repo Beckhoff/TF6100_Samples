@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="PRG_AlarmsConditions" Id="{b7474f08-66ac-4a7d-817a-91284b22c066}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_AlarmsConditions
+VAR
+	(* HiHi and LoLo values for variable to trigger LimitAlarmType *)
+	nLimitAlarmTypeUpperLimit : INT := 10;
+	nLimitAlarmTypeLowerLimit : INT := 0;
+    bCountUp : BOOL := TRUE;
+
+	(* Timer variables *)
+	timer_1s : TON := (PT:=T#1S); // used for LimitAlarmType
+	timer_10s : TON := (PT:=T#10S); // used for OffNormalAlarmType
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Execute when timer triggers *)
+timer_1s(IN := TRUE);
+IF( timer_1s.Q ) THEN
+	timer_1s( in:=FALSE );
+	// Generate a cyclic up/down ramp for the limit alarm trigger value.
+	// The value is incremented until the upper limit is reached.
+	// Afterwards, the direction is changed and the value is decremented
+	// until the lower limit is reached. The bCountUp flag stores the
+	// current counting direction.
+	IF bCountUp THEN
+		GVL_alarm_condition.limitAlmTrigger := GVL_alarm_condition.limitAlmTrigger + 1;
+		IF GVL_alarm_condition.limitAlmTrigger >= nLimitAlarmTypeUpperLimit THEN
+			GVL_alarm_condition.limitAlmTrigger := nLimitAlarmTypeUpperLimit;
+			bCountUp := FALSE;
+		END_IF
+	ELSE
+		GVL_alarm_condition.limitAlmTrigger := GVL_alarm_condition.limitAlmTrigger - 1;
+		IF GVL_alarm_condition.limitAlmTrigger <= nLimitAlarmTypeLowerLimit THEN
+			GVL_alarm_condition.limitAlmTrigger := nLimitAlarmTypeLowerLimit;
+			bCountUp := TRUE;
+		END_IF
+	END_IF	
+END_IF
+
+(* Execute when timer triggers *)
+timer_10s(IN := TRUE);
+IF( timer_10s.Q ) THEN
+	timer_10s( in:=FALSE );
+	// Generate a cyclic Boolean trigger value for the OffNormal alarm.
+	// The value is toggled whenever the timer elapses, causing the
+	// OffNormal alarm condition to periodically become active and inactive.
+	GVL_alarm_condition.offNormAlmTrigger := NOT GVL_alarm_condition.offNormAlmTrigger;
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

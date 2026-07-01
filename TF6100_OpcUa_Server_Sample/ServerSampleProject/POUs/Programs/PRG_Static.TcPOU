@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="PRG_Static" Id="{b0e82972-5ed0-43dd-ad1d-5023445ae7be}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM PRG_Static
+    <Declaration><![CDATA[(* This program initializes variable values from GVL_nodes_static and GVL_structures to a static value that does not change during runtime. *)
+PROGRAM PRG_Static
 VAR
 	k: INT;
 	l: INT;
@@ -148,57 +149,5 @@ FOR m:= 0 TO ARRSIZEY DO
 	END_FOR
 END_FOR]]></ST>
     </Implementation>
-    <LineIds Name="PRG_Static">
-      <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="50" Count="0" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="68" Count="0" />
-      <LineId Id="348" Count="0" />
-      <LineId Id="347" Count="0" />
-      <LineId Id="349" Count="2" />
-      <LineId Id="359" Count="0" />
-      <LineId Id="358" Count="0" />
-      <LineId Id="360" Count="2" />
-      <LineId Id="371" Count="6" />
-      <LineId Id="366" Count="0" />
-      <LineId Id="363" Count="0" />
-      <LineId Id="370" Count="0" />
-      <LineId Id="378" Count="1" />
-      <LineId Id="369" Count="0" />
-      <LineId Id="389" Count="14" />
-      <LineId Id="388" Count="0" />
-      <LineId Id="387" Count="0" />
-      <LineId Id="265" Count="0" />
-      <LineId Id="270" Count="0" />
-      <LineId Id="272" Count="2" />
-      <LineId Id="276" Count="16" />
-      <LineId Id="271" Count="0" />
-      <LineId Id="293" Count="0" />
-      <LineId Id="317" Count="0" />
-      <LineId Id="295" Count="21" />
-      <LineId Id="135" Count="0" />
-      <LineId Id="318" Count="0" />
-      <LineId Id="320" Count="2" />
-      <LineId Id="319" Count="0" />
-      <LineId Id="327" Count="19" />
-      <LineId Id="323" Count="3" />
-    </LineIds>
   </POU>
 </TcPlcObject>

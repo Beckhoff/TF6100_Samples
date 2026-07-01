@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<TcUaAcConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ConditionController Name="MyConditionController">
+    <Condition Name="GVL_alarm_condition.offNormAlmTrigger" Severity="100">
+      <OffNormalAlarmType Normal="true" MessageNormal="0" MessageOffNormal="0" />
+      <ItemToMonitor SamplingRate="500" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="s=GVL_alarm_condition.offNormAlmTrigger" />
+    </Condition>
+    <Condition Name="GVL_alarm_condition.limitAlmTrigger" Severity="100">
+      <LimitAlarmType LowLowLimit="0" LowLimit="3" HighLimit="5" HighHighLimit="10" MessageHighHigh="0" MessageHigh="0" MessageLowLow="0" MessageLow="0" MessageNormal="0" />
+      <ItemToMonitor SamplingRate="500" NS="urn:BeckhoffAutomation:Ua:PLC1" NodeId="s=GVL_alarm_condition.limitAlmTrigger" />
+    </Condition>
+  </ConditionController>
+</TcUaAcConfig>

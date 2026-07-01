@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="PRG_Methods" Id="{9ef9c5cc-c02c-44d8-bf7a-ae8e462a8731}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_Methods
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[GVL_methods.Job(); // Cyclic execution of function block that is exposed as "job method"]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

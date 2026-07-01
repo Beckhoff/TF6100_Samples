@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="MAIN" Id="{fc8ad144-f214-4b14-b487-cf23eecee195}" SpecialFunc="None">
-    <Declaration><![CDATA[//| use case:
-//| Demonstrates how to use the TwinCAT OPC UA Client with PLCopen function blocks. 
-//| Please make sure to configure server settings in GlobalSettings GVL.
+    <Declaration><![CDATA[(* Demonstrates how to use the TwinCAT OPC UA Client with PLCopen function blocks. Please make sure to configure server settings in GVL Settings. *)
 PROGRAM MAIN
 VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[PRG_CONNECT(); // Call sample for UA_Connect and UA_Disconnect
+//PRG_CONNECT_Secure(); // Call sample for UA_Connect with security and UA_Disconnect
 //PRG_GETSTATUS(); // Call sample to query server connection status via UA_ConnectGetStatus
 //PRG_BROWSE(); // Call sample for UA_Browse
 //PRG_READ(); // Call sample for UA_Read
@@ -19,22 +18,7 @@ END_VAR
 //PRG_WRITE(); // Call sample for UA_Write
 //PRG_WRITE_IndexRange(); // Call sample for UA_Write
 //PRG_METHOD(); // Call sample for UA_MethodCall
-//PRG_METHOD_NOARGS(); // Call sample for UA_MethodCall without input or output arguments
-//PRG_HA_SingleNode();	// call sample for UA_HistoryUpdate
-//PRG_HA_MultipleNodes();	// call sample for UA_HistoryUpdate with multiple nodes]]></ST>
+//PRG_METHOD_NOARGS(); // Call sample for UA_MethodCall without input or output arguments]]></ST>
     </Implementation>
-    <LineIds Name="MAIN">
-      <LineId Id="32" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="9" Count="2" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="24" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
